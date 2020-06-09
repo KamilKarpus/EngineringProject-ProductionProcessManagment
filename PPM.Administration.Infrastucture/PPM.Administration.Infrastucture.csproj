@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="5.1.2" />
+    <PackageReference Include="MediatR" Version="8.0.1" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\PPM.Administration.Application\PPM.Administration.Application.csproj" />
+    <ProjectReference Include="..\PPM.Administration.Domain\PPM.Administration.Domain.csproj" />
+    <ProjectReference Include="..\PPM.Infrastructure\PPM.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
