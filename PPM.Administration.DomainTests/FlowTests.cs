@@ -12,10 +12,10 @@ namespace PPM.Administration.DomainTests
         public void AddStep_Should_Add_New_Steps()
         {
             var flow = new ProductionFlow(Guid.NewGuid(), "Test", 10, 1, new LinkedList<Step>());
-            flow.AddStep(Guid.NewGuid(), "Test", 10, new Location(), 10);
-            flow.AddStep(Guid.NewGuid(), "Test2", 10, new Location(), 25);
-            flow.AddStep(Guid.NewGuid(), "Test3", 10, new Location(), 50);
-            flow.AddStep(Guid.NewGuid(), "Test4", 10, new Location(), 100);
+            flow.AddStep(Guid.NewGuid(), "Test", 10, new Location(Guid.NewGuid(), "Test"), 10);
+            flow.AddStep(Guid.NewGuid(), "Test2", 10, new Location(Guid.NewGuid(), "Test"), 25);
+            flow.AddStep(Guid.NewGuid(), "Test3", 10, new Location(Guid.NewGuid(), "Test"), 50);
+            flow.AddStep(Guid.NewGuid(), "Test4", 10, new Location(Guid.NewGuid(), "Test"), 100);
 
             Assert.Collection(flow.Steps,  item => Assert.Equal(1, item.StepNumber),
                                            item => Assert.Equal(2, item.StepNumber),
@@ -29,10 +29,10 @@ namespace PPM.Administration.DomainTests
         {
             var flow = new ProductionFlow(Guid.NewGuid(), "Test", 10, 1, new LinkedList<Step>());
             var id = Guid.NewGuid();
-            flow.AddStep(id, "Test", 10, new Location(), 10);
-            flow.AddStep(Guid.NewGuid(), "Test2", 10, new Location(), 25);
-            flow.AddStep(Guid.NewGuid(), "Test3", 10, new Location(), 50);
-            flow.AddStep(Guid.NewGuid(), "Test4", 10, new Location(), 100);
+            flow.AddStep(id, "Test", 10, new Location(Guid.NewGuid(), "Test"), 10);
+            flow.AddStep(Guid.NewGuid(), "Test2", 10, new Location(Guid.NewGuid(), "Test"), 25);
+            flow.AddStep(Guid.NewGuid(), "Test3", 10, new Location(Guid.NewGuid(), "Test"), 50);
+            flow.AddStep(Guid.NewGuid(), "Test4", 10, new Location(Guid.NewGuid(), "Test"), 100);
 
             flow.RemoveStep(id);
 
@@ -50,10 +50,10 @@ namespace PPM.Administration.DomainTests
         {
             var flow = new ProductionFlow(Guid.NewGuid(), "Test", 10, 1, new LinkedList<Step>());
             var id = Guid.NewGuid();
-            flow.AddStep(Guid.NewGuid(), "Test", 10, new Location(), 10);
-            flow.AddStep(id, "Test2", 10, new Location(), 25);
-            flow.AddStep(Guid.NewGuid(), "Test3", 10, new Location(), 50);
-            flow.AddStep(Guid.NewGuid(), "Test4", 10, new Location(), 100);
+            flow.AddStep(Guid.NewGuid(), "Test", 10, new Location(Guid.NewGuid(), "Test"), 10);
+            flow.AddStep(id, "Test2", 10, new Location(Guid.NewGuid(), "Test"), 25);
+            flow.AddStep(Guid.NewGuid(), "Test3", 10, new Location(Guid.NewGuid(), "Test"), 50);
+            flow.AddStep(Guid.NewGuid(), "Test4", 10, new Location(Guid.NewGuid(), "Test"), 100);
 
             flow.ChangeStepPosition(id, stepData);
             var step = flow.Steps.FirstOrDefault(p => p.Id == id);
@@ -74,10 +74,10 @@ namespace PPM.Administration.DomainTests
         {
             var flow = new ProductionFlow(Guid.NewGuid(), "Test", 10, 1, new LinkedList<Step>());
             var id = Guid.NewGuid();
-            flow.AddStep(Guid.NewGuid(), "Test", 10, new Location(), 10);
-            flow.AddStep(Guid.NewGuid(), "Test2", 10, new Location(), 25);
-            flow.AddStep(Guid.NewGuid(), "Test3", 10, new Location(), 50);
-            flow.AddStep(id, "Test4", 10, new Location(), 100);
+            flow.AddStep(Guid.NewGuid(), "Test", 10, new Location(Guid.NewGuid(), "Test"), 10);
+            flow.AddStep(Guid.NewGuid(), "Test2", 10, new Location(Guid.NewGuid(), "Test"), 25);
+            flow.AddStep(Guid.NewGuid(), "Test3", 10, new Location(Guid.NewGuid(), "Test"), 50);
+            flow.AddStep(id, "Test4", 10, new Location(Guid.NewGuid(), "Test"), 100);
 
             flow.ChangeStepPosition(id, stepData);
             var step = flow.Steps.FirstOrDefault(p => p.Id == id);
