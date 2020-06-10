@@ -2,7 +2,7 @@
 
 namespace PPM.Locations.Application
 {
-    public class Class1
+    public class Commands
     {
     }
 }
