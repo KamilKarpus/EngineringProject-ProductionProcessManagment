@@ -2,6 +2,7 @@
 using PPM.Domain.ValueObject;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace PPM.Locations.Domain
@@ -19,7 +20,7 @@ namespace PPM.Locations.Domain
         public string ShortName { get; private set; }
         public IReadOnlyCollection<Package> Packages => _packages.ToList();
         public Location(Guid id, string name, int typeId, string description, decimal width, decimal height,
-            bool isExamination, bool isHandleQrCode, string shortName, HashSet<Package> packages)
+            LocationAttributes attributes, string shortName, HashSet<Package> packages)
         {
             Id = id;
             Name = name;
@@ -27,15 +28,15 @@ namespace PPM.Locations.Domain
             Description = description;
             Height = Meters.FromDecimal(height);
             Width = Meters.FromDecimal(width);
-            Attributes = new LocationAttributes(isExamination, isHandleQrCode);
+            Attributes = attributes;
             ShortName = shortName;
             _packages = packages;
         }
 
         public static Location Create(Guid id, string name, int typeId, string description, decimal width, decimal height,
-            bool isExamination, bool isHandleQrCode, string shortName)
+            LocationAttributes attributes, string shortName)
         {
-            return new Location(id, name, typeId, description, width, height, isExamination, isHandleQrCode, shortName, new HashSet<Package>());
+            return new Location(id, name, typeId, description, width, height, attributes, shortName, new HashSet<Package>());
         }
     }
 }

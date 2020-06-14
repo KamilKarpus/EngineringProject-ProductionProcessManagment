@@ -9,7 +9,6 @@ namespace PPM.Locations.Domain
         public Guid Id { get; private set; }
         public string Name { get; private set; }
         public Kilograms Weight { get; private set; }
-        public ProjectFlow Flow { get; private set; }
         public Meters Height { get; private set; }
         public Meters Width { get; private set; }
 

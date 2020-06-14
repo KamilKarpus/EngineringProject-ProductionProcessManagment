@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using PPM.Infrastructure.DataAccess;
 
 namespace PPM.Locations.Infrastructure.Configuration.DataAcesss
 {
@@ -13,6 +14,18 @@ namespace PPM.Locations.Infrastructure.Configuration.DataAcesss
         }
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<MongoConnection>()
+                .AsImplementedInterfaces()
+                .WithParameter("connectionString", _connectionString)
+                .WithParameter("dbName", _dbName);
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .Where(type => type.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope()
+                .FindConstructorsWith(new AllConstructorFinder());
+
+            base.Load(builder);
         }
     }
 }
