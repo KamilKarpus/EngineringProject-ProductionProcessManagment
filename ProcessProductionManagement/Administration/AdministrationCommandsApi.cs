@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PPM.Administration.Application;
 using PPM.Administration.Application.Commands;
@@ -27,8 +26,7 @@ namespace PPM.Api.Administration
             await _module.ExecuteCommand(new AddProductionFlowCommand()
             {
                 Id = flowId,
-                Name = flow.Name,
-                RequiredDaysToFinish = flow.RequiredDaysToFinish
+                Name = flow.Name
             });
             return Created("api/administration/", new { id = flowId });
         }

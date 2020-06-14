@@ -10,7 +10,6 @@ namespace PPM.Administration.Application.Commands
             public class AddProductionFlow
             {
                 public string Name { get; set; }
-                public int RequiredDaysToFinish { get; set; }
             }
         }
     }

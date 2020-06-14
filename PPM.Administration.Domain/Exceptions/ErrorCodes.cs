@@ -6,6 +6,7 @@
         StepPositionCannotBeChanged = 1002,
         ValidationErrorMaxPercentage = 1003,
         ValidationErrorStepPercentage = 1004,
-        ValidationErrorMaxDaysError = 1005
+        ValidationErrorMaxDaysError = 1005,
+        NameIsTaken = 1006,
     }
 }

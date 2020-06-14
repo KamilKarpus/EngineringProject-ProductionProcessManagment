@@ -8,5 +8,6 @@ namespace PPM.Administration.Domain.Repositories
     {
         Task<ProductionFlow> GetById(Guid id);
         Task AddAsync(ProductionFlow flow);
+        Task<ProductionFlow> GetByName(string name);
     }
 }

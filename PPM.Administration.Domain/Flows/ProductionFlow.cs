@@ -18,12 +18,12 @@ namespace PPM.Administration.Domain.Flows
         {
             get => _steps;
         }
-        public ProductionFlow(Guid id, string name, int requiredDaysToFinish)
+        public ProductionFlow(Guid id, string name)
         {
             Id = id;
             Name = name;
             Status = Status.Construction;
-            RequiredDaysToFinish = requiredDaysToFinish;
+            RequiredDaysToFinish = 0;
         }
         public ProductionFlow(Guid id, string name, int requiredDaysToFinish, int statusId,
                 LinkedList<Step> steps)
@@ -45,6 +45,7 @@ namespace PPM.Administration.Domain.Flows
                 stepNumber++;
 
             }
+            RequiredDaysToFinish += days;
             var step = new Step(id, location,percentage,days, name, stepNumber);
             _steps.AddLast(step);
         }
@@ -53,6 +54,7 @@ namespace PPM.Administration.Domain.Flows
             CheckRule(new IsFlowEditableRule(Status));
             var step = _steps.FirstOrDefault(p => p.Id == stepId);
             _steps.Remove(step);
+            RequiredDaysToFinish -= step.MaxDaysRequiredToFinish;
             RecalculateStepsNumbers();
 
         }

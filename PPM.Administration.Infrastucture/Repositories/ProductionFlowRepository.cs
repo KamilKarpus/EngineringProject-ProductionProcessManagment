@@ -24,5 +24,11 @@ namespace PPM.Administration.Infrastucture.Repositories
             var result =  await _repository.Find(p => p.Id == id);
             return result?.ToEntity();
         }
+
+        public async Task<ProductionFlow> GetByName(string name)
+        {
+            var result = await _repository.Find(p => p.Name == name);
+            return result?.ToEntity();
+        }
     }
 }

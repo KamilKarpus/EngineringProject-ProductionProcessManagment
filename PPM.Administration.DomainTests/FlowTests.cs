@@ -2,27 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
 using Xunit;
 
 namespace PPM.Administration.DomainTests
 {
     public class FlowTests
     {
-
-        private ProductionFlow CreateProductionFlow()
+        [Fact]
+        public void AddStep_Should_Add_New_Steps()
         {
             var flow = new ProductionFlow(Guid.NewGuid(), "Test", 10, 1, new LinkedList<Step>());
             flow.AddStep(Guid.NewGuid(), "Test", 10, new Location(Guid.NewGuid(), "Test"), 10);
             flow.AddStep(Guid.NewGuid(), "Test2", 10, new Location(Guid.NewGuid(), "Test"), 25);
             flow.AddStep(Guid.NewGuid(), "Test3", 10, new Location(Guid.NewGuid(), "Test"), 50);
             flow.AddStep(Guid.NewGuid(), "Test4", 10, new Location(Guid.NewGuid(), "Test"), 100);
-            return flow;
-        }
-        [Fact]
-        public void AddStep_Should_Add_New_Steps()
-        {
-            var flow = CreateProductionFlow();
 
             Assert.Collection(flow.Steps,  item => Assert.Equal(1, item.StepNumber),
                                            item => Assert.Equal(2, item.StepNumber),
