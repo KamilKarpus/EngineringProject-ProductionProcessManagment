@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using PPM.Infrastructure.DataAccess;
+using PPM.Infrastructure.DataAccess.Repositories;
+using PPM.Locations.Infrastructure.Documents.Locations;
 
 namespace PPM.Locations.Infrastructure.Configuration.DataAcesss
 {
@@ -18,6 +20,9 @@ namespace PPM.Locations.Infrastructure.Configuration.DataAcesss
                 .AsImplementedInterfaces()
                 .WithParameter("connectionString", _connectionString)
                 .WithParameter("dbName", _dbName);
+
+            builder.RegisterType<MongoRepository<LocationDocument>>()
+                .As<IMongoRepository<LocationDocument>>();
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .Where(type => type.Name.EndsWith("Repository"))

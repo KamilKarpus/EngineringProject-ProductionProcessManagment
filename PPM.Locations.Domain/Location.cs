@@ -34,8 +34,9 @@ namespace PPM.Locations.Domain
         }
 
         public static Location Create(Guid id, string name, int typeId, string description, decimal width, decimal height,
-            LocationAttributes attributes, string shortName)
+            bool handleQr, string shortName)
         {
+            var attributes = new LocationAttributes(handleQr);
             return new Location(id, name, typeId, description, width, height, attributes, shortName, new HashSet<Package>());
         }
     }

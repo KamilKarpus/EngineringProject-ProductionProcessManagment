@@ -7,9 +7,9 @@
   <ItemGroup>
     <PackageReference Include="MediatR" Version="8.0.1" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <Folder Include="Commands\" />
+    <ProjectReference Include="..\PPM.Locations.Domain\PPM.Locations.Domain.csproj" />
   </ItemGroup>
 
 </Project>

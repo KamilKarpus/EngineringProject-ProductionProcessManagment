@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PPM.Administration.Infrastucture;
+using PPM.Locations.Infrastructure;
 
 namespace ProcessProductionManagement
 {
@@ -41,6 +42,7 @@ namespace ProcessProductionManagement
             var connectionString = Configuration["Database:ConnectionString"];
             var dbName = Configuration["Database:DbName"];
             builder.UseAdministationModule(connectionString, dbName);
+            builder.UseLocationsModule(connectionString, dbName);
         }
    
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
