@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PPM.Application\PPM.Application.csproj" />
     <ProjectReference Include="..\PPM.Locations.Domain\PPM.Locations.Domain.csproj" />
   </ItemGroup>
 

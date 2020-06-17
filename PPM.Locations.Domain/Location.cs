@@ -1,5 +1,6 @@
 ﻿using PPM.Domain;
 using PPM.Domain.ValueObject;
+using PPM.Locations.Domain.DomainEvents;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -31,6 +32,13 @@ namespace PPM.Locations.Domain
             Attributes = attributes;
             ShortName = shortName;
             _packages = packages;
+
+            var @event = new LocationCreatedDomainEvent()
+            {
+                Name = Name,
+                LocationId = Id
+            };
+            AddDomainEvent(@event);
         }
 
         public static Location Create(Guid id, string name, int typeId, string description, decimal width, decimal height,

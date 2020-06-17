@@ -30,7 +30,7 @@ namespace PPM.Locations.Infrastructure.Documents.Locations
         {
             return new LocationDocument()
             {
-                Attributes = location.Attributes.ToDocument(),
+                Attributes = location.Attributes?.ToDocument(),
                 Height = location.Height.Value,
                 Id = location.Id,
                 Description = location.Description,

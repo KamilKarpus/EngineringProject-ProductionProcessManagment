@@ -5,7 +5,11 @@ namespace PPM.Locations.Domain.DomainEvents
 {
     public class LocationCreatedDomainEvent : DomainEventBase
     {
-        public Guid Id { get; private set; }
-        public string Name { get; private set; }
+        public Guid LocationId { get; set; }
+        public string Name { get; set; }
+
+        public LocationCreatedDomainEvent() : base()
+        {
+        }
     }
 }
