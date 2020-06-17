@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PPM.EventBus\PPM.EventBus.csproj" />
     <ProjectReference Include="..\PPM.Infrastructure\PPM.Infrastructure.csproj" />
     <ProjectReference Include="..\PPM.Locations.Application\PPM.Locations.Application.csproj" />
     <ProjectReference Include="..\PPM.Locations.Domain\PPM.Locations.Domain.csproj" />

@@ -10,7 +10,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PPM.Application\PPM.Application.csproj" />
+    <ProjectReference Include="..\PPM.Infrastructure\PPM.Infrastructure.csproj" />
     <ProjectReference Include="..\PPM.Locations.Domain\PPM.Locations.Domain.csproj" />
+    <ProjectReference Include="..\PPM.Locations.IntegrationEvents\PPM.Locations.IntegrationEvents.csproj" />
   </ItemGroup>
 
 </Project>
