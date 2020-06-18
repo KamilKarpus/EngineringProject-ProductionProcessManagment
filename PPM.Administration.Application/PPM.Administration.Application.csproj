@@ -11,6 +11,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PPM.Administration.Domain\PPM.Administration.Domain.csproj" />
+    <ProjectReference Include="..\PPM.Administration.IntegrationEvents\PPM.Administration.IntegrationEvents.csproj" />
+    <ProjectReference Include="..\PPM.Infrastructure\PPM.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

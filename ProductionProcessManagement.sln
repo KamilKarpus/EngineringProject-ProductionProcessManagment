@@ -27,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPM.Orders.Domain", "PPM.Or
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPM.Locations.Application", "PPM.Locations.Application\PPM.Locations.Application.csproj", "{4BDD1A2B-FA49-4EBB-B708-4966351758C6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{73BC31DE-AA84-40B3-AEBA-7BABD2E66D6B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPM.Locations.Infrastructure", "PPM.Locations.Infrastructure\PPM.Locations.Infrastructure.csproj", "{FD07F693-6872-4209-ADC7-240B2B1F5444}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPM.Infrastructure", "PPM.Infrastructure\PPM.Infrastructure.csproj", "{57C50978-F42E-4CA7-B7AC-FFC3D45427D6}"
@@ -39,11 +37,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPM.Administration.Infrastu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPM.Administration.Application", "PPM.Administration.Application\PPM.Administration.Application.csproj", "{703CE697-6351-48AF-89C7-0FF2B259855F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPM.Application", "PPM.Application\PPM.Application.csproj", "{84BB453F-C5D2-4117-8E19-363F359B9D7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPM.Application", "PPM.Application\PPM.Application.csproj", "{84BB453F-C5D2-4117-8E19-363F359B9D7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPM.EventBus", "PPM.EventBus\PPM.EventBus.csproj", "{752FAA46-0D35-4A28-9A03-3266D5C8B3C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPM.EventBus", "PPM.EventBus\PPM.EventBus.csproj", "{752FAA46-0D35-4A28-9A03-3266D5C8B3C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPM.Locations.IntegrationEvents", "PPM.Locations.IntegrationEvents\PPM.Locations.IntegrationEvents.csproj", "{188E92CD-6889-4D79-A966-85F6A10B8417}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPM.Locations.IntegrationEvents", "PPM.Locations.IntegrationEvents\PPM.Locations.IntegrationEvents.csproj", "{188E92CD-6889-4D79-A966-85F6A10B8417}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPM.Administration.IntegrationEvents", "PPM.Administration.IntegrationEvents\PPM.Administration.IntegrationEvents.csproj", "{105C76F1-179B-483F-A4C1-EECAFACE2D11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +107,10 @@ Global
 		{188E92CD-6889-4D79-A966-85F6A10B8417}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{188E92CD-6889-4D79-A966-85F6A10B8417}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{188E92CD-6889-4D79-A966-85F6A10B8417}.Release|Any CPU.Build.0 = Release|Any CPU
+		{105C76F1-179B-483F-A4C1-EECAFACE2D11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{105C76F1-179B-483F-A4C1-EECAFACE2D11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{105C76F1-179B-483F-A4C1-EECAFACE2D11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{105C76F1-179B-483F-A4C1-EECAFACE2D11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,6 +133,7 @@ Global
 		{84BB453F-C5D2-4117-8E19-363F359B9D7A} = {2AFC4DF4-E6C2-4253-9F82-FA526FF6019D}
 		{752FAA46-0D35-4A28-9A03-3266D5C8B3C6} = {2AFC4DF4-E6C2-4253-9F82-FA526FF6019D}
 		{188E92CD-6889-4D79-A966-85F6A10B8417} = {908AAF18-A119-4940-857C-7A0B6CCF8C0D}
+		{105C76F1-179B-483F-A4C1-EECAFACE2D11} = {D3E2D2E9-5DA0-4DEF-B409-7B6BF066A281}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02A8F915-AC71-4E59-939A-E351427B96E3}
