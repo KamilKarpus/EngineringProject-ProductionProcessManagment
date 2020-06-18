@@ -35,9 +35,10 @@ namespace PPM.Administration.Domain.Flows
             _steps = steps;
 
         }
-        public void AddStep(Guid id, string name, int days, Location location, int percentage)
+        public void AddStep(Guid id, string name, int days, Guid locationId, int percentage, ILocationExistence locationExistence)
         {
             CheckRule(new IsFlowEditableRule(Status));
+            CheckRule(new LocationMustExistsRule(locationExistence, locationId));
             int stepNumber = 1;
             if (_steps.Count > 0)
             {
@@ -46,7 +47,7 @@ namespace PPM.Administration.Domain.Flows
 
             }
             RequiredDaysToFinish += days;
-            var step = new Step(id, location,percentage,days, name, stepNumber);
+            var step = new Step(id, locationId, percentage, days, name, stepNumber);
             _steps.AddLast(step);
         }
         public void RemoveStep(Guid stepId)

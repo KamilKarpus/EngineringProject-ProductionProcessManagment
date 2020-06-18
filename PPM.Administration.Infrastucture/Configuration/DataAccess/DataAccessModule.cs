@@ -23,6 +23,8 @@ namespace PPM.Administration.Infrastucture.Configuration.DataAccess
 
             builder.RegisterType<MongoRepository<ProductionFlowDocument>>()
                 .AsImplementedInterfaces();
+            builder.RegisterType<MongoRepository<LocationDocument>>()
+                .AsImplementedInterfaces();
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .Where(type => type.Name.EndsWith("Repository"))

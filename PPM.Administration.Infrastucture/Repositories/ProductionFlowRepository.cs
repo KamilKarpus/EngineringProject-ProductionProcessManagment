@@ -30,5 +30,10 @@ namespace PPM.Administration.Infrastucture.Repositories
             var result = await _repository.Find(p => p.Name == name);
             return result?.ToEntity();
         }
+
+        public async Task Update(ProductionFlow flow)
+        {
+            await _repository.Update(p => p.Id == flow.Id, flow?.ToDocument());
+        }
     }
 }

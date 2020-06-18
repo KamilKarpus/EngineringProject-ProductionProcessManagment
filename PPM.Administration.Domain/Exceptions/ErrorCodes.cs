@@ -8,5 +8,6 @@
         ValidationErrorStepPercentage = 1004,
         ValidationErrorMaxDaysError = 1005,
         NameIsTaken = 1006,
+        LocationNotExists = 1007,
     }
 }

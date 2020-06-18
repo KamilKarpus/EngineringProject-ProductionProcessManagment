@@ -11,6 +11,13 @@ namespace PPM.Administration.Application.Commands
             {
                 public string Name { get; set; }
             }
+            public class AddStep
+            {
+                public string Name { get; set; }
+                public int Days { get; set; }
+                public Guid LocationId { get; set; }
+                public int Percentage { get; set; }
+            }
         }
     }
 }

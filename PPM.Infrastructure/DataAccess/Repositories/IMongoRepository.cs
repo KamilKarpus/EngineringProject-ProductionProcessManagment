@@ -10,5 +10,6 @@ namespace PPM.Infrastructure.DataAccess.Repositories
         Task Add(T entity);
         Task Delete(Expression<Func<T, bool>> predicate);
         Task<T> Find(Expression<Func<T, bool>> predicate);
+        Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate);
     }
 }

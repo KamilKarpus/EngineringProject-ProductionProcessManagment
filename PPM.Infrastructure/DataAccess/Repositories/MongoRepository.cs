@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -20,6 +21,11 @@ namespace PPM.Infrastructure.DataAccess.Repositories
         public async Task Delete(Expression<Func<T, bool>> predicate)
         {
             await _collection.DeleteOneAsync(predicate);
+        }
+
+        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _collection.AsQueryable().AnyAsync(predicate);
         }
 
         public async Task<T> Find(Expression<Func<T, bool>> predicate)
