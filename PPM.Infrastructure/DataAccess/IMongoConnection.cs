@@ -4,7 +4,7 @@ namespace PPM.Infrastructure.DataAccess
 {
     public interface IMongoConnection
     {
-        IMongoCollection<T> GetCollection<T>();
+        IMongoCollection<T> GetCollection<T>(string collectionName);
   
     }
 }

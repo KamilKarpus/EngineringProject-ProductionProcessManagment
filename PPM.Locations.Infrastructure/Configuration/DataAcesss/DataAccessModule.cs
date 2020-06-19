@@ -22,7 +22,8 @@ namespace PPM.Locations.Infrastructure.Configuration.DataAcesss
                 .WithParameter("dbName", _dbName);
 
             builder.RegisterType<MongoRepository<LocationDocument>>()
-                .As<IMongoRepository<LocationDocument>>();
+                .As<IMongoRepository<LocationDocument>>()
+                .WithParameter("collectionName", "ppm_locations");
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .Where(type => type.Name.EndsWith("Repository"))

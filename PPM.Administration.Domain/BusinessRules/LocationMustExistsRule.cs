@@ -17,6 +17,6 @@ namespace PPM.Administration.Domain.BusinessRules
             _existence = existence;
             _locationId = locationId;
         }
-        public bool IsBroken() => _existence.IsExists(_locationId);
+        public bool IsBroken() => !_existence.IsExists(_locationId);
     }
 }

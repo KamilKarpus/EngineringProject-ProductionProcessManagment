@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PPM.Administration.Infrastucture;
+using PPM.Api;
 using PPM.Locations.Infrastructure;
 
 namespace ProcessProductionManagement
@@ -39,10 +40,11 @@ namespace ProcessProductionManagement
 
         public virtual void ConfigureContainer(ContainerBuilder builder)
         {
-            var connectionString = Configuration["Database:ConnectionString"];
-            var dbName = Configuration["Database:DbName"];
-            builder.UseAdministationModule(connectionString, dbName);
-            builder.UseLocationsModule(connectionString, dbName);
+            var databaseSettings = new DatabaseSetttings();
+            
+            Configuration.GetSection("Database").Bind(databaseSettings);
+            builder.UseAdministationModule(databaseSettings.ConnectionString, databaseSettings.DbNameAdministration);
+            builder.UseLocationsModule(databaseSettings.ConnectionString, databaseSettings.DbNameLocations);
         }
    
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

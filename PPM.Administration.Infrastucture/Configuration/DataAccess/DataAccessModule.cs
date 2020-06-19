@@ -22,9 +22,11 @@ namespace PPM.Administration.Infrastucture.Configuration.DataAccess
                    .WithParameter("dbName", _dbName);
 
             builder.RegisterType<MongoRepository<ProductionFlowDocument>>()
-                .AsImplementedInterfaces();
+                .AsImplementedInterfaces()
+                .WithParameter("collectionName", "ppm_productionFlow");
             builder.RegisterType<MongoRepository<LocationDocument>>()
-                .AsImplementedInterfaces();
+                .AsImplementedInterfaces()
+                .WithParameter("collectionName", "ppm_locations");
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .Where(type => type.Name.EndsWith("Repository"))

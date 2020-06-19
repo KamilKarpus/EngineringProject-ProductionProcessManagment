@@ -24,6 +24,7 @@ namespace PPM.Administration.Domain.Flows
             Name = name;
             Status = Status.Construction;
             RequiredDaysToFinish = 0;
+            _steps = new LinkedList<Step>();
         }
         public ProductionFlow(Guid id, string name, int requiredDaysToFinish, int statusId,
                 LinkedList<Step> steps)

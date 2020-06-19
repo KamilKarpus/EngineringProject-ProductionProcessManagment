@@ -15,9 +15,8 @@ namespace PPM.Infrastructure.DataAccess
             _client = new MongoClient(_connectionString);
             _database = _client.GetDatabase(_dbName);
         }
-        public IMongoCollection<T> GetCollection<T>()
+        public IMongoCollection<T> GetCollection<T>(string collectionName)
         {
-            var collectionName = typeof(T).Name;
             return  _database.GetCollection<T>(collectionName);
         }
 

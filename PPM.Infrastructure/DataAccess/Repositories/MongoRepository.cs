@@ -9,9 +9,9 @@ namespace PPM.Infrastructure.DataAccess.Repositories
     public class MongoRepository<T> : IMongoRepository<T> where T : class
     {
         private readonly IMongoCollection<T> _collection;
-        public MongoRepository(IMongoConnection connection)
+        public MongoRepository(IMongoConnection connection, string collectionName)
         {
-            _collection = connection.GetCollection<T>();
+            _collection = connection.GetCollection<T>(collectionName);
         }
         public async Task Add(T entity)
         {

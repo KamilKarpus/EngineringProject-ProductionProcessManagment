@@ -36,7 +36,8 @@ namespace PPM.Administration.Infrastucture.Documents.Flow
                 MaxDaysRequiredToFinish = step.MaxDaysRequiredToFinish,
                 LocationId = step.LocationId,
                 StepName = step.StepName,
-                Percentage = step.Percentage.Value
+                Percentage = step.Percentage.Value,
+                StepNumber = step.StepNumber
             };
 
         public static Step ToEntity(this StepDocument document)
