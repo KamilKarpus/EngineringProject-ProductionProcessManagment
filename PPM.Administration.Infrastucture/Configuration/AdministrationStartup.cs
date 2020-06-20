@@ -4,6 +4,7 @@ using PPM.Administration.Infrastucture.Configuration.DataAccess;
 using PPM.Administration.Infrastucture.Configuration.Domain;
 using PPM.Administration.Infrastucture.Configuration.EventBus;
 using PPM.Administration.Infrastucture.Configuration.Mediation;
+using PPM.Administration.Infrastucture.Configuration.Processing;
 
 namespace PPM.Administration.Infrastucture.Configuration
 {
@@ -16,6 +17,7 @@ namespace PPM.Administration.Infrastucture.Configuration
             containerBuilder.RegisterModule(new MediationModule());
             containerBuilder.RegisterModule(new EventBusModule());
             containerBuilder.RegisterModule(new DomainModule());
+            containerBuilder.RegisterModule(new ProcessingModule());
             var container = containerBuilder.Build();
             AdministrationCompositionRoot.SetContainer(container);
             EventBusStartup.Initialize();

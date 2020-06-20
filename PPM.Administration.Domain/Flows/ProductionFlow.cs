@@ -1,4 +1,5 @@
 ﻿using PPM.Administration.Domain.BusinessRules;
+using PPM.Administration.Domain.Flows.Events;
 using PPM.Domain;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,13 @@ namespace PPM.Administration.Domain.Flows
             Status = Status.Construction;
             RequiredDaysToFinish = 0;
             _steps = new LinkedList<Step>();
+
+            var @event = new ProductionFlowCreatedDomainEvent() 
+            { 
+                ProductionId = Id,
+                Name = Name
+            };
+            AddDomainEvent(@event);
         }
         public ProductionFlow(Guid id, string name, int requiredDaysToFinish, int statusId,
                 LinkedList<Step> steps)

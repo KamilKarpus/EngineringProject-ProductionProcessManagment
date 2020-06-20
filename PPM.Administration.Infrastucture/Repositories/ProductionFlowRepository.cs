@@ -2,7 +2,9 @@
 using PPM.Administration.Domain.Repositories;
 using PPM.Administration.Infrastucture.Documents.Flow;
 using PPM.Infrastructure.DataAccess.Repositories;
+using PPM.Infrastructure.EventDispatcher;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PPM.Administration.Infrastucture.Repositories
@@ -10,13 +12,17 @@ namespace PPM.Administration.Infrastucture.Repositories
     public class ProductionFlowRepository : IProductionFlowRepository
     {
         private readonly IMongoRepository<ProductionFlowDocument> _repository;
-        public ProductionFlowRepository(IMongoRepository<ProductionFlowDocument> repository)
+        private readonly IEventDispatcher _dispatcher;
+        public ProductionFlowRepository(IMongoRepository<ProductionFlowDocument> repository,
+            IEventDispatcher dispatcher)
         {
             _repository = repository;
+            _dispatcher = dispatcher;
         }
         public async Task AddAsync(ProductionFlow flow)
         {
             await _repository.Add(flow.ToDocument());
+            await _dispatcher.DispatchAsync(flow.DomainEvents.ToArray());
         }
 
         public async Task<ProductionFlow> GetById(Guid id)
