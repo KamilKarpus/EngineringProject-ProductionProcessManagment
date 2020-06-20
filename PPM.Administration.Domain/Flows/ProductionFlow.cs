@@ -6,7 +6,8 @@ using System.Linq;
 
 namespace PPM.Administration.Domain.Flows
 {
-    public class ProductionFlow : Entity, IAggregateRoot
+    public class ProductionFlow
+        : Entity, IAggregateRoot
     {
         private LinkedList<Step> _steps;
 
@@ -16,7 +17,7 @@ namespace PPM.Administration.Domain.Flows
         public Status Status { get; private set; }
         public IReadOnlyCollection<Step> Steps
         {
-            get => _steps;
+            get => _steps.OrderBy(p=>p.Number).ToList();
         }
         public ProductionFlow(Guid id, string name)
         {
@@ -43,9 +44,7 @@ namespace PPM.Administration.Domain.Flows
             int stepNumber = 1;
             if (_steps.Count > 0)
             {
-                stepNumber = _steps.Max(p => p.StepNumber);
-                stepNumber++;
-
+                stepNumber = _steps.Max(p => p.Number).GetStepAfter().Value;
             }
             RequiredDaysToFinish += days;
             var step = new Step(id, locationId, percentage, days, name, stepNumber);
@@ -65,25 +64,26 @@ namespace PPM.Administration.Domain.Flows
             CheckRule(new IsFlowEditableRule(Status));
             for (int i = 0; i < _steps.Count; i++)
             {
-                _steps.ElementAt(i).SetSetNumber(i + 1);
+                _steps.ElementAt(i).ChangeStepNumber(i + 1);
             }
 
         }
         public void ChangeStepPosition(Guid stepId, int number)
         {
             CheckRule(new CanStepPositionBeChanged(_steps.Count, number));
-           
-            var stepValue = _steps.ElementAt((number - 1));
-            var currentStepsCount = _steps.Count;
-            var stepNode = _steps.Find(stepValue);
+
+            var stepNumber = StepNumber.From(number);
             var step = _steps.FirstOrDefault(p => p.Id == stepId);
-            var index = _steps.TakeWhile(n => n.Id != stepId).Count();
             _steps.Remove(step);
-            if (index >= number || number == 1)
+            var stepValue = _steps.ElementAt(stepNumber.GetStepBefore().Value);
+            var stepNode = _steps.Find(stepValue);
+            var nodeIndex = _steps.TakeWhile(n => n.Id != stepId).Count();
+
+            if (stepNumber.IsLowerThen(nodeIndex) ||  stepNumber.IsFirstStep())
             {
                 _steps.AddBefore(stepNode, step);
             }
-            else 
+            else
             {
                 _steps.AddAfter(stepNode, step);
             }

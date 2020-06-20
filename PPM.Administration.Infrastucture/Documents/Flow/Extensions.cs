@@ -37,7 +37,7 @@ namespace PPM.Administration.Infrastucture.Documents.Flow
                 LocationId = step.LocationId,
                 StepName = step.StepName,
                 Percentage = step.Percentage.Value,
-                StepNumber = step.StepNumber
+                StepNumber = step.Number.Value
             };
 
         public static Step ToEntity(this StepDocument document)

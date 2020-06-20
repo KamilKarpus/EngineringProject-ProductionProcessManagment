@@ -24,10 +24,10 @@ namespace PPM.Administration.DomainTests
         [Fact]
         public void AddStep_Should_Add_New_Steps()
         {
-            Assert.Collection(_flow.Steps, item => Assert.Equal(1, item.StepNumber),
-                                           item => Assert.Equal(2, item.StepNumber),
-                                           item => Assert.Equal(3, item.StepNumber),
-                                           item => Assert.Equal(4, item.StepNumber));
+            Assert.Collection(_flow.Steps, item => Assert.Equal(1, item.Number.Value),
+                                           item => Assert.Equal(2, item.Number.Value),
+                                           item => Assert.Equal(3, item.Number.Value),
+                                           item => Assert.Equal(4, item.Number.Value));
         }
 
 
@@ -37,49 +37,40 @@ namespace PPM.Administration.DomainTests
             var step = _flow.Steps.FirstOrDefault(p => p.StepName == "Test2");
             _flow.RemoveStep(step.Id);
 
-            Assert.Collection(_flow.Steps, item => Assert.Equal(1, item.StepNumber),
-                                           item => Assert.Equal(2, item.StepNumber),
-                                           item => Assert.Equal(3, item.StepNumber));
+            Assert.Collection(_flow.Steps, item => Assert.Equal(1, item.Number.Value),
+                                           item => Assert.Equal(2, item.Number.Value),
+                                           item => Assert.Equal(3, item.Number.Value));
 
         }
 
-        //[Theory]
-        //[InlineData(1)]
-        //[InlineData(4)]
-        //[InlineData(3)]
-        //public void ChangeStepPostion_ASC_Should_ChangePosition(int stepData)
-        //{
-        //    _flow = 
+        [Theory]
+        [InlineData(1)]
+        [InlineData(4)]
+        [InlineData(3)]
+        public void ChangeStepPostion_ASC_Should_ChangePosition(int stepData)
+        {
+            Assert.Collection(_flow.Steps , item => Assert.Equal(1, item.Number.Value),
+                                           item => Assert.Equal(2, item.Number.Value),
+                                           item => Assert.Equal(3, item.Number.Value),
+                                           item => Assert.Equal(4, item.Number.Value));
+        }
 
-        //    Assert.Collection(_flow.Steps.OrderBy(p => p.StepNumber), item => Assert.Equal(1, item.StepNumber),
-        //                                   item => Assert.Equal(2, item.StepNumber),
-        //                                   item => Assert.Equal(3, item.StepNumber),
-        //                                   item => Assert.Equal(4, item.StepNumber));
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public void ChangeStepPostion_DESC_Should_ChangePosition(int stepData)
+        {
 
-        //}
+            var step = _flow.Steps.FirstOrDefault(p => p.StepName == "Test2");
+            _flow.ChangeStepPosition(step.Id, stepData);
+            Assert.Equal(stepData, step.Number.Value);
 
-        //    [Theory]
-        //    [InlineData(1)]
-        //    [InlineData(2)]
-        //    [InlineData(3)]
-        //    public void ChangeStepPostion_DESC_Should_ChangePosition(int stepData)
-        //    {
-        //        var flow = new ProductionFlow(Guid.NewGuid(), "Test", 10, 1, new LinkedList<Step>());
-        //        var id = Guid.NewGuid();
-        //        flow.AddStep(Guid.NewGuid(), "Test", 10, new Location(Guid.NewGuid(), "Test"), 10);
-        //        flow.AddStep(Guid.NewGuid(), "Test2", 10, new Location(Guid.NewGuid(), "Test"), 25);
-        //        flow.AddStep(Guid.NewGuid(), "Test3", 10, new Location(Guid.NewGuid(), "Test"), 50);
-        //        flow.AddStep(id, "Test4", 10, new Location(Guid.NewGuid(), "Test"), 100);
+            Assert.Collection(_flow.Steps, item => Assert.Equal(1, item.Number.Value),
+                                           item => Assert.Equal(2, item.Number.Value),
+                                           item => Assert.Equal(3, item.Number.Value),
+                                           item => Assert.Equal(4, item.Number.Value));
 
-        //        flow.ChangeStepPosition(id, stepData);
-        //        var step = flow.Steps.FirstOrDefault(p => p.Id == id);
-        //        Assert.Equal(stepData, step.StepNumber);
-
-        //        Assert.Collection(flow.Steps.OrderBy(p => p.StepNumber), item => Assert.Equal(1, item.StepNumber),
-        //                                       item => Assert.Equal(2, item.StepNumber),
-        //                                       item => Assert.Equal(3, item.StepNumber),
-        //                                       item => Assert.Equal(4, item.StepNumber));
-
-        //    }
+        }
     }
 }

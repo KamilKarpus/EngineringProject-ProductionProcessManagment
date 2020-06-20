@@ -10,7 +10,7 @@ namespace PPM.Administration.Domain.Flows
         public Percentage Percentage { get; private set; }
         public string StepName { get; private set; }
         public int MaxDaysRequiredToFinish { get; private set; }
-        public int StepNumber { get; private set; }
+        public StepNumber Number { get; private set; }
 
 
         public Step(Guid id, Guid locationId, int percentage, int days,
@@ -21,11 +21,11 @@ namespace PPM.Administration.Domain.Flows
             Percentage = Percentage.Of(percentage);
             MaxDaysRequiredToFinish = days;
             StepName = stepName;
-            StepNumber = stepNumber;
+            Number = StepNumber.From(stepNumber);
         }
-        public void SetSetNumber(int number)
+        public void ChangeStepNumber(int number)
         {
-            StepNumber = number;
-        }     
+            Number = StepNumber.From(number);
+        }
     }
 }
