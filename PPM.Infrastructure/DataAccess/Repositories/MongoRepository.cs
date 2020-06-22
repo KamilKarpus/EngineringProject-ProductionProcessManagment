@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -13,6 +14,9 @@ namespace PPM.Infrastructure.DataAccess.Repositories
         {
             _collection = connection.GetCollection<T>(collectionName);
         }
+
+        public IMongoCollection<T> Collection => _collection;
+
         public async Task Add(T entity)
         {
             await _collection.InsertOneAsync(entity);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -11,5 +12,6 @@ namespace PPM.Infrastructure.DataAccess.Repositories
         Task Delete(Expression<Func<T, bool>> predicate);
         Task<T> Find(Expression<Func<T, bool>> predicate);
         Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate);
+        IMongoCollection<T> Collection { get; }
     }
 }
