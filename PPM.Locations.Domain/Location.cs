@@ -36,7 +36,8 @@ namespace PPM.Locations.Domain
             var @event = new LocationCreatedDomainEvent()
             {
                 Name = Name,
-                LocationId = Id
+                LocationId = Id,
+                SupportQR = Attributes.IsHandleQrCode
             };
             AddDomainEvent(@event);
         }

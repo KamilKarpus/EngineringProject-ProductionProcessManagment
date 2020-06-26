@@ -10,11 +10,14 @@ namespace PPM.Administration.Application.Commands.AddStep
     public class AddStepCommandHandler : ICommandHandler<AddStepCommand>
     {
         private readonly IProductionFlowRepository _repository;
-        private readonly ILocationExistence _locationExistence; 
-        public AddStepCommandHandler(IProductionFlowRepository repository, ILocationExistence existence)
+        private readonly ILocationExistence _locationExistence;
+        private readonly IFirstLocationSupportPrinting _supportPrinting;
+        public AddStepCommandHandler(IProductionFlowRepository repository, ILocationExistence existence,
+            IFirstLocationSupportPrinting supportPrinting)
         {
             _repository = repository;
             _locationExistence = existence;
+            _supportPrinting = supportPrinting;
         }
    
         public async Task<Unit> Handle(AddStepCommand request, CancellationToken cancellationToken)
@@ -24,7 +27,7 @@ namespace PPM.Administration.Application.Commands.AddStep
             {
                 //throw exception
             }
-            flow.AddStep(request.Id, request.Name, request.Days, request.LocationId, request.Percentage, _locationExistence);
+            flow.AddStep(request.Id, request.Name, request.Days, request.LocationId, request.Percentage, _locationExistence, _supportPrinting);
             await _repository.Update(flow);
             return Unit.Value;
         }

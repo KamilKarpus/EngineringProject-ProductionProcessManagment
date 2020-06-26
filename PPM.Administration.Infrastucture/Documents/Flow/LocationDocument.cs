@@ -6,5 +6,6 @@ namespace PPM.Administration.Infrastucture.Documents.Flow
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public bool SupportPrinting { get; set; }
     }
 }

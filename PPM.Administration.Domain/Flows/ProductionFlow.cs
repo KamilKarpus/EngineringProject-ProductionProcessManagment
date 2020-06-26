@@ -1,4 +1,5 @@
 ﻿using PPM.Administration.Domain.BusinessRules;
+using PPM.Administration.Domain.Flows.BusinessRules;
 using PPM.Administration.Domain.Flows.Events;
 using PPM.Domain;
 using System;
@@ -45,10 +46,12 @@ namespace PPM.Administration.Domain.Flows
             _steps = steps;
 
         }
-        public void AddStep(Guid id, string name, int days, Guid locationId, int percentage, ILocationExistence locationExistence)
+        public void AddStep(Guid id, string name, int days, Guid locationId, int percentage, ILocationExistence locationExistence,
+            IFirstLocationSupportPrinting supportPrinting)
         {
             CheckRule(new IsFlowEditableRule(Status));
             CheckRule(new LocationMustExistsRule(locationExistence, locationId));
+            CheckRule(new FirstLocationMustSupportPrintingRule(_steps.Count, supportPrinting, locationId));
             int stepNumber = 1;
             if (_steps.Count > 0)
             {

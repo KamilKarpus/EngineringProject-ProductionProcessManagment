@@ -19,7 +19,7 @@ namespace PPM.Administration.Application.IntegrationEventHandlers.Locations
             var result = await _repository.GetById(notification.LocationId);
             if(result == null)
             {
-                await _repository.AddAsync(new Location(notification.LocationId, notification.Name));
+                await _repository.AddAsync(new Location(notification.LocationId, notification.Name, notification.SupportQR));
             }
         }
     }

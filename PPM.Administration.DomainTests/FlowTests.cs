@@ -11,15 +11,18 @@ namespace PPM.Administration.DomainTests
     {
         private readonly ProductionFlow _flow;
         private readonly Mock<ILocationExistence> _locationExistence;
+        private readonly Mock<IFirstLocationSupportPrinting> _supportPrinting;
         public FlowTests()
         {
             _flow = new ProductionFlow(Guid.NewGuid(), "Test");
             _locationExistence = new Mock<ILocationExistence>();
             _locationExistence.Setup(p => p.IsExists(It.IsAny<Guid>())).Returns(true);
-            _flow.AddStep(Guid.NewGuid(), "Test", 10, Guid.NewGuid(), 10, _locationExistence.Object);
-            _flow.AddStep(Guid.NewGuid(), "Test2", 10, Guid.NewGuid(), 25, _locationExistence.Object);
-            _flow.AddStep(Guid.NewGuid(), "Test3", 10, Guid.NewGuid(), 50, _locationExistence.Object);
-            _flow.AddStep(Guid.NewGuid(), "Test4", 10, Guid.NewGuid(), 100, _locationExistence.Object);
+            _supportPrinting = new Mock<IFirstLocationSupportPrinting>();
+            _supportPrinting.Setup(p => p.IsSupport(It.IsAny<Guid>())).Returns(true);
+            _flow.AddStep(Guid.NewGuid(), "Test", 10, Guid.NewGuid(), 10, _locationExistence.Object, _supportPrinting.Object);
+            _flow.AddStep(Guid.NewGuid(), "Test2", 10, Guid.NewGuid(), 25, _locationExistence.Object, _supportPrinting.Object);
+            _flow.AddStep(Guid.NewGuid(), "Test3", 10, Guid.NewGuid(), 50, _locationExistence.Object, _supportPrinting.Object);
+            _flow.AddStep(Guid.NewGuid(), "Test4", 10, Guid.NewGuid(), 100, _locationExistence.Object, _supportPrinting.Object);
         }
         [Fact]
         public void AddStep_Should_Add_New_Steps()

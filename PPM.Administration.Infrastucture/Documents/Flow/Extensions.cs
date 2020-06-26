@@ -18,16 +18,17 @@ namespace PPM.Administration.Infrastucture.Documents.Flow
         };
         public static LocationDocument ToDocument(this Location location)
         {
-            return new LocationDocument() 
-            { 
+            return new LocationDocument()
+            {
                 Id = location.Id,
-                Name = location.Name
+                Name = location.Name,
+                SupportPrinting = location.SupportPrinting
             };
 
         }
         public static Location AsEntity(this LocationDocument document)
         {
-            return new Location(document.Id, document.Name);
+            return new Location(document.Id, document.Name, document.SupportPrinting);
         }
         public static StepDocument ToDocument(this Step step)
             => new StepDocument()

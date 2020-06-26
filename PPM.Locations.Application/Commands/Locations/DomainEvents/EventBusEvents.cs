@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace PPM.Locations.Application.Commands.Locations.DomainEvents
 {
-    public class LocationCreatedDomainEventHandler : IDomainEventHandler<LocationCreatedDomainEvent>
+    public class EventBusEvents : IDomainEventHandler<LocationCreatedDomainEvent>
     {
         private readonly IEventsBus _bus;
-        public LocationCreatedDomainEventHandler(IEventsBus bus)
+        public EventBusEvents(IEventsBus bus)
         {
             _bus = bus;
         }
         public Task Handle(LocationCreatedDomainEvent @event)
         {
             _bus.Publish(new LocationCreatedIntegrationEvent(@event.Id, @event.OccurredOn,
-                @event.LocationId, @event.Name));
+                @event.LocationId, @event.Name, @event.SupportQR));
 
             return Task.CompletedTask;
         }
