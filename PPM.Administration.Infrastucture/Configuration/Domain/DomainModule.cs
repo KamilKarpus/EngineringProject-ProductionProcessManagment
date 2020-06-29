@@ -1,6 +1,6 @@
 ﻿using Autofac;
-using PPM.Administration.Application.Commands.Flows.AddStep;
 using PPM.Administration.Domain.Flows;
+using PPM.Administration.Infrastucture.Domain;
 
 namespace PPM.Administration.Infrastucture.Configuration.Domain
 {
@@ -10,6 +10,9 @@ namespace PPM.Administration.Infrastucture.Configuration.Domain
         {
             builder.RegisterType<LocationExistence>()
                 .As<ILocationExistence>();
+
+            builder.RegisterType<FirstLocationSupportPrinting>()
+                .As<IFirstLocationSupportPrinting>();
         }
     }
 }

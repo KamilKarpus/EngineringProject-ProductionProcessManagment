@@ -18,14 +18,14 @@ namespace PPM.Administration.DomainTests.Rules
         public void Should_Be_Broken()
         {
             _supportPrinting.Setup(p => p.IsSupport(It.IsAny<Guid>())).Returns(false);
-            var rule = new FirstLocationMustSupportPrintingRule(1, _supportPrinting.Object, Guid.NewGuid());
+            var rule = new FirstLocationMustSupportPrintingRule(0, _supportPrinting.Object, Guid.NewGuid());
             Assert.True(rule.IsBroken());        
         }
         [Fact]
         public void Should_Be_Not_Broken()
         {
             _supportPrinting.Setup(p => p.IsSupport(It.IsAny<Guid>())).Returns(true);
-            var rule = new FirstLocationMustSupportPrintingRule(1, _supportPrinting.Object, Guid.NewGuid());
+            var rule = new FirstLocationMustSupportPrintingRule(0, _supportPrinting.Object, Guid.NewGuid());
             Assert.False(rule.IsBroken());
         }
     }

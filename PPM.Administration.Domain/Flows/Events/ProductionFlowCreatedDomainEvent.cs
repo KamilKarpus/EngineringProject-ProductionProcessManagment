@@ -7,6 +7,9 @@ namespace PPM.Administration.Domain.Flows.Events
     {
         public Guid ProductionId { get; set; }
         public string Name { get; set; }
+        public string StatusName { get; set; }
+        public int StatusId { get; set; }
+        public int RequiredDaysToFinish { get; set; }
         public ProductionFlowCreatedDomainEvent() : base()
         {
 

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using PPM.Administration.Application.Queries.ProductionFlows.GetFlowsList;
+using PPM.Administration.Application.ReadModels;
 using PPM.Administration.Infrastucture.Documents.Flow;
 using PPM.Infrastructure.DataAccess;
 using PPM.Infrastructure.DataAccess.Repositories;
@@ -35,6 +36,9 @@ namespace PPM.Administration.Infrastucture.Configuration.DataAccess
                 .AsImplementedInterfaces()
                 .WithParameter("collectionName", "ppm_productionFlow_list");
 
+            builder.RegisterType<MongoRepository<ProductionFlowReadModel>>()
+              .AsImplementedInterfaces()
+              .WithParameter("collectionName", "ppm_productionFlow_readModel");
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .Where(type => type.Name.EndsWith("Repository"))

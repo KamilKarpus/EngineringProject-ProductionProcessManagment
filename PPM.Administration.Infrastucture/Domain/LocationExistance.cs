@@ -2,7 +2,7 @@
 using PPM.Administration.Domain.Repositories;
 using System;
 
-namespace PPM.Administration.Application.Commands.Flows.AddStep
+namespace PPM.Administration.Infrastucture.Domain
 {
     public class LocationExistence : ILocationExistence
     {

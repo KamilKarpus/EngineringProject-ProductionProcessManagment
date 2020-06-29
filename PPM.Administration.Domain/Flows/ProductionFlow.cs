@@ -1,6 +1,7 @@
 ﻿using PPM.Administration.Domain.BusinessRules;
 using PPM.Administration.Domain.Flows.BusinessRules;
 using PPM.Administration.Domain.Flows.Events;
+using PPM.Administration.Domain.Flows.Events.Steps;
 using PPM.Domain;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,10 @@ namespace PPM.Administration.Domain.Flows
             var @event = new ProductionFlowCreatedDomainEvent() 
             { 
                 ProductionId = Id,
-                Name = Name
+                Name = Name,
+                StatusName = Status.Name,
+                StatusId = Status.Id,
+                RequiredDaysToFinish = RequiredDaysToFinish
             };
             AddDomainEvent(@event);
         }
@@ -60,6 +64,15 @@ namespace PPM.Administration.Domain.Flows
             RequiredDaysToFinish += days;
             var step = new Step(id, locationId, percentage, days, name, stepNumber);
             _steps.AddLast(step);
+
+            var @event = new StepAddedDomainEvent()
+            {
+                FlowId = Id,
+                Steps = _steps.ToInfoArray(),
+                Days = RequiredDaysToFinish
+            };
+
+            AddDomainEvent(@event);
         }
         public void RemoveStep(Guid stepId)
         {
@@ -68,6 +81,14 @@ namespace PPM.Administration.Domain.Flows
             _steps.Remove(step);
             RequiredDaysToFinish -= step.MaxDaysRequiredToFinish;
             RecalculateStepsNumbers();
+
+            var @event = new StepAddedDomainEvent()
+            {
+                FlowId = Id,
+                Steps = _steps.ToInfoArray()
+            };
+
+            AddDomainEvent(@event);
 
         }
         private void RecalculateStepsNumbers()

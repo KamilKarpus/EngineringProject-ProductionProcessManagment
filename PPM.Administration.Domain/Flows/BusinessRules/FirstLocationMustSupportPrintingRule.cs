@@ -21,7 +21,7 @@ namespace PPM.Administration.Domain.Flows.BusinessRules
 
         public bool IsBroken()
         {
-            return _stepCount == 1 && _locationPrinting.IsSupport(_locationId) == false;
+            return _stepCount == 0 && _locationPrinting.IsSupport(_locationId) == false;
         }
     }
 }

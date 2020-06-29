@@ -40,6 +40,7 @@ namespace PPM.Administration.Infrastucture.Repositories
         public async Task Update(ProductionFlow flow)
         {
             await _repository.Update(p => p.Id == flow.Id, flow?.ToDocument());
+            await _dispatcher.DispatchAsync(flow.DomainEvents.ToArray());
         }
     }
 }

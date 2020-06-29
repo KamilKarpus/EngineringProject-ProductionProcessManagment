@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using PPM.Administration.Application.Configuration.Commands;
+using PPM.Administration.Domain.Exceptions;
 using PPM.Administration.Domain.Flows;
 using PPM.Administration.Domain.Repositories;
 using System.Threading;
@@ -25,7 +26,7 @@ namespace PPM.Administration.Application.Commands.AddStep
             var flow = await _repository.GetById(request.ProductionFlowId);
             if (request == null)
             {
-                //throw exception
+                throw new FlowException($"Flow with {request.ProductionFlowId} doesn't exists", ErrorCodes.FlowDoesNotExists);
             }
             flow.AddStep(request.Id, request.Name, request.Days, request.LocationId, request.Percentage, _locationExistence, _supportPrinting);
             await _repository.Update(flow);
