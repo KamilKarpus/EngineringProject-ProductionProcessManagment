@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 namespace PPM.Administration.Application.Commands.Flows.DomainEvents
 {
     public class ProductionFlowReadModelEventsHandler : IDomainEventHandler<ProductionFlowCreatedDomainEvent>,
-        IDomainEventHandler<StepAddedDomainEvent>, IDomainEventHandler<StepDeletedDomainEvent>
+        IDomainEventHandler<StepAddedDomainEvent>, IDomainEventHandler<StepDeletedDomainEvent>,
+        IDomainEventHandler<ProductionFlowStatusChangedDomainEvent>
     {
         private readonly IMongoRepository<ProductionFlowReadModel> _repository;
         public ProductionFlowReadModelEventsHandler(IMongoRepository<ProductionFlowReadModel> repository)
@@ -59,6 +60,17 @@ namespace PPM.Administration.Application.Commands.Flows.DomainEvents
                 StepName = p.StepName
             }).ToList();
             await _repository.Update(p => p.Id == @event.FlowId, result);
+        }
+
+        public async Task Handle(ProductionFlowStatusChangedDomainEvent @event)
+        {
+            var result = await _repository.Find(p => p.Id == @event.FlowId);
+            if(result != null)
+            {
+                result.StatusId = @event.StatusId;
+                result.StatusName = @event.StatusName;
+                await _repository.Update(p => p.Id == @event.FlowId, result);
+            }
         }
     }
 }

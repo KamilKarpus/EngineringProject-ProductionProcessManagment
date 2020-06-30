@@ -18,6 +18,10 @@ namespace PPM.Administration.Application.Commands
                 public Guid LocationId { get; set; }
                 public int Percentage { get; set; }
             }
+            public class ChangeStatus
+            {
+                public int StatusId { get; set; }
+            }
         }
     }
 }

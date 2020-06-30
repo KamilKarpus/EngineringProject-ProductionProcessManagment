@@ -6,6 +6,8 @@ namespace PPM.Administration.Domain.Flows
 {
     public class Status : IEquatable<Status>
     {
+        public const int ConstructionId = 1;
+        public const int ReadyToUseId = 2;
         public int Id { get; private set; }
         public string Name { get; private set; }
 

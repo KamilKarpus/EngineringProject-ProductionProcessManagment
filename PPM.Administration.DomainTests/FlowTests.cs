@@ -1,12 +1,11 @@
 ﻿using Moq;
 using PPM.Administration.Domain.Flows;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
 namespace PPM.Administration.DomainTests
-{   
+{
     public class FlowTests
     {
         private readonly ProductionFlow _flow;

@@ -9,8 +9,7 @@ using System.Linq;
 
 namespace PPM.Administration.Domain.Flows
 {
-    public class ProductionFlow
-        : Entity, IAggregateRoot
+    public class ProductionFlow : Entity, IAggregateRoot
     {
         private LinkedList<Step> _steps;
 
@@ -56,6 +55,7 @@ namespace PPM.Administration.Domain.Flows
             CheckRule(new IsFlowEditableRule(Status));
             CheckRule(new LocationMustExistsRule(locationExistence, locationId));
             CheckRule(new FirstLocationMustSupportPrintingRule(_steps.Count, supportPrinting, locationId));
+            CheckRule(new StepMustHaveUniqueName(_steps, name));
             int stepNumber = 1;
             if (_steps.Count > 0)
             {
@@ -103,6 +103,7 @@ namespace PPM.Administration.Domain.Flows
         public void ChangeStepPosition(Guid stepId, int number)
         {
             CheckRule(new CanStepPositionBeChanged(_steps.Count, number));
+            CheckRule(new IsFlowEditableRule(Status));
 
             var stepNumber = StepNumber.From(number);
             var step = _steps.FirstOrDefault(p => p.Id == stepId);
@@ -126,6 +127,27 @@ namespace PPM.Administration.Domain.Flows
         {
             CheckRule(new IsFlowEditableRule(Status));
             Status = Status.ReadyToUse;
+
+            var @event = new ProductionFlowStatusChangedDomainEvent
+            {
+                FlowId = Id,
+                StatusId = Status.Id,
+                StatusName = Status.Name
+            };
+            AddDomainEvent(@event);
+        }
+
+        public void Construction()
+        {
+            Status = Status.Construction;
+
+            var @event = new ProductionFlowStatusChangedDomainEvent
+            {
+                FlowId = Id,
+                StatusId = Status.Id,
+                StatusName = Status.Name
+            };
+            AddDomainEvent(@event);
         }
     }
 }

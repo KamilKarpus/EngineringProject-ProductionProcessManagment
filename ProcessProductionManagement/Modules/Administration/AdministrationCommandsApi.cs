@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PPM.Administration.Application;
 using PPM.Administration.Application.Commands;
 using PPM.Administration.Application.Commands.AddStep;
+using PPM.Administration.Application.Commands.Flows.ChangeFlowStatus;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Threading.Tasks;
@@ -48,6 +49,20 @@ namespace PPM.Api.Administration
                 ProductionFlowId = flowId
             });
             return Created($"api/administration/{flowId}/steps/", new { id = stepId });
+        }
+        [HttpPut("{flowId}")]
+        [SwaggerOperation(Summary = "Change step status")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ChangeStatepStatus(Guid flowId, [FromBody]Commands.V1.ChangeStatus status)
+        {
+            var stepId = Guid.NewGuid();
+            await _module.ExecuteCommand(new ChangeFlowStatusCommand()
+            {
+                FlowId = flowId,
+                StatusId = status.StatusId
+            });
+            return Ok();
         }
     }
 }
