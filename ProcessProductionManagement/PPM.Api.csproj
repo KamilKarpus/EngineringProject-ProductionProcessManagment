@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PPM.Administration.Infrastucture\PPM.Administration.Infrastucture.csproj" />
+    <ProjectReference Include="..\PPM.Domain\PPM.Domain.csproj" />
     <ProjectReference Include="..\PPM.Locations.Infrastructure\PPM.Locations.Infrastructure.csproj" />
   </ItemGroup>
 

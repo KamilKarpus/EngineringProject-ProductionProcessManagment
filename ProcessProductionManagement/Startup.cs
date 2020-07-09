@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PPM.Administration.Infrastucture;
 using PPM.Api;
+using PPM.Api.Middleware;
+using PPM.Api.Middleware.Exceptions;
 using PPM.Locations.Infrastructure;
 
 namespace ProcessProductionManagement
@@ -21,6 +23,14 @@ namespace ProcessProductionManagement
      
         public void ConfigureServices(IServiceCollection services)
         {
+ 
+            services.AddControllers();
+            services.AddScoped<IExceptionHandler, ExceptionHandler>();
+            services.AddSwaggerGen(c =>
+            {
+                c.EnableAnnotations();
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
             services.AddCors(cfg =>
             {
                 cfg.AddPolicy("CoreClient",
@@ -28,12 +38,6 @@ namespace ProcessProductionManagement
                 {
                     policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                 });
-            });
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.EnableAnnotations();
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
 
         }
@@ -53,18 +57,24 @@ namespace ProcessProductionManagement
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors("CoreClient");
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
 
             app.UseRouting();
+
+            app.UseExceptionMiddleware();
+
+            app.UseSwagger();
+
+            app.UseCors("CoreClient");
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API");
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }
