@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PPM.Locations.Application;
+using PPM.Locations.Application.Queries;
 using PPM.Locations.Application.Queries.Locations;
+using PPM.Locations.Application.Queries.LocationsByName;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -23,6 +25,18 @@ namespace PPM.Api.Modules.Locations
         public async Task<IActionResult> GetLocationShortInfo()
         {
             var result = await _module.ExecuteQuery(new GetLocationsShortInfoListQuery());
+            return Ok(result);
+        }
+        [HttpGet("byName")]
+        [SwaggerOperation(Summary = "Get list of locations by name")]
+        [ProducesResponseType(typeof(List<LocationShortInfo>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetLocationShortInfoByName([FromQuery]Queries.V1.GetLocationByNameShortInfo query)
+        {
+            var result = await _module.ExecuteQuery(new GetLocationsByNameQuery()
+            {
+                Name = query.Name
+            });
             return Ok(result);
         }
     }

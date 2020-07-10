@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PPM.Locations.Application.Queries.Locations
+namespace PPM.Locations.Application.Queries
 {
     public class LocationShortInfo
     {

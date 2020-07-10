@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using PPM.Infrastructure.DataAccess;
 using PPM.Infrastructure.DataAccess.Repositories;
-using PPM.Locations.Application.Queries.Locations;
+using PPM.Locations.Application.Queries;
 using PPM.Locations.Infrastructure.Documents.Locations;
 
 namespace PPM.Locations.Infrastructure.Configuration.DataAcesss

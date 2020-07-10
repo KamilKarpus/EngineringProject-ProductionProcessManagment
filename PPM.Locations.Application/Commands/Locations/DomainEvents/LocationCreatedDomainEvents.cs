@@ -1,6 +1,6 @@
 ﻿using PPM.Application.Events;
 using PPM.Infrastructure.DataAccess.Repositories;
-using PPM.Locations.Application.Queries.Locations;
+using PPM.Locations.Application.Queries;
 using PPM.Locations.Domain.DomainEvents;
 using System.Threading.Tasks;
 
