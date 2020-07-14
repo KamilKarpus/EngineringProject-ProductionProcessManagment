@@ -24,7 +24,7 @@ namespace PPM.Administration.Application.Commands.AddStep
         public async Task<Unit> Handle(AddStepCommand request, CancellationToken cancellationToken)
         {
             var flow = await _repository.GetById(request.ProductionFlowId);
-            if (request == null)
+            if (flow == null)
             {
                 throw new FlowException($"Flow with {request.ProductionFlowId} doesn't exists", ErrorCodes.FlowDoesNotExists);
             }

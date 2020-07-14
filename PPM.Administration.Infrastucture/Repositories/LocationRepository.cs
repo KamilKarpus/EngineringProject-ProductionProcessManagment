@@ -1,8 +1,12 @@
-﻿using PPM.Administration.Domain.Flows;
+﻿using MongoDB.Driver;
+using MongoDB.Driver.Linq;
+using PPM.Administration.Domain.Flows;
 using PPM.Administration.Domain.Repositories;
 using PPM.Administration.Infrastucture.Documents.Flow;
 using PPM.Infrastructure.DataAccess.Repositories;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PPM.Administration.Infrastucture.Repositories
@@ -28,6 +32,12 @@ namespace PPM.Administration.Infrastucture.Repositories
         {
             var result = await _repository.Find(p => p.Id == id);
             return result?.AsEntity();
+        }
+        public async Task<List<Location>> FindMany(Guid[] ids)
+        {
+            var filter = Builders<LocationDocument>.Filter.All("_id", ids);
+            var result = await _repository.Collection.FindAsync(filter);
+            return (await result.ToListAsync()).Select(p=>p.AsEntity()).ToList();
         }
     }
 }

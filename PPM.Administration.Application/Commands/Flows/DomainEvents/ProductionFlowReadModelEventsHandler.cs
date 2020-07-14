@@ -1,6 +1,7 @@
 ﻿using PPM.Administration.Application.ReadModels;
 using PPM.Administration.Domain.Flows.Events;
 using PPM.Administration.Domain.Flows.Events.Steps;
+using PPM.Administration.Domain.Repositories;
 using PPM.Application.Events;
 using PPM.Infrastructure.DataAccess.Repositories;
 using System.Linq;
@@ -13,9 +14,12 @@ namespace PPM.Administration.Application.Commands.Flows.DomainEvents
         IDomainEventHandler<ProductionFlowStatusChangedDomainEvent>
     {
         private readonly IMongoRepository<ProductionFlowReadModel> _repository;
-        public ProductionFlowReadModelEventsHandler(IMongoRepository<ProductionFlowReadModel> repository)
+        private readonly ILocationRepository _locationRepository;
+        public ProductionFlowReadModelEventsHandler(IMongoRepository<ProductionFlowReadModel> repository,
+            ILocationRepository locationRepository)
         {
             _repository = repository;
+            _locationRepository = locationRepository;
         }
         public async Task Handle(ProductionFlowCreatedDomainEvent @event)
         {
@@ -35,6 +39,8 @@ namespace PPM.Administration.Application.Commands.Flows.DomainEvents
         public async Task Handle(StepAddedDomainEvent @event)
         {
             var result = await _repository.Find(p => p.Id == @event.FlowId);
+            var locationIds = @event.Steps.Select(p => p.LocationId).ToArray();
+            var locationInfo = await _locationRepository.FindMany(locationIds);
             result.RequiredDaysToFinish = @event.Days;
             result.Steps = @event.Steps.Select(p => new StepsReadModel()
             {
@@ -43,13 +49,16 @@ namespace PPM.Administration.Application.Commands.Flows.DomainEvents
                 Number = p.Number,
                 Percentage = p.Percentage,
                 StepId = p.StepId,
-                StepName = p.StepName
+                StepName = p.StepName,
+                LocationName = locationInfo.FirstOrDefault(l => l.Id == p.LocationId).Name,
             }).ToList();
             await _repository.Update(p=>p.Id == @event.FlowId, result);
         }
         public async Task Handle(StepDeletedDomainEvent @event)
         {
             var result = await _repository.Find(p => p.Id == @event.FlowId);
+            var locationIds = @event.Steps.Select(p => p.LocationId).ToArray();
+            var locationInfo = await _locationRepository.FindMany(locationIds);
             result.Steps = @event.Steps.Select(p => new StepsReadModel()
             {
                 LocationId = p.LocationId,
@@ -57,7 +66,8 @@ namespace PPM.Administration.Application.Commands.Flows.DomainEvents
                 Number = p.Number,
                 Percentage = p.Percentage,
                 StepId = p.StepId,
-                StepName = p.StepName
+                StepName = p.StepName,
+                LocationName = locationInfo.FirstOrDefault(l => l.Id == p.LocationId).Name,
             }).ToList();
             await _repository.Update(p => p.Id == @event.FlowId, result);
         }
