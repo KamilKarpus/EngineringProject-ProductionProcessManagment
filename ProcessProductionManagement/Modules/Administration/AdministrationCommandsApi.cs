@@ -4,6 +4,7 @@ using PPM.Administration.Application;
 using PPM.Administration.Application.Commands;
 using PPM.Administration.Application.Commands.AddStep;
 using PPM.Administration.Application.Commands.Flows.ChangeFlowStatus;
+using PPM.Administration.Application.Commands.Flows.ChangeStepPosition;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Threading.Tasks;
@@ -36,7 +37,7 @@ namespace PPM.Api.Administration
         [SwaggerOperation(Summary = "Add new Step")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AddStep(Guid flowId,[FromBody]Commands.V1.AddStep step)
+        public async Task<IActionResult> AddStep(Guid flowId, [FromBody]Commands.V1.AddStep step)
         {
             var stepId = Guid.NewGuid();
             await _module.ExecuteCommand(new AddStepCommand
@@ -51,10 +52,10 @@ namespace PPM.Api.Administration
             return Created($"api/administration/{flowId}/steps/", new { id = stepId });
         }
         [HttpPut("{flowId}")]
-        [SwaggerOperation(Summary = "Change step status")]
+        [SwaggerOperation(Summary = "Change flow status")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ChangeStatepStatus(Guid flowId, [FromBody]Commands.V1.ChangeStatus status)
+        public async Task<IActionResult> ChangeFlowStatus(Guid flowId, [FromBody]Commands.V1.ChangeStatus status)
         {
             var stepId = Guid.NewGuid();
             await _module.ExecuteCommand(new ChangeFlowStatusCommand()
@@ -64,5 +65,20 @@ namespace PPM.Api.Administration
             });
             return Ok();
         }
+        [HttpPut("{flowId}/stepsPosition")]
+        [SwaggerOperation(Summary = "Change step position")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ChangeStepPostion(Guid flowId, [FromBody]Commands.V1.ChangeStepPosition body)
+        {
+            await _module.ExecuteCommand(new ChangeStepPositionCommnad()
+            {
+                FlowId = flowId,
+                StepId = body.StepId,
+                StepNumber = body.StepNumber
+            });
+            return Ok();
+        }
+
     }
 }

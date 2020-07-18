@@ -65,7 +65,7 @@ namespace PPM.Administration.DomainTests
         {
 
             var step = _flow.Steps.FirstOrDefault(p => p.StepName == "Test2");
-            _flow.ChangeStepPosition(step.Id, stepData);
+            _flow.ChangeStepPosition(step.Id, stepData,_supportPrinting.Object);
             Assert.Equal(stepData, step.Number.Value);
 
             Assert.Collection(_flow.Steps, item => Assert.Equal(1, item.Number.Value),
@@ -73,6 +73,17 @@ namespace PPM.Administration.DomainTests
                                            item => Assert.Equal(3, item.Number.Value),
                                            item => Assert.Equal(4, item.Number.Value));
 
+        }
+
+        [Fact]
+        private void ChangeStepPosition_DESC_Should_ChangePosition_WhenCountOfStepsIsTwo()
+        {
+            var flow = new ProductionFlow(Guid.NewGuid(), "Test");
+            flow.AddStep(Guid.NewGuid(), "Test", 10, Guid.NewGuid(), 10, _locationExistence.Object, _supportPrinting.Object);
+            flow.AddStep(Guid.NewGuid(), "Test2", 10, Guid.NewGuid(), 20, _locationExistence.Object, _supportPrinting.Object);
+
+            var step = flow.Steps.FirstOrDefault(p => p.StepName == "Test");
+            flow.ChangeStepPosition(step.Id, 2, _supportPrinting.Object);
         }
     }
 }

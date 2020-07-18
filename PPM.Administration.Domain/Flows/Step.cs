@@ -23,9 +23,10 @@ namespace PPM.Administration.Domain.Flows
             StepName = stepName;
             Number = StepNumber.From(stepNumber);
         }
-        public void ChangeStepNumber(int number)
+        public void ChangeStepNumber(int number, Percentage percentage)
         {
             Number = StepNumber.From(number);
+            Percentage = percentage;
         }
     }
 }

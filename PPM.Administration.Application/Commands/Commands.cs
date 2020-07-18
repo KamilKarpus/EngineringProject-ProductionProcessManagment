@@ -22,6 +22,11 @@ namespace PPM.Administration.Application.Commands
             {
                 public int StatusId { get; set; }
             }
+            public class ChangeStepPosition
+            {
+                public Guid StepId { get; set; }
+                public int StepNumber { get; set; }
+            }
         }
     }
 }

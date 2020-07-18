@@ -5,6 +5,7 @@ namespace PPM.Administration.Domain.Flows
 {
     public struct StepNumber : IEquatable<StepNumber>, IComparable<StepNumber>
     {
+        public static StepNumber First = new StepNumber(1);
         public int Value { get; private set; }
         public StepNumber(int value)
         {
@@ -12,6 +13,10 @@ namespace PPM.Administration.Domain.Flows
         }
         public StepNumber GetStepBefore()
         {
+            if(this == First)
+            {
+                return First;
+            }
             return new StepNumber(Value - 1);
         }
         public StepNumber GetStepAfter()

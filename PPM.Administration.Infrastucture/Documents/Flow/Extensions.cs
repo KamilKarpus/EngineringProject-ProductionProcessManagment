@@ -14,6 +14,7 @@ namespace PPM.Administration.Infrastucture.Documents.Flow
             RequiredDaysToFinish = flow.RequiredDaysToFinish,
             Name = flow.Name,
             Status = flow.Status.Id,
+            IsValid = flow.IsValid,
             Steps = flow.GetFieldValue<LinkedList<Step>>("_steps")?.Select(p=>p.ToDocument()).ToArray()
         };
         public static LocationDocument ToDocument(this Location location)
@@ -49,7 +50,7 @@ namespace PPM.Administration.Infrastucture.Documents.Flow
         {
             var enumerableSteps = flow.Steps?.Select(p => p?.ToEntity());
             var steps = enumerableSteps == null ? new LinkedList<Step>() : new LinkedList<Step>(enumerableSteps);
-            return new ProductionFlow(flow.Id, flow.Name, flow.RequiredDaysToFinish, flow.Status, steps);
+            return new ProductionFlow(flow.Id, flow.Name, flow.RequiredDaysToFinish, flow.Status, steps, flow.IsValid);
         }
         
             

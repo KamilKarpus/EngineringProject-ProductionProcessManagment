@@ -35,7 +35,7 @@ namespace PPM.Administration.Infrastucture.Repositories
         }
         public async Task<List<Location>> FindMany(Guid[] ids)
         {
-            var filter = Builders<LocationDocument>.Filter.All("_id", ids);
+            var filter = Builders<LocationDocument>.Filter.In("_id", ids);
             var result = await _repository.Collection.FindAsync(filter);
             return (await result.ToListAsync()).Select(p=>p.AsEntity()).ToList();
         }

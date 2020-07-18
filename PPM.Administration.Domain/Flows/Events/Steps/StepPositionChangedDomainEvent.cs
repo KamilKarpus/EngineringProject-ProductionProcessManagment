@@ -3,14 +3,10 @@ using System;
 
 namespace PPM.Administration.Domain.Flows.Events.Steps
 {
-    public class StepDeletedDomainEvent : DomainEventBase
+    public class StepPositionChangedDomainEvent : DomainEventBase
     {
         public Guid FlowId { get; set; }
         public bool IsValid { get; set; }
-        public StepInfo[] Steps { get; set; }
-        public StepDeletedDomainEvent()
-        {
-
-        }
+        public StepInfo[] Steps {get; set;}
     }
 }

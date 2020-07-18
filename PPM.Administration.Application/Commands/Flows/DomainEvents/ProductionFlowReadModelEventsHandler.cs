@@ -11,7 +11,7 @@ namespace PPM.Administration.Application.Commands.Flows.DomainEvents
 {
     public class ProductionFlowReadModelEventsHandler : IDomainEventHandler<ProductionFlowCreatedDomainEvent>,
         IDomainEventHandler<StepAddedDomainEvent>, IDomainEventHandler<StepDeletedDomainEvent>,
-        IDomainEventHandler<ProductionFlowStatusChangedDomainEvent>
+        IDomainEventHandler<ProductionFlowStatusChangedDomainEvent>, IDomainEventHandler<StepPositionChangedDomainEvent>
     {
         private readonly IMongoRepository<ProductionFlowReadModel> _repository;
         private readonly ILocationRepository _locationRepository;
@@ -33,15 +33,17 @@ namespace PPM.Administration.Application.Commands.Flows.DomainEvents
                     Name = @event.Name,
                     StatusId = @event.StatusId,
                     StatusName = @event.StatusName,
-                });
+                    IsValid = @event.IsValid
+               });
             }
         }
         public async Task Handle(StepAddedDomainEvent @event)
         {
             var result = await _repository.Find(p => p.Id == @event.FlowId);
-            var locationIds = @event.Steps.Select(p => p.LocationId).ToArray();
+            var locationIds = @event.Steps.Select(p => p.LocationId).Distinct().ToArray();
             var locationInfo = await _locationRepository.FindMany(locationIds);
             result.RequiredDaysToFinish = @event.Days;
+            result.IsValid = @event.IsValid;
             result.Steps = @event.Steps.Select(p => new StepsReadModel()
             {
                 LocationId = p.LocationId,
@@ -59,6 +61,7 @@ namespace PPM.Administration.Application.Commands.Flows.DomainEvents
             var result = await _repository.Find(p => p.Id == @event.FlowId);
             var locationIds = @event.Steps.Select(p => p.LocationId).ToArray();
             var locationInfo = await _locationRepository.FindMany(locationIds);
+            result.IsValid = @event.IsValid;
             result.Steps = @event.Steps.Select(p => new StepsReadModel()
             {
                 LocationId = p.LocationId,
@@ -81,6 +84,25 @@ namespace PPM.Administration.Application.Commands.Flows.DomainEvents
                 result.StatusName = @event.StatusName;
                 await _repository.Update(p => p.Id == @event.FlowId, result);
             }
+        }
+
+        public async Task Handle(StepPositionChangedDomainEvent @event)
+        {
+            var result = await _repository.Find(p => p.Id == @event.FlowId);
+            var locationIds = @event.Steps.Select(p => p.LocationId).ToArray();
+            var locationInfo = await _locationRepository.FindMany(locationIds);
+            result.IsValid = @event.IsValid;
+            result.Steps = @event.Steps.Select(p => new StepsReadModel()
+            {
+                LocationId = p.LocationId,
+                MaxDaysRequiredToFinish = p.MaxDaysRequiredToFinish,
+                Number = p.Number,
+                Percentage = p.Percentage,
+                StepId = p.StepId,
+                StepName = p.StepName,
+                LocationName = locationInfo.FirstOrDefault(l => l.Id == p.LocationId).Name,
+            }).ToList();
+            await _repository.Update(p => p.Id == @event.FlowId, result);
         }
     }
 }

@@ -17,13 +17,16 @@ namespace PPM.Infrastructure.EventDispatcher
         }
         public async Task DispatchAsync(params IDomainEvent[] events)
         {
-            foreach (var @event in events)
+            if (events != null)
             {
-                foreach (dynamic handler in GetHandlers(@event))
+                foreach (var @event in events)
                 {
-                   await handler.Handle((dynamic)@event);
-                }
+                    foreach (dynamic handler in GetHandlers(@event))
+                    {
+                        await handler.Handle((dynamic)@event);
+                    }
 
+                }
             }
 
 

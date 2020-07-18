@@ -29,7 +29,9 @@ namespace PPM.Administration.Application.Commands.AddStep
                 throw new FlowException($"Flow with {request.ProductionFlowId} doesn't exists", ErrorCodes.FlowDoesNotExists);
             }
             flow.AddStep(request.Id, request.Name, request.Days, request.LocationId, request.Percentage, _locationExistence, _supportPrinting);
+    
             await _repository.Update(flow);
+  
             return Unit.Value;
         }
     }

@@ -10,6 +10,7 @@ namespace PPM.Administration.Application.ReadModels
         public int RequiredDaysToFinish { get; set; }
         public string StatusName { get; set; }
         public int StatusId { get; set; }
+        public bool IsValid { get; set; }
         public List<StepsReadModel> Steps { get; set; } = new List<StepsReadModel>();
     }
 }

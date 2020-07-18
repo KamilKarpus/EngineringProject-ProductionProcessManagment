@@ -8,6 +8,7 @@ namespace PPM.Administration.Domain.Flows.Events.Steps
         public Guid FlowId { get; set; }
         public StepInfo[] Steps { get; set; }
         public int Days { get; set; }
+        public bool IsValid { get; set; }
         public StepAddedDomainEvent() : base()
         {
 

@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace PPM.Domain.ValueObject
 {
-    public struct Percentage : IEquatable<Percentage>
+    public struct Percentage : IEquatable<Percentage>, IComparable<Percentage>
     {
         public int Value { get; private set; }
 
@@ -21,18 +21,7 @@ namespace PPM.Domain.ValueObject
 
         public int CompareTo(Percentage other)
         {
-            if (Value < other.Value)
-            {
-                return 1;
-            }
-            else if (Value > other.Value)
-            {
-                return -1;
-            }
-            else
-            {
-                return 0;
-            }
+            return Value.CompareTo(other.Value);
         }
 
         public int Compare([AllowNull] Percentage x, [AllowNull] Percentage y)
@@ -51,6 +40,10 @@ namespace PPM.Domain.ValueObject
 
         public static bool operator !=(Percentage a, Percentage b)
             => a.Value != b.Value;
-        
+
+        public static bool operator >=(Percentage a, Percentage b)
+         => a.Value >= b.Value;
+        public static bool operator <=(Percentage a, Percentage b)
+            => a.Value <= b.Value;
     }
 }
