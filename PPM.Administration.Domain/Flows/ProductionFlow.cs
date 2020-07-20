@@ -153,6 +153,7 @@ namespace PPM.Administration.Domain.Flows
         public void ReadyToUse()
         {
             CheckRule(new IsFlowEditableRule(Status));
+            CheckRule(new StepMustBeValidRule(IsValid));
             Status = Status.ReadyToUse;
 
             var @event = new ProductionFlowStatusChangedDomainEvent

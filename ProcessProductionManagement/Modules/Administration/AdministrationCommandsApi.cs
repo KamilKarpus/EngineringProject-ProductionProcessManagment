@@ -57,7 +57,6 @@ namespace PPM.Api.Administration
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> ChangeFlowStatus(Guid flowId, [FromBody]Commands.V1.ChangeStatus status)
         {
-            var stepId = Guid.NewGuid();
             await _module.ExecuteCommand(new ChangeFlowStatusCommand()
             {
                 FlowId = flowId,

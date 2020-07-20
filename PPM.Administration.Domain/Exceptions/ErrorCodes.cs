@@ -12,5 +12,6 @@
         FirstLocationMustSupportPrinting = 1008,
         FlowDoesNotExists = 1009,
         StepNameMustBeUnique = 1010,
+        FlowMustBeValid = 1011
     }
 }
