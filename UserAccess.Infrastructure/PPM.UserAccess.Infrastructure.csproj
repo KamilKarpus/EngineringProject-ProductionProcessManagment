@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PPM.Infrastructure\PPM.Infrastructure.csproj" />
+    <ProjectReference Include="..\PPM.UserAccess.Application\PPM.UserAccess.Application.csproj" />
+    <ProjectReference Include="..\UserAccess.Domain\PPM.UserAccess.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,4 +1,7 @@
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using IdentityServer4.AccessTokenValidation;
+using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +12,11 @@ using PPM.Administration.Infrastucture;
 using PPM.Api;
 using PPM.Api.Middleware;
 using PPM.Api.Middleware.Exceptions;
+using PPM.Api.Modules.Users;
 using PPM.Locations.Infrastructure;
+using PPM.UserAccess.Application.IndentityServer;
+using PPM.UserAccess.Infrastructure;
+using System.Collections.Generic;
 
 namespace ProcessProductionManagement
 {
@@ -26,10 +33,38 @@ namespace ProcessProductionManagement
  
             services.AddControllers();
             services.AddScoped<IExceptionHandler, ExceptionHandler>();
+            ConfigureIdentityServer(services);
             services.AddSwaggerGen(c =>
             {
                 c.EnableAnnotations();
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+
+                        },
+                        new List<string>()
+                    }
+                });
+
             });
             services.AddCors(cfg =>
             {
@@ -41,14 +76,34 @@ namespace ProcessProductionManagement
             });
 
         }
+        private void ConfigureIdentityServer(IServiceCollection services)
+        {
+            services.AddIdentityServer()
+                .AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
+                .AddInMemoryApiResources(IdentityServerConfig.GetApis())
+                .AddInMemoryClients(IdentityServerConfig.GetClients())
+                .AddInMemoryPersistedGrants()
+                .AddProfileService<ProfileService>()
+                .AddDeveloperSigningCredential();
 
+            services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
+
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme, x =>
+                {
+                    x.Authority = Configuration["Authority"];
+                    x.ApiName = "ppmAPI";
+                    x.RequireHttpsMetadata = false;
+                });
+        }
         public virtual void ConfigureContainer(ContainerBuilder builder)
         {
             var databaseSettings = new DatabaseSetttings();
-            
+
             Configuration.GetSection("Database").Bind(databaseSettings);
             builder.UseAdministationModule(databaseSettings.ConnectionString, databaseSettings.DbNameAdministration);
             builder.UseLocationsModule(databaseSettings.ConnectionString, databaseSettings.DbNameLocations);
+            builder.UseAUserModule(databaseSettings.ConnectionString, databaseSettings.DbNameLocations);
         }
    
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -65,6 +120,10 @@ namespace ProcessProductionManagement
             app.UseSwagger();
 
             app.UseCors("CoreClient");
+
+            app.UseIdentityServer();
+
+            app.UseAuthorization();
 
             app.UseSwaggerUI(c =>
             {

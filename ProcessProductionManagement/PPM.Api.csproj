@@ -7,6 +7,8 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.1.0" />
@@ -16,6 +18,8 @@
     <ProjectReference Include="..\PPM.Administration.Infrastucture\PPM.Administration.Infrastucture.csproj" />
     <ProjectReference Include="..\PPM.Domain\PPM.Domain.csproj" />
     <ProjectReference Include="..\PPM.Locations.Infrastructure\PPM.Locations.Infrastructure.csproj" />
+    <ProjectReference Include="..\PPM.UserAccess.Application\PPM.UserAccess.Application.csproj" />
+    <ProjectReference Include="..\UserAccess.Infrastructure\PPM.UserAccess.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
