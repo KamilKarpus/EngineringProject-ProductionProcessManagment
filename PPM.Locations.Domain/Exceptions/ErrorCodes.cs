@@ -7,5 +7,6 @@ namespace PPM.Locations.Domain.Exceptions
     public enum ErrorCodes
     {
         LocatioNameIsTaken = 2001,
+        LocationShortNameUnique = 2002,
     }
 }

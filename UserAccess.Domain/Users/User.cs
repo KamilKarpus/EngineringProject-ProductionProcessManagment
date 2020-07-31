@@ -2,6 +2,7 @@
 using PPM.UserAccess.Domain.Users.Rules;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PPM.UserAccess.Domain.Users
 {
@@ -46,6 +47,11 @@ namespace PPM.UserAccess.Domain.Users
             IUserLoginAvailability counter)
         {
             return new User(id, login, password, firstName, lastName, jobPostion, counter);
+        }
+
+        public void ChangePermissions(IEnumerable<UserPermission> permissions)
+        {
+            Permissions = permissions.ToList();
         }
 
     }

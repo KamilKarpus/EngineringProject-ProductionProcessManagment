@@ -33,7 +33,7 @@ namespace PPM.Locations.Infrastructure.Documents.Locations
                 Attributes = location.Attributes?.ToDocument(),
                 Height = location.Height.Value,
                 Id = location.Id,
-                Description = location.Description,
+                Description = location?.Description,
                 Name = location.Name,
                 Packages = location.Packages?.Select(p => p.ToDocument()).ToList(),
                 ShortName = location.ShortName,

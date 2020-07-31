@@ -2,6 +2,7 @@
 using PPM.UserAccess.Domain.Users;
 using PPM.UserAccess.Domain.Users.Repository;
 using PPM.UserAccess.Infrastructure.Documents;
+using System;
 using System.Threading.Tasks;
 
 namespace PPM.UserAccess.Infrastructure.Repository
@@ -28,6 +29,17 @@ namespace PPM.UserAccess.Infrastructure.Repository
         {
             var result = await _repository.ExistsAsync(p => p.Login == login);
             return result;
+        }
+
+        public async Task Update(User user)
+        {
+            await _repository.Update(p => p.Id == user.Id, user.ToDocument());
+        }
+
+        public async Task<User> GetById(Guid id)
+        {
+            var result = await _repository.Find(p => p.Id == id);
+            return result?.AsEntity();
         }
     }
 }

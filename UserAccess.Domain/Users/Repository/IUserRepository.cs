@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PPM.UserAccess.Domain.Users.Repository
@@ -8,5 +9,7 @@ namespace PPM.UserAccess.Domain.Users.Repository
         public Task Add(User user);
         public Task<User> GetByLogin(string login);
         public Task<bool> Exists(string login);
+        public Task Update(User user);
+        public Task<User> GetById(Guid id);
     }
 }

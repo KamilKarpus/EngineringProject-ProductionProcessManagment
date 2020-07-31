@@ -2,6 +2,7 @@
 {
     public enum ErrorCodes
     {
-        LoginTaken = 1301
+        LoginTaken = 1301,
+        UserNotFound = 1302
     }
 }
