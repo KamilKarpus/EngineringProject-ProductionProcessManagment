@@ -18,6 +18,7 @@
     <ProjectReference Include="..\PPM.Administration.Infrastucture\PPM.Administration.Infrastucture.csproj" />
     <ProjectReference Include="..\PPM.Domain\PPM.Domain.csproj" />
     <ProjectReference Include="..\PPM.Locations.Infrastructure\PPM.Locations.Infrastructure.csproj" />
+    <ProjectReference Include="..\PPM.Orders.Infrastructure\PPM.Orders.Infrastructure.csproj" />
     <ProjectReference Include="..\PPM.UserAccess.Application\PPM.UserAccess.Application.csproj" />
     <ProjectReference Include="..\UserAccess.Infrastructure\PPM.UserAccess.Infrastructure.csproj" />
   </ItemGroup>

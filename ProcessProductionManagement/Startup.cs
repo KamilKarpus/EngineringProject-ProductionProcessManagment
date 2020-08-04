@@ -1,5 +1,4 @@
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +16,7 @@ using PPM.Locations.Infrastructure;
 using PPM.UserAccess.Application.IndentityServer;
 using PPM.UserAccess.Infrastructure;
 using System.Collections.Generic;
+using PPM.Orders.Infrastructure;
 
 namespace ProcessProductionManagement
 {
@@ -103,7 +103,8 @@ namespace ProcessProductionManagement
             Configuration.GetSection("Database").Bind(databaseSettings);
             builder.UseAdministationModule(databaseSettings.ConnectionString, databaseSettings.DbNameAdministration);
             builder.UseLocationsModule(databaseSettings.ConnectionString, databaseSettings.DbNameLocations);
-            builder.UseAUserModule(databaseSettings.ConnectionString, databaseSettings.DbNameLocations);
+            builder.UseAUserModule(databaseSettings.ConnectionString, databaseSettings.DbNameUsers);
+            builder.UseOrdersModule(databaseSettings.ConnectionString, databaseSettings.DbNameOrders);
         }
    
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

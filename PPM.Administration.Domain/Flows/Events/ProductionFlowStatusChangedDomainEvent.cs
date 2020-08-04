@@ -8,5 +8,6 @@ namespace PPM.Administration.Domain.Flows.Events
         public Guid FlowId { get; set; }
         public string StatusName { get; set; }
         public int StatusId { get; set; }
+        public string FlowName { get; set; }
     }
 }

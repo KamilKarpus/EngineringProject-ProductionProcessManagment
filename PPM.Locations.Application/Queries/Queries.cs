@@ -8,7 +8,11 @@
             {
                 public string Name { get; set; }
             }
-
+            public class GetLocationsListQuery
+            {
+                public int PageNumber { get; set; }
+                public int PageSize { get; set; }
+            }
         }
     }
 }

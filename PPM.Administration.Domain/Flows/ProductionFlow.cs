@@ -160,7 +160,8 @@ namespace PPM.Administration.Domain.Flows
             {
                 FlowId = Id,
                 StatusId = Status.Id,
-                StatusName = Status.Name
+                StatusName = Status.Name,
+                FlowName = Name
             };
             AddDomainEvent(@event);
 
@@ -174,7 +175,8 @@ namespace PPM.Administration.Domain.Flows
             {
                 FlowId = Id,
                 StatusId = Status.Id,
-                StatusName = Status.Name
+                StatusName = Status.Name,
+                FlowName = Name
             };
             AddDomainEvent(@event);
         }

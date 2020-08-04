@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PPM.Infrastructure.Paggination;
 using PPM.Locations.Application;
 using PPM.Locations.Application.Queries;
 using PPM.Locations.Application.Queries.Locations;
@@ -20,11 +21,15 @@ namespace PPM.Api.Modules.Locations
         }
         [HttpGet]
         [SwaggerOperation(Summary = "Get list of locations short info")]
-        [ProducesResponseType(typeof(List<LocationShortInfo>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedList<LocationShortInfo>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetLocationShortInfo()
+        public async Task<IActionResult> GetLocationShortInfo([FromQuery]Queries.V1.GetLocationsListQuery query)
         {
-            var result = await _module.ExecuteQuery(new GetLocationsShortInfoListQuery());
+            var result = await _module.ExecuteQuery(new GetLocationsShortInfoListQuery()
+            {
+                PageNumber = query.PageNumber,
+                PageSize = query.PageSize
+            });
             return Ok(result);
         }
         [HttpGet("byName")]

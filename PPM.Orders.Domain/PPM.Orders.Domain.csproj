@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PPM.Domain\PPM.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
