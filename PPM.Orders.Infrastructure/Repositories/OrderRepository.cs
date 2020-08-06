@@ -1,4 +1,5 @@
-﻿using PPM.Infrastructure.DataAccess.Repositories;
+﻿using MongoDB.Driver;
+using PPM.Infrastructure.DataAccess.Repositories;
 using PPM.Infrastructure.EventDispatcher;
 using PPM.Orders.Domain;
 using PPM.Orders.Domain.Repositories;
@@ -31,10 +32,22 @@ namespace PPM.Orders.Infrastructure.Repositories
             return result?.AsEntity();
         }
 
+        public async Task<OrderNumber> GetLastNumber()
+        {
+            var result = _repository.Collection.AsQueryable().Where(p => p.NumberYear == DateTime.Now.Year)
+                .Select(p => p.OrderNumber).ToList();
+            int number = 0;
+            if (result.Any())
+            {
+                number = result.DefaultIfEmpty(0).Max();
+            }
+            return OrderNumber.From(number);
+        }
+
         public async Task Update(Order order)
         {
             await _repository.Update(p => p.Id == order.Id, order.ToDocument());
-            await _dispatcher.DispatchAsync(order.DomainEvents.ToArray());
+            await _dispatcher.DispatchAsync(order.DomainEvents?.ToArray());;
         }
     }
 }

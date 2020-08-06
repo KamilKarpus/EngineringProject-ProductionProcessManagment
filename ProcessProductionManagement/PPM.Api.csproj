@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.9.2" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Autofac" Version="4.9.4" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.9.2" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
 
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.1.0" />

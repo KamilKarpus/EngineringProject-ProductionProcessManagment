@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -40,7 +41,12 @@ namespace PPM.Infrastructure.DataAccess.Repositories
 
         public async Task Update(Expression<Func<T, bool>> predicate, T entity)
         {
-            await _collection.ReplaceOneAsync(predicate,entity);
+            await _collection.ReplaceOneAsync(predicate, entity);
+        }
+        public async Task<List<T>> FindMany(Expression<Func<T, bool>> predicate)
+        {
+            var result = await _collection.FindAsync(predicate);
+            return await result.ToListAsync();
         }
     }
 }

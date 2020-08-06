@@ -9,5 +9,6 @@ namespace PPM.Orders.Domain.Repositories
         Task<Order> GetbyId(Guid id);
         Task AddAsync(Order order);
         Task Update(Order oder);
+        Task<OrderNumber> GetLastNumber();
     }
 }

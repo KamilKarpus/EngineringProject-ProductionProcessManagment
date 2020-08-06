@@ -14,5 +14,15 @@ namespace PPM.Orders.Domain
         }
         public static OrderNumber First
             => new OrderNumber(1, DateTime.Now.Year);
+
+        public static OrderNumber From(int number)
+        {
+            return new OrderNumber(number, DateTime.Now.Year);
+        }
+
+        public OrderNumber Next()
+        {
+            return new OrderNumber(Number + 1, Year);
+        }
     }
 }

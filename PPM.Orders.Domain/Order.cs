@@ -30,25 +30,31 @@ namespace PPM.Orders.Domain
             OrderedDate = ordered;
             Flow = flow;
 
-            var @event = new OrderCreatedDomainEvent()
-            {
-                OrderId = Id,
-                StatusId = Status.Id,
-                StatusName = Status.Name,
-                DeliveryDate = DeliveryDate,
-                OrderedDate = OrderedDate,
-                CompanyName = CompanyName,
-                FlowId = Flow.Id,
-                FlowName = Flow.Name
-             };
-            AddDomainEvent(@event);
         }
 
         public static Order Create(Guid id, string companyName, DateTime deliveryDate,
             ProductionFlow flow)
         {
-            return new Order(id, companyName, deliveryDate, new HashSet<Package>(), flow,
+            var order = new Order(id, companyName, deliveryDate, new HashSet<Package>(), flow,
                 DateTime.Now, OrderStatus.InProgress);
+            var @event = new OrderCreatedDomainEvent()
+            {
+                OrderId = order.Id,
+                StatusId = order.Status.Id,
+                StatusName = order.Status.Name,
+                DeliveryDate = order.DeliveryDate,
+                OrderedDate = order.OrderedDate,
+                CompanyName = order.CompanyName,
+                FlowId = order.Flow.Id,
+                FlowName = order.Flow.Name
+            };
+            order.AddDomainEvent(@event);
+            return order;
+        }
+
+        public void AssignNumber(OrderNumber number)
+        {
+            Number = number;
         }
 
         public void AddPackage(Guid id, Kilograms weight, Meters height, Meters width)
