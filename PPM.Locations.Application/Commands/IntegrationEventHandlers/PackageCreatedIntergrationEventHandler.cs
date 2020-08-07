@@ -23,7 +23,8 @@ namespace PPM.Locations.Application.Commands.IntegrationEventHandlers
             var location = await _repository.GetLocationById(initialLocationId);
             if (location != null)
             {
-                location.AddPackage(notification.PackageId, notification.Height, notification.Weight, notification.Width, notification.Progress);
+                location.AddPackage(notification.PackageId, notification.Height, notification.Weight, notification.Width, notification.Progress,
+                    notification.OrderId);
                 await _repository.Update(location);
             }
            
