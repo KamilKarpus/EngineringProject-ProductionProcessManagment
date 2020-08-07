@@ -11,7 +11,7 @@ namespace PPM.Locations.Domain
 {
     public class Location : Entity, IAggregateRoot
     {
-        HashSet<Package> _packages;
+        private HashSet<Package> _packages;
         public Guid Id { get; private set; }
         public string Name { get; private set; }
         public LocationType Type { get; private set; }
@@ -71,6 +71,13 @@ namespace PPM.Locations.Domain
         {
             var attributes = new LocationAttributes(handleQr);
             return new Location(id, name, typeId, description, width, height, attributes, shortName, new HashSet<Package>(), uniqueShortName, uniqueName);
+        }
+
+        public void AddPackage(Guid id, decimal weight, decimal height, decimal width,
+            int progress, Guid orderId)
+        {
+            var package = new Package(id,  weight, height, width, progress, orderId);
+            _packages.Add(package);
         }
     }
 }

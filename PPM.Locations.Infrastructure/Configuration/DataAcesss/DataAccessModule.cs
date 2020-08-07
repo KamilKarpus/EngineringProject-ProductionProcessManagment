@@ -2,6 +2,7 @@
 using PPM.Infrastructure.DataAccess;
 using PPM.Infrastructure.DataAccess.Repositories;
 using PPM.Locations.Application.Queries;
+using PPM.Locations.Infrastructure.Documents.Flow;
 using PPM.Locations.Infrastructure.Documents.Locations;
 
 namespace PPM.Locations.Infrastructure.Configuration.DataAcesss
@@ -29,6 +30,11 @@ namespace PPM.Locations.Infrastructure.Configuration.DataAcesss
             builder.RegisterType<MongoRepository<LocationShortInfo>>()
              .As<IMongoRepository<LocationShortInfo>>()
              .WithParameter("collectionName", "ppm_locations_shortInfo");
+
+
+            builder.RegisterType<MongoRepository<ProductionFlowDocument>>()
+             .As<IMongoRepository<ProductionFlowDocument>>()
+             .WithParameter("collectionName", "ppm_locations_flows");
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .Where(type => type.Name.EndsWith("Repository"))

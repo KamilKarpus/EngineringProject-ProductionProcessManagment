@@ -7,18 +7,20 @@ namespace PPM.Locations.Domain
     public class Package
     {
         public Guid Id { get; private set; }
-        public string Name { get; private set; }
         public Kilograms Weight { get; private set; }
         public Meters Height { get; private set; }
         public Meters Width { get; private set; }
-
-        public Package(Guid id, string name, decimal weight, decimal height, decimal width)
+        public Percentage Progress { get; private set; }
+        public Guid OrderId { get; private set; }
+        public Package(Guid id, decimal weight, decimal height, decimal width,
+            int progress, Guid orderId)
         {
             Id = id;
-            Name = name;
             Weight = Kilograms.FromDecimal(weight);
             Height = Meters.FromDecimal(height);
             Width = Meters.FromDecimal(width);
+            Progress = Percentage.Of(progress);
+            OrderId = orderId;
         }
     }
 }

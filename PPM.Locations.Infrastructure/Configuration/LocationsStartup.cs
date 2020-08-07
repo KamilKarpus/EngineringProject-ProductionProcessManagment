@@ -19,6 +19,7 @@ namespace PPM.Locations.Infrastructure.Configuration
             containerBuilder.RegisterModule(new DomainModule());
             var container = containerBuilder.Build();
             LocationCompositionRoot.SetContainer(container);
+            EventBusStartup.Initialize();
         }
     }
 }

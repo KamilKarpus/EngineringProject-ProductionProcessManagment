@@ -11,8 +11,6 @@ namespace PPM.Orders.Infrastructure.Documents.Orders
             return new OrderDocument()
             {
                 Id = order.Id,
-                FlowId = order.Flow.Id,
-                FlowName = order.Flow.Name,
                 DeliveryDate = order.DeliveryDate,
                 CompanyName = order.CompanyName,
                 NumberYear = order.Number != null ? order.Number.Year : 0,
@@ -20,6 +18,7 @@ namespace PPM.Orders.Infrastructure.Documents.Orders
                 OrderedDate = order.OrderedDate,
                 Status = order.Status.Id,
                 Packages = order.Packages?.Select(p=>p.ToDocument()).ToList(),
+                Description = order.Description
             };
         }
 
@@ -32,7 +31,9 @@ namespace PPM.Orders.Infrastructure.Documents.Orders
                 Number = package.Number.Value,
                 Progress = package.Progress.Value,
                 Weight = package.Weight.Value,
-                Width = package.Width.Value
+                Width = package.Width.Value,
+                FlowId = package.Flow.Id,
+                FlowName = package.Flow.Name
             };
         }
 
@@ -40,15 +41,14 @@ namespace PPM.Orders.Infrastructure.Documents.Orders
         {
             return new Package(package.Id, Kilograms.FromDecimal(package.Weight),
                 Meters.FromDecimal(package.Height), Meters.FromDecimal(package.Width),
-                PackageNumber.From(package.Number), Percentage.Of(package.Progress));
+                PackageNumber.From(package.Number), Percentage.Of(package.Progress), new ProductionFlow(package.FlowId, package.FlowName));
         }
 
         public static Order AsEntity(this OrderDocument order)
         {
             return new Order(order.Id, order.CompanyName, order.DeliveryDate,
                 order.Packages?.Select(p => p.AsEntity()).ToHashSet(),
-                new ProductionFlow(order.FlowId, order.FlowName),
-                order.OrderedDate, OrderStatus.From(order.Status));
+                order.OrderedDate, OrderStatus.From(order.Status), order.Description);
         }
     }
 }

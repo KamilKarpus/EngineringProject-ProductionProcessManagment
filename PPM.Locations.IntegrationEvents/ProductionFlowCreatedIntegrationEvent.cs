@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace PPM.Administration.IntegrationEvents
+namespace PPM.Locations.IntegrationEvents
 {
     public class ProductionFlowCreatedIntegrationEvent : IntegrationEvent
     {
@@ -28,5 +28,4 @@ namespace PPM.Administration.IntegrationEvents
         public int MaxDaysRequiredToFinish { get; set; }
         public int Number { get; set; }
     }
-     
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace PPM.Administration.Domain.Flows.Events.Steps
+namespace PPM.Locations.Infrastructure.Documents.Flow
 {
-    public class StepInfo
+    public class StepDocument
     {
-        public Guid StepId { get; set; }
+        public Guid Id { get; set; }
         public Guid LocationId { get; set; }
         public int Percentage { get; set; }
         public string StepName { get; set; }

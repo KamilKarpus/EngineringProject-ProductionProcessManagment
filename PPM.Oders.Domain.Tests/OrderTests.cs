@@ -11,13 +11,13 @@ namespace PPM.Oders.Domain.Tests
         private readonly Order _order;
         public PackageTests()
         {
-            _order = Order.Create(Guid.NewGuid(), "Test", DateTime.Now, new ProductionFlow(Guid.NewGuid(), "Test"));
+            _order = Order.Create(Guid.NewGuid(), "Test", DateTime.Now, "Test");
         }
         [Fact]
         public void Order_AddPackage_Package_Should_Have_Initial_Value()
         {
             var packageId = Guid.NewGuid();
-            _order.AddPackage(packageId, Kilograms.FromDecimal(100), Meters.FromDecimal(100), Meters.FromDecimal(50));
+            _order.AddPackage(packageId, Kilograms.FromDecimal(100), Meters.FromDecimal(100), Meters.FromDecimal(50), new ProductionFlow(Guid.NewGuid(), "Test"));
             var package = _order.Packages.FirstOrDefault(p => p.Id == packageId);
             Assert.Equal(package.Number, PackageNumber.First);
         }
@@ -25,10 +25,10 @@ namespace PPM.Oders.Domain.Tests
         public void Order_AddMany_Packages_Should_Packages_Should_Be_Numbered_Asceding()
         {
 
-            _order.AddPackage(Guid.NewGuid(), Kilograms.FromDecimal(100), Meters.FromDecimal(100), Meters.FromDecimal(50));
-            _order.AddPackage(Guid.NewGuid(), Kilograms.FromDecimal(100), Meters.FromDecimal(100), Meters.FromDecimal(50));
-            _order.AddPackage(Guid.NewGuid(), Kilograms.FromDecimal(100), Meters.FromDecimal(100), Meters.FromDecimal(50));
-            _order.AddPackage(Guid.NewGuid(), Kilograms.FromDecimal(100), Meters.FromDecimal(100), Meters.FromDecimal(50));
+            _order.AddPackage(Guid.NewGuid(), Kilograms.FromDecimal(100), Meters.FromDecimal(100), Meters.FromDecimal(50), new ProductionFlow(Guid.NewGuid(), "Test"));
+            _order.AddPackage(Guid.NewGuid(), Kilograms.FromDecimal(100), Meters.FromDecimal(100), Meters.FromDecimal(50), new ProductionFlow(Guid.NewGuid(), "Test"));
+            _order.AddPackage(Guid.NewGuid(), Kilograms.FromDecimal(100), Meters.FromDecimal(100), Meters.FromDecimal(50), new ProductionFlow(Guid.NewGuid(), "Test"));
+            _order.AddPackage(Guid.NewGuid(), Kilograms.FromDecimal(100), Meters.FromDecimal(100), Meters.FromDecimal(50), new ProductionFlow(Guid.NewGuid(), "Test"));
             Assert.Collection(_order.Packages, item => Assert.Equal(PackageNumber.First, item.Number),
                                                item => Assert.Equal(new PackageNumber(2), item.Number),
                                                item => Assert.Equal(new PackageNumber(3), item.Number),

@@ -38,6 +38,10 @@ namespace PPM.Orders.Infrastructure.Configuration.DataAccess
               .AsImplementedInterfaces()
               .WithParameter("collectionName", "ppm_orders_readmodels");
 
+            builder.RegisterType<MongoRepository<OrderShortViewModel>>()
+             .AsImplementedInterfaces()
+             .WithParameter("collectionName", "ppm_orders_shortreadmodels");
+
             builder.RegisterType<MongoRepository<InternalCommand>>()
                 .AsImplementedInterfaces()
                 .WithParameter("collectionName", "ppm_orders_internalCommands");

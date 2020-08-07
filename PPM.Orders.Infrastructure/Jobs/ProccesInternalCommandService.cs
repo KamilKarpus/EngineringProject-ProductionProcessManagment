@@ -1,7 +1,5 @@
 ﻿using Autofac;
 using MediatR;
-using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 using Newtonsoft.Json;
 using Polly;
 using PPM.Infrastructure.DataAccess.Repositories;

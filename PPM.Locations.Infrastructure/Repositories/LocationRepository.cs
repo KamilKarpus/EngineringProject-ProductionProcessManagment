@@ -37,5 +37,11 @@ namespace PPM.Locations.Infrastructure.Repositories
             var result = await _repository.Find(p => p.Name == name);
             return result?.AsEntity();
         }
+
+        public async Task Update(Location location)
+        {
+            await _repository.Update(p=>p.Id == location.Id,location.ToDocument());
+            await _dispatcher.DispatchAsync(location.DomainEvents?.ToArray());
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace PPM.Orders.Domain.DomainEvents
         public string StatusName { get; set; }
         public Guid FlowId { get; set; }
         public string FlowName { get; set; }
+        public string Description { get; set; }
     }
 }

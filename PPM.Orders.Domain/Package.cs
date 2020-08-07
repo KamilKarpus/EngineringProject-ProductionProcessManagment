@@ -11,8 +11,9 @@ namespace PPM.Orders.Domain
         public Meters Width { get; private set; }
         public PackageNumber Number { get; private set; }
         public Percentage Progress { get; private set; }
+        public ProductionFlow Flow { get; private set; }
 
-        public Package(Guid id, Kilograms weight, Meters height, Meters width, PackageNumber number, Percentage progress)
+        public Package(Guid id, Kilograms weight, Meters height, Meters width, PackageNumber number, Percentage progress, ProductionFlow flow)
         {
             Id = id;
             Weight = weight;
@@ -20,6 +21,7 @@ namespace PPM.Orders.Domain
             Width = width;
             Number = number;
             Progress = progress;
+            Flow = flow;
         }
 
     }

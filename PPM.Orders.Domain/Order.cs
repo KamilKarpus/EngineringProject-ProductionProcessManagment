@@ -16,11 +16,12 @@ namespace PPM.Orders.Domain
         public DateTime DeliveryDate { get; private set; }
         public OrderNumber Number { get; private set; }
         public OrderStatus Status { get; private set; }
-        public ProductionFlow Flow { get; private set; }
+        public string Description { get; private set; }
         public IReadOnlyCollection<Package> Packages { get => _packages; }
 
         public Order(Guid id, string name, DateTime deliveryDate,
-            HashSet<Package> packages, ProductionFlow flow, DateTime ordered, OrderStatus status)
+            HashSet<Package> packages, DateTime ordered, OrderStatus status,
+            string description)
         {
             Id = id;
             CompanyName = name;
@@ -28,15 +29,14 @@ namespace PPM.Orders.Domain
             _packages = packages;
             Status = status;
             OrderedDate = ordered;
-            Flow = flow;
+            Description = description;
 
         }
 
-        public static Order Create(Guid id, string companyName, DateTime deliveryDate,
-            ProductionFlow flow)
+        public static Order Create(Guid id, string companyName, DateTime deliveryDate, string description)        
         {
-            var order = new Order(id, companyName, deliveryDate, new HashSet<Package>(), flow,
-                DateTime.Now, OrderStatus.InProgress);
+            var order = new Order(id, companyName, deliveryDate, new HashSet<Package>(),
+                DateTime.Now, OrderStatus.InProgress, description);
             var @event = new OrderCreatedDomainEvent()
             {
                 OrderId = order.Id,
@@ -45,8 +45,7 @@ namespace PPM.Orders.Domain
                 DeliveryDate = order.DeliveryDate,
                 OrderedDate = order.OrderedDate,
                 CompanyName = order.CompanyName,
-                FlowId = order.Flow.Id,
-                FlowName = order.Flow.Name
+                Description = order.Description
             };
             order.AddDomainEvent(@event);
             return order;
@@ -55,16 +54,23 @@ namespace PPM.Orders.Domain
         public void AssignNumber(OrderNumber number)
         {
             Number = number;
+            var @event = new NumberAssignedDomainEvent()
+            {
+                OrderId = Id,
+                OrderNumber = number.Number,
+                OrderYear = number.Year
+            };
+            AddDomainEvent(@event);
         }
 
-        public void AddPackage(Guid id, Kilograms weight, Meters height, Meters width)
+        public void AddPackage(Guid id, Kilograms weight, Meters height, Meters width, ProductionFlow flow)
         {
             var number = PackageNumber.First;
             if (_packages.Any())
             {
                 number = _packages.Max(p => p.Number).Next();
             }
-            _packages.Add(new Package(id, weight, height, width, number, Percentage.Zero));
+            _packages.Add(new Package(id, weight, height, width, number, Percentage.Zero, flow));
 
             var @event = new PackageAddedDomainEvent()
             {
@@ -75,6 +81,10 @@ namespace PPM.Orders.Domain
                 Progress = Percentage.Zero.Value,
                 Number = number.Value,
                 Width = width.Value,
+                StatusId = Status.Id,
+                StatusName = Status.Name,
+                FlowId = flow.Id,
+                FlowName = flow.Name
             };
             AddDomainEvent(@event);
         }

@@ -161,7 +161,8 @@ namespace PPM.Administration.Domain.Flows
                 FlowId = Id,
                 StatusId = Status.Id,
                 StatusName = Status.Name,
-                FlowName = Name
+                FlowName = Name,
+                Steps = _steps.ToInfoArray()
             };
             AddDomainEvent(@event);
 
@@ -176,7 +177,8 @@ namespace PPM.Administration.Domain.Flows
                 FlowId = Id,
                 StatusId = Status.Id,
                 StatusName = Status.Name,
-                FlowName = Name
+                FlowName = Name,
+                Steps = _steps.ToInfoArray()
             };
             AddDomainEvent(@event);
         }

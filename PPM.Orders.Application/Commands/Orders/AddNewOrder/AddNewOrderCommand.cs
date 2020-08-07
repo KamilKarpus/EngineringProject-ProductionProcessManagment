@@ -8,6 +8,6 @@ namespace PPM.Orders.Application.Commands.Orders.AddNewOrder
         public Guid Id { get; set; }
         public string CompanyName { get; set; }
         public DateTime DeliveryDate { get; set; }
-        public Guid FlowId { get; set; }
+        public string Description { get; set; }
     }
 }

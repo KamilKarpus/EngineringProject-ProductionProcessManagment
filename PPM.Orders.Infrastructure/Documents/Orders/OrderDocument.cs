@@ -12,8 +12,7 @@ namespace PPM.Orders.Infrastructure.Documents.Orders
         public int OrderNumber { get;  set; }
         public int NumberYear { get; set; }
         public int Status { get; set; }
-        public Guid FlowId { get; set; }
-        public string FlowName { get; set; }
+        public string Description { get; set; }
         public List<PackageDocument> Packages { get; set; } 
     }
 }

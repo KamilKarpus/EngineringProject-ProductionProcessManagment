@@ -8,5 +8,6 @@ namespace PPM.Locations.Domain.Repositories
         Task<Location> GetLocationById(Guid id);
         Task AddAsync(Location location);
         Task<Location> GetLocationByName(string name);
+        Task Update(Location location);
     }
 }
