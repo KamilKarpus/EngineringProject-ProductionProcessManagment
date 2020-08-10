@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace PPM.Locations.Domain
 {
-    public class LocationType
+    public class LocationType : IEquatable<LocationType>
     {
         public int Id { get; private set; }
         public string Name { get; private set; }
@@ -22,5 +24,18 @@ namespace PPM.Locations.Domain
 
         public static LocationType From(int id)
             => _types.FirstOrDefault(p => p.Id == id);
+
+        public bool Equals(LocationType other)
+        {
+            return Id == other.Id;
+        }
+        public static bool operator==(LocationType a, LocationType b)
+        {
+            return a.Equals(b);
+        }
+        public static bool operator !=(LocationType a, LocationType b)
+        {
+            return a!.Equals(b);
+        }
     }
 }

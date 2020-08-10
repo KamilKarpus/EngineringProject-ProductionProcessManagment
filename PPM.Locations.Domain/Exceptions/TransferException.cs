@@ -2,11 +2,11 @@
 
 namespace PPM.Locations.Domain.Exceptions
 {
-    public class LocationException : PPMException
+    public class TransferException : PPMException
     {
         private readonly ErrorCodes _code;
         private readonly string _message;
-        public LocationException(string message, ErrorCodes code) : base(message)
+        public TransferException(string message, ErrorCodes code) : base(message)
         {
             _code = code;
             _message = message;

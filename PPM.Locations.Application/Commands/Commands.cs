@@ -18,7 +18,12 @@ namespace PPM.Locations.Application.Commands
                 public decimal Width { get; set; }
                 public string ShortName { get; set; }
             }
+            public class CreateTransfer
+            {
+                public Guid PackageId { get; set; }
+                public Guid FromLocationId { get; set; }
+                public Guid ToLocationId { get; set; }
+            }
         }
-
     }
 }

@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using PPM.Infrastructure.Paggination;
 using PPM.Locations.Application;
 using PPM.Locations.Application.Queries;
+using PPM.Locations.Application.Queries.LocationInfo;
 using PPM.Locations.Application.Queries.Locations;
 using PPM.Locations.Application.Queries.LocationsByName;
+using PPM.Locations.Application.ReadModels;
 using Swashbuckle.AspNetCore.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -41,6 +44,19 @@ namespace PPM.Api.Modules.Locations
             var result = await _module.ExecuteQuery(new GetLocationsByNameQuery()
             {
                 Name = query.Name
+            });
+            return Ok(result);
+        }
+
+        [HttpGet("{locationId}")]
+        [SwaggerOperation(Summary = "Get list of location info by id")]
+        [ProducesResponseType(typeof(LocationReadModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetLocatioInfo(Guid locationId)
+        {
+            var result = await _module.ExecuteQuery(new GetLocationInfoQuery
+            {
+                LocationId = locationId
             });
             return Ok(result);
         }

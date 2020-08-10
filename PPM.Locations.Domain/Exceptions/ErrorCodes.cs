@@ -8,5 +8,8 @@ namespace PPM.Locations.Domain.Exceptions
     {
         LocatioNameIsTaken = 2001,
         LocationShortNameUnique = 2002,
+        PackageCannotBeMoved = 2003,
+        TransferNotFound = 2004,
+        LocationNotFound = 2005,
     }
 }

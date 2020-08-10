@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 namespace PPM.Api.Locations
 {
     [ApiController, Route("api/locations")]
-    public class LocationsCommandHandler : Controller
+    public class LocationsCommandApi : Controller
     {
         private readonly ILocationModule _module;
-        public LocationsCommandHandler(ILocationModule module)
+        public LocationsCommandApi(ILocationModule module)
         {
             _module = module;
         }

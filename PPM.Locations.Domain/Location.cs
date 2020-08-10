@@ -40,7 +40,12 @@ namespace PPM.Locations.Domain
             {
                 Name = Name,
                 LocationId = Id,
-                SupportQR = Attributes.IsHandleQrCode
+                SupportQR = Attributes.IsHandleQrCode,
+                Width = Width.Value,
+                Height = Height.Value,
+                ShortName = ShortName,
+                LocationType = Type.Id,
+                Description = Description
             };
             AddDomainEvent(@event);
 
@@ -57,14 +62,6 @@ namespace PPM.Locations.Domain
             Attributes = attributes;
             ShortName = shortName;
             _packages = packages;
-
-            var @event = new LocationCreatedDomainEvent()
-            {
-                Name = Name,
-                LocationId = Id,
-                SupportQR = Attributes.IsHandleQrCode
-            };
-            AddDomainEvent(@event);
         }
         public static Location Create(Guid id, string name, int typeId, string description, decimal width, decimal height,
             bool handleQr, string shortName, IUniqueShortName uniqueShortName, IUniqueName uniqueName)
@@ -78,6 +75,31 @@ namespace PPM.Locations.Domain
         {
             var package = new Package(id,  weight, height, width, progress, orderId);
             _packages.Add(package);
+
+            var @event = new PackageAddedDominEvent()
+            {
+                PackagedId = id,
+                Weight = weight,
+                Height = height,
+                Width = width,
+                Progress = progress,
+                OrderId = orderId,
+                LocationId = Id
+            };
+            AddDomainEvent(@event);
+        }
+
+        public void DeletePackage(Guid id)
+        {
+            var package = _packages.FirstOrDefault(p => p.Id == id);
+            _packages.Remove(package);
+
+            var @event = new PackageDeletedDomainEvent()
+            {
+                PackageId = package.Id,
+                LocationId = Id
+            };
+            AddDomainEvent(@event);
         }
     }
 }

@@ -2,8 +2,10 @@
 using PPM.Infrastructure.DataAccess;
 using PPM.Infrastructure.DataAccess.Repositories;
 using PPM.Locations.Application.Queries;
+using PPM.Locations.Application.ReadModels;
 using PPM.Locations.Infrastructure.Documents.Flow;
 using PPM.Locations.Infrastructure.Documents.Locations;
+using PPM.Locations.Infrastructure.Documents.Transfer;
 
 namespace PPM.Locations.Infrastructure.Configuration.DataAcesss
 {
@@ -35,6 +37,19 @@ namespace PPM.Locations.Infrastructure.Configuration.DataAcesss
             builder.RegisterType<MongoRepository<ProductionFlowDocument>>()
              .As<IMongoRepository<ProductionFlowDocument>>()
              .WithParameter("collectionName", "ppm_locations_flows");
+
+
+            builder.RegisterType<MongoRepository<TransferRequestDocument>>()
+             .As<IMongoRepository<TransferRequestDocument>>()
+             .WithParameter("collectionName", "ppm_locations_transfers");
+
+            builder.RegisterType<MongoRepository<LocationReadModel>>()
+            .As<IMongoRepository<LocationReadModel>>()
+            .WithParameter("collectionName", "ppm_locations_locationReadModel");
+
+            builder.RegisterType<MongoRepository<TransferReadModel>>()
+            .As<IMongoRepository<TransferReadModel>>()
+            .WithParameter("collectionName", "ppm_locations_transferReadModel");
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .Where(type => type.Name.EndsWith("Repository"))
