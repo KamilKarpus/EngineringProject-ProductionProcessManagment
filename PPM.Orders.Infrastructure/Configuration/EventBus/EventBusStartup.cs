@@ -10,7 +10,7 @@ namespace PPM.Orders.Infrastructure.Configuration.EventBus
         {
             var eventBus = OrderCompositionRoot.BeginLifetimeScope().Resolve<IEventsBus>();
             SubscribeToEventBus<ProductionFlowCreatedIntegrationEvent>(eventBus);
-
+            SubscribeToEventBus<PackageLocationChangeIntegrationEvent>(eventBus);
 
 
         }

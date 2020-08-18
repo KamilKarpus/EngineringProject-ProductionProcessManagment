@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using PPM.Orders.Infrastructure.Configuration.DataAccess;
+using PPM.Orders.Infrastructure.Configuration.Domain;
 using PPM.Orders.Infrastructure.Configuration.EventBus;
 using PPM.Orders.Infrastructure.Configuration.Quartz;
 using PPM.Orders.Infrastucture.Configuration.Mediation;
@@ -17,6 +18,7 @@ namespace PPM.Orders.Infrastructure.Configuration
             containerBuilder.RegisterModule(new ProcessingModule());
             containerBuilder.RegisterModule(new EventBusModule());
             containerBuilder.RegisterModule(new QuartzModule());
+            containerBuilder.RegisterModule(new DomainModule());
             var container = containerBuilder.Build();
             OrderCompositionRoot.SetContainer(container);
             QuartzModuleStartup.Initialize();

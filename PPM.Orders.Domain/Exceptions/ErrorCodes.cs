@@ -4,5 +4,6 @@
     {
         FlowDoesntExists = 4001,
         OrderDoesntExists = 4002,
+        PackageDoesntExists = 4003,
     }
 }

@@ -2,12 +2,14 @@
 using PPM.Infrastructure.DataAccess.Repositories;
 using PPM.Orders.Application.ReadModels;
 using PPM.Orders.Domain.DomainEvents;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PPM.Orders.Application.Commands.DomainEvents
 {
     public class OrderReadModelEventsHandler : IDomainEventHandler<OrderCreatedDomainEvent>,
-        IDomainEventHandler<PackageAddedDomainEvent>, IDomainEventHandler<NumberAssignedDomainEvent>
+        IDomainEventHandler<PackageAddedDomainEvent>, IDomainEventHandler<NumberAssignedDomainEvent>,
+        IDomainEventHandler<MovePackageDomainEvent>
     {
         private readonly IMongoRepository<OrderReadModel> _repository;
         public OrderReadModelEventsHandler(IMongoRepository<OrderReadModel>  repository)
@@ -53,6 +55,17 @@ namespace PPM.Orders.Application.Commands.DomainEvents
                 order.OrderNumber = @event.OrderNumber;
                 order.OrderYear = @event.OrderYear;
                 await _repository.Update(p => p.Id == @event.OrderId, order);
+            }
+        }
+
+        public async Task Handle(MovePackageDomainEvent @event)
+        {
+            var order = await _repository.Find(p => p.Id == @event.OrderId);
+            if (order != null)
+            {
+                var package = order.Packages.FirstOrDefault(p => p.PackageId == @event.PackageId);
+                package.Progress = @event.Progress;
+                await _repository.Update(p => p.Id == @event.OrderId,order);
             }
         }
     }

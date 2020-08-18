@@ -24,5 +24,10 @@ namespace PPM.Orders.Domain
             Flow = flow;
         }
 
+        public void ChangeProgress(Percentage progress)
+        {
+            Progress = progress;
+        }
+
     }
 }
