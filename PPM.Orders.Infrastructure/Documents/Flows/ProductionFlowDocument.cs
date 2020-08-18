@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PPM.Orders.Infrastructure.Documents.Flows
 {
@@ -6,5 +7,6 @@ namespace PPM.Orders.Infrastructure.Documents.Flows
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public List<StepDocument> Steps { get; set; }
     }
 }

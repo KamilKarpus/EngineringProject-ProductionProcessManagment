@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PPM.Administration.Application;
 using PPM.Administration.Application.Queries;
 using PPM.Administration.Application.Queries.ProductionFlows.GetFlowInfo;
+using PPM.Administration.Application.Queries.ProductionFlows.GetFlowsByName;
 using PPM.Administration.Application.Queries.ProductionFlows.GetFlowsList;
 using PPM.Administration.Application.ReadModels;
 using Swashbuckle.AspNetCore.Annotations;
@@ -43,6 +44,19 @@ namespace PPM.Api.Modules.Administration
             var result = await _module.ExecuteQuery(new GetFlowInfoByIdQuery()
             {
                 Id = flowId
+            });
+            return Ok(result);
+        }
+
+        [HttpGet("byName")]
+        [SwaggerOperation(Summary = "Get production flow by Id")]
+        [ProducesResponseType(typeof(List<ProductionFlowShortInfo>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetProductionFlowByName([FromQuery]Queries.V1.GetProductionFlowByNameQuery query)
+        {
+            var result = await _module.ExecuteQuery(new GetFlowByNameQuery()
+            {
+                FlowName = query.FlowName
             });
             return Ok(result);
         }

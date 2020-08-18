@@ -11,7 +11,12 @@ namespace PPM.Administration.Application.Queries
                 public int PageNumber { get; set; }
                 public int PageSize { get; set; }
             }
-            
+
+            public class GetProductionFlowByNameQuery
+            {
+                public string FlowName { get; set; }
+            }
+         
         }
     }
 }
