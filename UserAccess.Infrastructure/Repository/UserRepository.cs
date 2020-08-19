@@ -1,8 +1,10 @@
 ﻿using PPM.Infrastructure.DataAccess.Repositories;
+using PPM.Infrastructure.EventDispatcher;
 using PPM.UserAccess.Domain.Users;
 using PPM.UserAccess.Domain.Users.Repository;
 using PPM.UserAccess.Infrastructure.Documents;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PPM.UserAccess.Infrastructure.Repository
@@ -10,13 +12,18 @@ namespace PPM.UserAccess.Infrastructure.Repository
     public class UserRepository : IUserRepository
     {
         private readonly IMongoRepository<UserDocument> _repository;
-        public UserRepository(IMongoRepository<UserDocument> repository)
+        private readonly IEventDispatcher _dispatcher;
+
+        public UserRepository(IMongoRepository<UserDocument> repository,
+            IEventDispatcher dispatcher)
         {
             _repository = repository;
+            _dispatcher = dispatcher;
         }
         public async Task Add(User user)
         {
             await _repository.Add(user?.ToDocument());
+            await _dispatcher.DispatchAsync(user?.DomainEvents.ToArray());
         }
 
         public async Task<User> GetByLogin(string login)
@@ -34,6 +41,7 @@ namespace PPM.UserAccess.Infrastructure.Repository
         public async Task Update(User user)
         {
             await _repository.Update(p => p.Id == user.Id, user.ToDocument());
+            await _dispatcher.DispatchAsync(user?.DomainEvents.ToArray());
         }
 
         public async Task<User> GetById(Guid id)

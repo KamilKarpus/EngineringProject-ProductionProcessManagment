@@ -2,6 +2,7 @@
 using PPM.UserAccess.Infrastructure.Configuration.DataAccess;
 using PPM.UserAccess.Infrastructure.Configuration.Domain;
 using PPM.UserAccess.Infrastructure.Configuration.Mediation;
+using PPM.UserAccess.Infrastructure.Configuration.Processing;
 
 namespace PPM.UserAccess.Infrastructure.Configuration
 {
@@ -13,6 +14,7 @@ namespace PPM.UserAccess.Infrastructure.Configuration
             containerBuilder.RegisterModule(new DataAccessModule(connectionString, dbName));
             containerBuilder.RegisterModule(new MediationModule());
             containerBuilder.RegisterModule(new DomainModule());
+            containerBuilder.RegisterModule(new ProcessingModule());
             var container = containerBuilder.Build();
             UserCompositionRoot.SetContainer(container);
         }

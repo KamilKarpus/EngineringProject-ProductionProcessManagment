@@ -1,4 +1,5 @@
 ﻿using PPM.Domain;
+using PPM.UserAccess.Domain.Users.DomainEvents;
 using PPM.UserAccess.Domain.Users.Rules;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,19 @@ namespace PPM.UserAccess.Domain.Users
             Permissions = new List<UserPermission>();
             Permissions.Add(UserPermission.View);
             CheckRule(new UserLoginMustBeUniqueRule(counter, login));
+
+            var @event = new UserCreatedDomainEvent()
+            {
+                Login = Login,
+                UserId = Id,
+                FirstName = FirstName,
+                LastName = LastName,
+                JobPosition = JobPosition,
+                RegisterDate = RegistrationDate,
+                Permissions = Permissions.Select(p => p.Permission).ToArray()
+            };
+            AddDomainEvent(@event);
+
         }
         public User(Guid id, string login, string password, string firstName, string lastName, string jobPosition,
             List<UserPermission> permissions, DateTime registerDate)
@@ -52,6 +66,12 @@ namespace PPM.UserAccess.Domain.Users
         public void ChangePermissions(IEnumerable<UserPermission> permissions)
         {
             Permissions = permissions.ToList();
+            var @event = new UserPermissionChangedDomainEvent()
+            {
+                UserId = Id,
+                Permissions = Permissions.Select(p => p.Permission).ToArray()
+            };
+            AddDomainEvent(@event);
         }
 
     }
