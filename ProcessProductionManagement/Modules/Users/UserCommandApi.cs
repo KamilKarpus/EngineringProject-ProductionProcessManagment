@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PPM.Api.Configuration.Authorization;
 using PPM.UserAccess.Application;
 using PPM.UserAccess.Application.ChangeUserrPermissions;
 using PPM.UserAccess.Application.RegisterUser;
@@ -9,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace PPM.Api.Modules.Users
 {
-    [ApiController, Route("api/users")]
+    [ApiController, Route("api/users"), Authorize]
+    [HasPermission(UsersPermissions.ManageUsers)]
     public class UserCommandApi : Controller
     {
         private readonly IUserAccessModule _module;

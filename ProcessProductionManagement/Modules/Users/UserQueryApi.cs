@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PPM.Api.Configuration.Authorization;
 using PPM.Infrastructure.Paggination;
 using PPM.UserAccess.Application;
 using PPM.UserAccess.Application.GetUserInfoById;
@@ -11,8 +13,9 @@ using System.Threading.Tasks;
 
 namespace PPM.Api.Modules.Users
 {
-    [ApiController, Route("api/users")]
-    public class UserQueryApi : Controller
+    [ApiController, Route("api/users"), Authorize]
+    [HasPermission(UsersPermissions.ManageUsers)]
+    public class UserQueryApi : ControllerBase
     {
         private readonly IUserAccessModule _module;
         public UserQueryApi(IUserAccessModule module)
@@ -34,7 +37,7 @@ namespace PPM.Api.Modules.Users
         }
 
         [HttpGet("{userId}")]
-        [SwaggerOperation(Summary = "Get list of user")]
+        [SwaggerOperation(Summary = "Get user by Id")]
         [ProducesResponseType(typeof(UserReadModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetUserInfoId(Guid userId)

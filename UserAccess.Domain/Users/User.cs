@@ -18,6 +18,8 @@ namespace PPM.UserAccess.Domain.Users
         public DateTime RegistrationDate { get; private set; }
         public List<UserPermission> Permissions { get; private set; }
 
+        public string FullName { get => FirstName + ' ' + LastName;  }
+
         public User(Guid id, string login, string password, string firstName, string lastName, string jobPosition,
             IUserLoginAvailability counter)
         {
@@ -30,6 +32,7 @@ namespace PPM.UserAccess.Domain.Users
             RegistrationDate = DateTime.Now;
             Permissions = new List<UserPermission>();
             Permissions.Add(UserPermission.View);
+            Permissions.Add(UserPermission.EmployeeAcess);
             CheckRule(new UserLoginMustBeUniqueRule(counter, login));
 
             var @event = new UserCreatedDomainEvent()

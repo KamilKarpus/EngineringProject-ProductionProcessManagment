@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PPM.Api.Configuration.Authorization;
 using PPM.Orders.Application.Commands;
 using PPM.Orders.Application.Commands.Orders.AddNewOrder;
 using PPM.Orders.Application.Commands.Orders.AddPackage;
@@ -11,7 +13,8 @@ using System.Threading.Tasks;
 
 namespace PPM.Api.Modules.Orders
 {
-    [ApiController, Route("api/orders")]
+    [ApiController, Route("api/orders"), Authorize]
+    [HasPermission(OrderPermissions.View)]
     public class OrdersCommandApi : Controller
     {
         private readonly IOrdersModule _module;

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PPM.Api.Configuration.Authorization;
 using PPM.Infrastructure.Paggination;
 using PPM.Orders.Application.Configuration;
 using PPM.Orders.Application.Queries;
@@ -7,12 +9,14 @@ using PPM.Orders.Application.Queries.GetOrderInfo;
 using PPM.Orders.Application.ReadModels;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PPM.Api.Modules.Orders
 {
-    [ApiController, Route("api/orders")]
-    public class OrdersQueryApi : Controller
+    [ApiController, Route("api/orders"), Authorize]
+    [HasPermission(OrderPermissions.View)]
+    public class OrdersQueryApi : ControllerBase
     {
         private readonly IOrdersModule _module;
         public OrdersQueryApi(IOrdersModule module)

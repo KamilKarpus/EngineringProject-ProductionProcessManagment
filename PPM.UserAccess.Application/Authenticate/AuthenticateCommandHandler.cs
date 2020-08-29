@@ -29,6 +29,7 @@ namespace PPM.UserAccess.Application.Authenticate
 
             var claims = user.Permissions?.Select(p => new Claim(CustomClaimTypes.Permissions, p.Permission)).ToList();
             claims.Add(new Claim(CustomClaimTypes.Login, user.Login));
+            claims.Add(new Claim(CustomClaimTypes.Name, user.FullName));
 
             return new AuthenticationResult(
                 new UserDTO()

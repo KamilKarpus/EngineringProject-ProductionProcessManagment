@@ -17,6 +17,11 @@ using PPM.UserAccess.Application.IndentityServer;
 using PPM.UserAccess.Infrastructure;
 using System.Collections.Generic;
 using PPM.Orders.Infrastructure;
+using PPM.Api.Configuration.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using PPM.Application;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ProcessProductionManagement
 {
@@ -32,8 +37,16 @@ namespace ProcessProductionManagement
         {
  
             services.AddControllers();
-            services.AddScoped<IExceptionHandler, ExceptionHandler>();
+
             ConfigureIdentityServer(services);
+            services.AddHttpContextAccessor();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IExecutionContextAccessor, ExecutionContextAccessor>();
+
+
+            services.AddSingleton<IExceptionHandler, ExceptionHandler>();
+            services.AddScoped<IAuthorizationHandler, HasPermissionAuthorizationHandler>();
+
             services.AddSwaggerGen(c =>
             {
                 c.EnableAnnotations();
@@ -74,6 +87,17 @@ namespace ProcessProductionManagement
                     policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                 });
             });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(HasPermissionAttribute.HasPermissionPolicyName, policyBuilder =>
+                {
+                    policyBuilder.Requirements.Add(new HasPermissionAuthorizationRequirement());
+                    policyBuilder.AddAuthenticationSchemes(IdentityServerAuthenticationDefaults.AuthenticationScheme);
+                });
+            });
+
+   
+
 
         }
         private void ConfigureIdentityServer(IServiceCollection services)
@@ -89,7 +113,7 @@ namespace ProcessProductionManagement
             services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
 
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-                .AddIdentityServerAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme, x =>
+            .AddIdentityServerAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme, x =>
                 {
                     x.Authority = Configuration["Authority"];
                     x.ApiName = "ppmAPI";
@@ -113,16 +137,19 @@ namespace ProcessProductionManagement
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseRouting();
+            app.UseCors("CoreClient");
+            app.UseIdentityServer();
 
             app.UseExceptionMiddleware();
 
             app.UseSwagger();
 
-            app.UseCors("CoreClient");
 
-            app.UseIdentityServer();
+            app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+            app.UseAuthentication(); 
 
             app.UseAuthorization();
 

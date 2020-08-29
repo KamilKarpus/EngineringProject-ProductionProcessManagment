@@ -1,17 +1,20 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PPM.Administration.Application;
 using PPM.Administration.Application.Commands;
 using PPM.Administration.Application.Commands.AddStep;
 using PPM.Administration.Application.Commands.Flows.ChangeFlowStatus;
 using PPM.Administration.Application.Commands.Flows.ChangeStepPosition;
+using PPM.Api.Configuration.Authorization;
+using PPM.Api.Modules.Administration;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Threading.Tasks;
 
 namespace PPM.Api.Administration
 {
-    [ApiController, Route("api/administration")]
+    [ApiController, Route("api/administration"), Authorize]
     public class AdministrationCommandsApi : Controller
     {
         private readonly IAdministrationModule _module;
@@ -20,6 +23,7 @@ namespace PPM.Api.Administration
             _module = module;
         }
         [HttpPost]
+        [HasPermission(AdministrationPermissions.EditFlow)]
         [SwaggerOperation(Summary = "Create new production flow definition")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -34,6 +38,7 @@ namespace PPM.Api.Administration
             return Created("api/administration/", new { id = flowId });
         }
         [HttpPost("{flowId}/steps")]
+        [HasPermission(AdministrationPermissions.EditFlow)]
         [SwaggerOperation(Summary = "Add new Step")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -52,6 +57,7 @@ namespace PPM.Api.Administration
             return Created($"api/administration/{flowId}/steps/", new { id = stepId });
         }
         [HttpPut("{flowId}")]
+        [HasPermission(AdministrationPermissions.EditFlow)]
         [SwaggerOperation(Summary = "Change flow status")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -65,6 +71,7 @@ namespace PPM.Api.Administration
             return Ok();
         }
         [HttpPut("{flowId}/stepsPosition")]
+        [HasPermission(AdministrationPermissions.EditFlow)]
         [SwaggerOperation(Summary = "Change step position")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

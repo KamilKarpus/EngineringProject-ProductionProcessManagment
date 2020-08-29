@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PPM.Api.Configuration.Authorization;
 using PPM.Infrastructure.Paggination;
 using PPM.Locations.Application;
 using PPM.Locations.Application.Queries;
@@ -14,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace PPM.Api.Modules.Locations
 {
-    [ApiController, Route("api/locations")]
+    [ApiController, Route("api/locations"), Authorize]
     public class LocationsQueryApi : Controller
     {
         private readonly ILocationModule _module;
@@ -23,6 +25,7 @@ namespace PPM.Api.Modules.Locations
             _module = module;
         }
         [HttpGet]
+        [HasPermission(LocationPermissions.CanEditLocation)]
         [SwaggerOperation(Summary = "Get list of locations short info")]
         [ProducesResponseType(typeof(PagedList<LocationShortInfo>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -49,6 +52,7 @@ namespace PPM.Api.Modules.Locations
         }
 
         [HttpGet("{locationId}")]
+        [HasPermission(LocationPermissions.CanEditLocation)]
         [SwaggerOperation(Summary = "Get list of location info by id")]
         [ProducesResponseType(typeof(LocationReadModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

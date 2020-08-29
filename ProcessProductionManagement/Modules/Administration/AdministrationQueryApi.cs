@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PPM.Administration.Application;
 using PPM.Administration.Application.Queries;
@@ -6,6 +7,7 @@ using PPM.Administration.Application.Queries.ProductionFlows.GetFlowInfo;
 using PPM.Administration.Application.Queries.ProductionFlows.GetFlowsByName;
 using PPM.Administration.Application.Queries.ProductionFlows.GetFlowsList;
 using PPM.Administration.Application.ReadModels;
+using PPM.Api.Configuration.Authorization;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
@@ -13,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace PPM.Api.Modules.Administration
 {
-    [ApiController, Route("api/administration")]
+    [ApiController, Route("api/administration"), Authorize]
     public class AdministrationQueryApi : Controller
     {
         private readonly IAdministrationModule _module;
@@ -23,6 +25,7 @@ namespace PPM.Api.Modules.Administration
         }
 
         [HttpGet]
+        [HasPermission(AdministrationPermissions.EditFlow)]
         [SwaggerOperation(Summary = "Get production flow short info")]
         [ProducesResponseType(typeof(List<ProductionFlowShortInfo>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -36,6 +39,7 @@ namespace PPM.Api.Modules.Administration
             return Ok(result);
         }
         [HttpGet("{flowId}")]
+        [HasPermission(AdministrationPermissions.EditFlow)]
         [SwaggerOperation(Summary = "Get production flow by Id")]
         [ProducesResponseType(typeof(ProductionFlowReadModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

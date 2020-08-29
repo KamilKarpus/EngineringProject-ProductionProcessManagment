@@ -4,11 +4,15 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>0</WarningLevel>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.4" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.9.4" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
-
+    <PackageReference Include="IdentityServer4" Version="3.1.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.5.0" />
@@ -16,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PPM.Administration.Infrastucture\PPM.Administration.Infrastucture.csproj" />
+    <ProjectReference Include="..\PPM.Application\PPM.Application.csproj" />
     <ProjectReference Include="..\PPM.Domain\PPM.Domain.csproj" />
     <ProjectReference Include="..\PPM.Locations.Infrastructure\PPM.Locations.Infrastructure.csproj" />
     <ProjectReference Include="..\PPM.Orders.Infrastructure\PPM.Orders.Infrastructure.csproj" />

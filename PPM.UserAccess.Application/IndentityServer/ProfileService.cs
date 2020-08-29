@@ -11,6 +11,7 @@ namespace PPM.UserAccess.Application.IndentityServer
         public Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             context.IssuedClaims.AddRange(context.Subject.Claims.Where(x => x.Type == CustomClaimTypes.Permissions).ToList());
+            context.IssuedClaims.Add(context.Subject.Claims.Single(x => x.Type == CustomClaimTypes.Name));
             context.IssuedClaims.Add(context.Subject.Claims.Single(x => x.Type == CustomClaimTypes.Login));
 
             return Task.CompletedTask;

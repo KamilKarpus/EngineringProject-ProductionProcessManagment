@@ -21,12 +21,13 @@ namespace PPM.UserAccess.Application.IndentityServer
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResource("ppmapi",new List<string>
+                new IdentityResource("ppmWEB",new List<string>
                 {
                     UserPermission.View.Permission,
                     UserPermission.CanEditLocation.Permission,
-                    UserPermission.ManagaUsers.Permission,
+                    UserPermission.ManageUsers.Permission,
                     UserPermission.EditFlow.Permission,
+                    UserPermission.EmployeeAcess.Permission
                 }),
                 new IdentityResource(CustomClaimTypes.Permissions, new List<string>
                 {
@@ -46,22 +47,24 @@ namespace PPM.UserAccess.Application.IndentityServer
                 new Client
                 {
                     ClientId = "ppm.WEB",
+                    AllowOfflineAccess = true,
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-
-
+                    RefreshTokenUsage = TokenUsage.ReUse,
                     ClientSecrets =
                     {
                         new Secret("secret".Sha256())
                     },
                     AllowedScopes = {
+                        "ppmAPI",
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "ppmApi"
+                        IdentityServerConstants.StandardScopes.OfflineAccess,
                     }
                 },
                 new Client
                 {
                     ClientId = "ppm.Mobile",
+                    RefreshTokenUsage = TokenUsage.ReUse,
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 
                     ClientSecrets =
@@ -72,7 +75,7 @@ namespace PPM.UserAccess.Application.IndentityServer
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "ppmMobile"
+                        "ppmAPI"
                     }
 
                 }
