@@ -6,10 +6,10 @@ namespace PPM.Administration.Infrastucture
 {
     public static class RegisterExtension
     {
-        public static void UseAdministationModule(this ContainerBuilder builder, string connectionString, string dbName)
+        public static void RegisterAdministationModule(this ContainerBuilder builder)
         {
             builder.RegisterType<AdministrationModule>().As<IAdministrationModule>();
-            AdministrationStartup.Intialize(connectionString, dbName);
+         
         }
     }
 }

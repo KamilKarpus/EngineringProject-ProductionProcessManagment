@@ -6,10 +6,9 @@ namespace PPM.Locations.Infrastructure
 {
     public static class RegisterExtension
     {
-        public static void UseLocationsModule(this ContainerBuilder builder, string connectionString, string dbName)
+        public static void RegisterLocationsModule(this ContainerBuilder builder)
         {
             builder.RegisterType<LocationsModule>().As<ILocationModule>();
-            LocationsStartup.Intialize(connectionString, dbName);
         }
     }
 }

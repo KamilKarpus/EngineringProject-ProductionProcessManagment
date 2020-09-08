@@ -7,7 +7,7 @@ using PPM.Locations.Infrastructure.Configuration.Processing;
 
 namespace PPM.Locations.Infrastructure.Configuration
 {
-    class LocationsStartup
+    public class LocationsStartup
     {
         public static void Intialize(string connectionString, string dbName)
         {

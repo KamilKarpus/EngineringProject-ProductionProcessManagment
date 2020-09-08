@@ -2,6 +2,7 @@
 using PPM.Orders.Infrastructure.Configuration.DataAccess;
 using PPM.Orders.Infrastructure.Configuration.Domain;
 using PPM.Orders.Infrastructure.Configuration.EventBus;
+using PPM.Orders.Infrastructure.Configuration.InternalModule;
 using PPM.Orders.Infrastructure.Configuration.Quartz;
 using PPM.Orders.Infrastucture.Configuration.Mediation;
 using PPM.Orders.Infrastucture.Configuration.Processing;
@@ -19,6 +20,7 @@ namespace PPM.Orders.Infrastructure.Configuration
             containerBuilder.RegisterModule(new EventBusModule());
             containerBuilder.RegisterModule(new QuartzModule());
             containerBuilder.RegisterModule(new DomainModule());
+            containerBuilder.RegisterModule(new InternalClientModule());
             var container = containerBuilder.Build();
             OrderCompositionRoot.SetContainer(container);
             QuartzModuleStartup.Initialize();

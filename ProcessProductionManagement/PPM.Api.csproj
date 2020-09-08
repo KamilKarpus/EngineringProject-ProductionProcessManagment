@@ -13,6 +13,7 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.9.4" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="IdentityServer4" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.5.0" />
@@ -24,6 +25,8 @@
     <ProjectReference Include="..\PPM.Domain\PPM.Domain.csproj" />
     <ProjectReference Include="..\PPM.Locations.Infrastructure\PPM.Locations.Infrastructure.csproj" />
     <ProjectReference Include="..\PPM.Orders.Infrastructure\PPM.Orders.Infrastructure.csproj" />
+    <ProjectReference Include="..\PPM.Printing.Application\PPM.Printing.Application.csproj" />
+    <ProjectReference Include="..\PPM.Printing.Infrastructure\PPM.Printing.Infrastructure.csproj" />
     <ProjectReference Include="..\PPM.UserAccess.Application\PPM.UserAccess.Application.csproj" />
     <ProjectReference Include="..\UserAccess.Infrastructure\PPM.UserAccess.Infrastructure.csproj" />
   </ItemGroup>

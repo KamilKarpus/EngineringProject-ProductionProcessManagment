@@ -6,10 +6,9 @@ namespace PPM.UserAccess.Infrastructure
 {
     public static class RegisterExtension
     {
-        public static void UseAUserModule(this ContainerBuilder builder, string connectionString, string dbName)
+        public static void RegisterUserModule(this ContainerBuilder builder)
         {
             builder.RegisterType<UserModule>().As<IUserAccessModule>();
-            UserAccessStartup.Intialize(connectionString, dbName);
         }
     }
 }

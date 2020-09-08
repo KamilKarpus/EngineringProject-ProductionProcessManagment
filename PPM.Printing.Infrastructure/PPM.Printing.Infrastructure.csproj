@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Jobs\ProcessInternalJobService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.4" />
+    <PackageReference Include="Autofac.Extras.Quartz" Version="4.6.0" />
+    <PackageReference Include="MediatR" Version="8.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="BarCode" Version="2020.6.0" />
+    <PackageReference Include="Polly" Version="7.2.1" />
+    <PackageReference Include="Quartz" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PPM.EventBus\PPM.EventBus.csproj" />
+    <ProjectReference Include="..\PPM.Infrastructure\PPM.Infrastructure.csproj" />
+    <ProjectReference Include="..\PPM.Printing.Application\PPM.Printing.Application.csproj" />
+    <ProjectReference Include="..\PPM.Printing.Domain\PPM.Printing.Domain.csproj" />
+    <ProjectReference Include="..\PPM.Printing.IntegrationEvents\PPM.Printing.IntegrationEvents.csproj" />
+  </ItemGroup>
+
+</Project>

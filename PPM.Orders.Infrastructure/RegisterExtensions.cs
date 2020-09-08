@@ -6,10 +6,9 @@ namespace PPM.Orders.Infrastructure
 {
     public static class RegisterExtension
     {
-        public static void UseOrdersModule(this ContainerBuilder builder, string connectionString, string dbName)
+        public static void RegisterOrdersModule(this ContainerBuilder builder)
         {
             builder.RegisterType<OrdersModule>().As<IOrdersModule>();
-            OrdersStartup.Intialize(connectionString, dbName);
         }
     }
 }

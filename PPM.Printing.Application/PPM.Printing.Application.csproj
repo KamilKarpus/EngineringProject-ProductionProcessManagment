@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="8.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PPM.Application\PPM.Application.csproj" />
+    <ProjectReference Include="..\PPM.Infrastructure\PPM.Infrastructure.csproj" />
+    <ProjectReference Include="..\PPM.Printing.Domain\PPM.Printing.Domain.csproj" />
+    <ProjectReference Include="..\PPM.Printing.IntegrationEvents\PPM.Printing.IntegrationEvents.csproj" />
+  </ItemGroup>
+
+</Project>

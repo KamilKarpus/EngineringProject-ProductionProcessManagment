@@ -22,6 +22,17 @@ using Microsoft.AspNetCore.Authorization;
 using PPM.Application;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using PPM.Printing.Infrastructure;
+using PPM.Api.Modules.Printing;
+using PPM.Api.Configuration.SignalR;
+using System;
+using Autofac.Extensions.DependencyInjection;
+using PPM.Administration.Infrastucture.Configuration;
+using PPM.Locations.Infrastructure.Configuration;
+using PPM.UserAccess.Infrastructure.Configuration;
+using PPM.Orders.Infrastructure.Configuration;
+using PPM.Printing.Infrastructure.Configuration;
+using IdentityModel.AspNetCore.OAuth2Introspection;
 
 namespace ProcessProductionManagement
 {
@@ -33,16 +44,25 @@ namespace ProcessProductionManagement
             Configuration = configuration;
         }
      
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
- 
+
+            services.AddCors(cfg =>
+            {
+                cfg.AddPolicy("CoreClient",
+                policy =>
+                {
+                    policy.SetIsOriginAllowed(_ => true).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+                });
+            });
+
             services.AddControllers();
 
             ConfigureIdentityServer(services);
             services.AddHttpContextAccessor();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IExecutionContextAccessor, ExecutionContextAccessor>();
-
+            services.AddScoped<IHubClient, PrintingHubClient>();
 
             services.AddSingleton<IExceptionHandler, ExceptionHandler>();
             services.AddScoped<IAuthorizationHandler, HasPermissionAuthorizationHandler>();
@@ -79,14 +99,7 @@ namespace ProcessProductionManagement
                 });
 
             });
-            services.AddCors(cfg =>
-            {
-                cfg.AddPolicy("CoreClient",
-                policy =>
-                {
-                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-                });
-            });
+ 
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(HasPermissionAttribute.HasPermissionPolicyName, policyBuilder =>
@@ -95,10 +108,9 @@ namespace ProcessProductionManagement
                     policyBuilder.AddAuthenticationSchemes(IdentityServerAuthenticationDefaults.AuthenticationScheme);
                 });
             });
+            services.AddSignalR();
 
-   
-
-
+            return CreateAutofacServiceProvider(services);
         }
         private void ConfigureIdentityServer(IServiceCollection services)
         {
@@ -118,17 +130,44 @@ namespace ProcessProductionManagement
                     x.Authority = Configuration["Authority"];
                     x.ApiName = "ppmAPI";
                     x.RequireHttpsMetadata = false;
+                    x.TokenRetriever = new Func<HttpRequest, string>(req =>
+                    {
+                        var fromHeader = TokenRetrieval.FromAuthorizationHeader();
+                        var fromQuery = TokenRetrieval.FromQueryString();
+                        return fromHeader(req) ?? fromQuery(req);
+                    });
                 });
         }
-        public virtual void ConfigureContainer(ContainerBuilder builder)
+        public IServiceProvider CreateAutofacServiceProvider(IServiceCollection services)
         {
+
+            var builder = new ContainerBuilder();
+
+            builder.Populate(services);
             var databaseSettings = new DatabaseSetttings();
 
             Configuration.GetSection("Database").Bind(databaseSettings);
-            builder.UseAdministationModule(databaseSettings.ConnectionString, databaseSettings.DbNameAdministration);
-            builder.UseLocationsModule(databaseSettings.ConnectionString, databaseSettings.DbNameLocations);
-            builder.UseAUserModule(databaseSettings.ConnectionString, databaseSettings.DbNameUsers);
-            builder.UseOrdersModule(databaseSettings.ConnectionString, databaseSettings.DbNameOrders);
+            
+            builder.RegisterAdministationModule();
+            builder.RegisterLocationsModule();
+            builder.RegisterUserModule();
+            builder.RegisterOrdersModule();
+            builder.RegisterPrintingModule();
+
+            var container = builder.Build();
+
+            var hubClient = container.Resolve<IHubClient>();
+
+            AdministrationStartup.Intialize(databaseSettings.ConnectionString, databaseSettings.DbNameAdministration);
+            LocationsStartup.Intialize(databaseSettings.ConnectionString, databaseSettings.DbNameLocations);
+            UserAccessStartup.Intialize(databaseSettings.ConnectionString, databaseSettings.DbNameUsers);
+            OrdersStartup.Intialize(databaseSettings.ConnectionString, databaseSettings.DbNameOrders);
+            PrintingStartup.Intialize(databaseSettings.ConnectionString,
+                databaseSettings.DbNamePrinting,
+                Configuration["BlobStorage:ConnectionString"],
+                Configuration["BlobStorage:QrCodeContainer"],
+                hubClient);
+            return new AutofacServiceProvider(container);
         }
    
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -137,15 +176,13 @@ namespace ProcessProductionManagement
             {
                 app.UseDeveloperExceptionPage();
             }
+     
             app.UseCors("CoreClient");
             app.UseIdentityServer();
 
             app.UseExceptionMiddleware();
 
             app.UseSwagger();
-
-
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -157,11 +194,12 @@ namespace ProcessProductionManagement
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API");
             });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<PrintingHub>("/printinghub");
             });
-
         }
     }
 }

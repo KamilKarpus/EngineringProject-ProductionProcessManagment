@@ -7,5 +7,6 @@
         public string DbNameLocations { get; set; }
         public string DbNameUsers { get; set; }
         public string DbNameOrders { get; set; }
+        public string DbNamePrinting { get; set; }
     }
 }
