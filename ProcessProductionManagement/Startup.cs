@@ -33,6 +33,10 @@ using PPM.UserAccess.Infrastructure.Configuration;
 using PPM.Orders.Infrastructure.Configuration;
 using PPM.Printing.Infrastructure.Configuration;
 using IdentityModel.AspNetCore.OAuth2Introspection;
+using PPM.Infrastructure.DataAccess;
+using PPM.Infrastructure.DataAccess.Repositories;
+using IdentityServer4.Models;
+using PPM.Infrastructure.GrantStore;
 
 namespace ProcessProductionManagement
 {
@@ -118,7 +122,7 @@ namespace ProcessProductionManagement
                 .AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
                 .AddInMemoryApiResources(IdentityServerConfig.GetApis())
                 .AddInMemoryClients(IdentityServerConfig.GetClients())
-                .AddInMemoryPersistedGrants()
+                .AddPersistedGrantStore<MongoGrantStore>()
                 .AddProfileService<ProfileService>()
                 .AddDeveloperSigningCredential();
 
@@ -147,7 +151,16 @@ namespace ProcessProductionManagement
             var databaseSettings = new DatabaseSetttings();
 
             Configuration.GetSection("Database").Bind(databaseSettings);
-            
+
+            builder.RegisterType<MongoConnection>()
+                .As<IMongoConnection>()
+                .WithParameter("connectionString", databaseSettings.ConnectionString)
+                .WithParameter("dbName", databaseSettings.DbNameUsers);
+
+            builder.RegisterType<MongoRepository<PersistedGrant>>()
+                .As<IMongoRepository<PersistedGrant>>()
+                .WithParameter("collectionName", "ppm_grantStore");
+
             builder.RegisterAdministationModule();
             builder.RegisterLocationsModule();
             builder.RegisterUserModule();
