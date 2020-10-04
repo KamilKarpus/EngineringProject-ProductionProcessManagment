@@ -32,6 +32,7 @@ namespace PPM.Orders.Application.Queries.GetOrderInfo
                 Progress = p.Progress,
                 Weight = p.Weight,
                 Width = p.Width,
+                Length = p.Length,
                 PrintingUrl = printingDto.FirstOrDefault(z => z.PackageId == p.PackageId)?.FileUrl
             }).ToList();
             return new OrderInfoDto()

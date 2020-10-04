@@ -27,5 +27,6 @@ namespace PPM.Orders.Application.Queries.GetOrderInfo
         public int Number { get; set; }
         public int Progress { get; set; }
         public string PrintingUrl { get; set; }
+        public decimal Length { get; internal set; }
     }
 }

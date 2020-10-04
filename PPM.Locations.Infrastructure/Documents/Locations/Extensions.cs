@@ -15,7 +15,8 @@ namespace PPM.Locations.Infrastructure.Documents.Locations
                 Weight = package.Weight.Value,
                 Width = package.Width.Value,
                 Progress = package.Progress.Value,
-                OrderId = package.OrderId
+                OrderId = package.OrderId,
+                Length = package.Length
             };
         }
         
@@ -39,7 +40,8 @@ namespace PPM.Locations.Infrastructure.Documents.Locations
                 Packages = location.Packages?.Select(p => p.ToDocument()).ToList(),
                 ShortName = location.ShortName,
                 Type = location.Type.Id,
-                Width = location.Width.Value
+                Width = location.Width.Value,
+                Length = location.Length.Value
             };
         }
 
@@ -49,13 +51,13 @@ namespace PPM.Locations.Infrastructure.Documents.Locations
         }  
         public static Package AsEntity(this PackageDocument package)
         {
-            return new Package(package.Id, package.Weight, package.Height, package.Width, package.Progress, package.OrderId);
+            return new Package(package.Id, package.Weight, package.Height, package.Width, package.Progress, package.OrderId, package.Length);
         }
 
         public static Location AsEntity(this LocationDocument location)
         {
             return new Location(location.Id, location.Name, location.Type, location.Description, location.Width, location.Height, location.Attributes.AsEntity(),
-                location.ShortName, location.Packages?.Select(p => p.AsEntity()).ToHashSet());
+                location.ShortName, location.Packages?.Select(p => p.AsEntity()).ToHashSet(), location.Length);
         }
     }
 }

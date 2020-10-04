@@ -2,7 +2,7 @@
 using PPM.Domain;
 using PPM.Domain.Exceptions;
 
-namespace PPM.Administration.Domain.Flows.Events
+namespace PPM.Administration.Domain.BusinessRules
 {
     public class StepMustBeValidRule : IBusinessRule
     {

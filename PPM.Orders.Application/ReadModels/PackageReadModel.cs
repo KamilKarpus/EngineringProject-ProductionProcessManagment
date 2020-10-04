@@ -12,5 +12,6 @@ namespace PPM.Orders.Application.ReadModels
         public decimal Width { get; set; }
         public int Number { get; set; }
         public int Progress { get; set; }
+        public decimal Length { get;  set; }
     }
 }

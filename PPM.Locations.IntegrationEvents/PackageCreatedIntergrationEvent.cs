@@ -1,4 +1,5 @@
-﻿using PPM.Infrastructure.Eventbus;
+﻿using MongoDB.Driver.Core.Operations;
+using PPM.Infrastructure.Eventbus;
 using System;
 
 namespace PPM.Locations.IntegrationEvents
@@ -13,9 +14,11 @@ namespace PPM.Locations.IntegrationEvents
         public int Number { get; private set; }
         public int Progress { get; private set; }
         public Guid FlowId { get; private set; }
+        public decimal Length { get; private set; }
 
         public PackageCreatedIntergrationEvent(Guid orderId, Guid packageId,
             decimal weight, decimal height, decimal width, int number, int progress,
+            decimal length,
             Guid flowId, Guid id, DateTime occuredOn) : base(id, occuredOn)
         {
             OrderId = orderId;
@@ -26,6 +29,7 @@ namespace PPM.Locations.IntegrationEvents
             Number = number;
             Progress = progress;
             FlowId = flowId;
+            Length = length;
         }
     }
 }

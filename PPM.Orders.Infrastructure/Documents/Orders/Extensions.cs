@@ -33,7 +33,8 @@ namespace PPM.Orders.Infrastructure.Documents.Orders
                 Weight = package.Weight.Value,
                 Width = package.Width.Value,
                 FlowId = package.Flow.Id,
-                FlowName = package.Flow.Name
+                FlowName = package.Flow.Name,
+                Length = package.Length.Value
             };
         }
 
@@ -41,7 +42,8 @@ namespace PPM.Orders.Infrastructure.Documents.Orders
         {
             return new Package(package.Id, Kilograms.FromDecimal(package.Weight),
                 Meters.FromDecimal(package.Height), Meters.FromDecimal(package.Width),
-                PackageNumber.From(package.Number), Percentage.Of(package.Progress), new ProductionFlow(package.FlowId, package.FlowName));
+                PackageNumber.From(package.Number), Percentage.Of(package.Progress), new ProductionFlow(package.FlowId, package.FlowName),
+                Meters.FromDecimal(package.Length));
         }
 
         public static Order AsEntity(this OrderDocument order)

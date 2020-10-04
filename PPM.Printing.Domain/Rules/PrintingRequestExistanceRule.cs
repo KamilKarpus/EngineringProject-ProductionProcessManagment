@@ -19,7 +19,7 @@ namespace PPM.Printing.Domain.Rules
 
         public bool IsBroken()
         {
-            return !_printingRequestExistance.WasPrintingRequested(_packageId);
+            return _printingRequestExistance.WasPrintingRequested(_packageId);
         }
     }
 }

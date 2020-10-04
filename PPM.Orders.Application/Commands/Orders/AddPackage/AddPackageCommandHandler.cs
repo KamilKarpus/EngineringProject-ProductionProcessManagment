@@ -29,8 +29,8 @@ namespace PPM.Orders.Application.Commands.Orders.AddPackage
             {
                 throw new OrderException("Order doesn't exists", ErrorCode.OrderDoesntExists);
             }
-            order.AddPackage(request.PackageId, Kilograms.FromDecimal(request.Weight), Meters.FromDecimal(request.Height),
-                Meters.FromDecimal(request.Width), flow);
+            order.AddPackage(request.PackageId, Kilograms.FromDecimal(request.Weight),Meters.FromDecimal(request.Height),
+                Meters.FromDecimal(request.Length),Meters.FromDecimal(request.Width), flow);
 
             await _repository.Update(order);
             return Unit.Value;

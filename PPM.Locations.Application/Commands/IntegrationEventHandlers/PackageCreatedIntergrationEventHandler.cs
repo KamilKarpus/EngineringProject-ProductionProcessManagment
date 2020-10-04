@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using PPM.Locations.Domain.Repositories;
 using PPM.Locations.IntegrationEvents;
+using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace PPM.Locations.Application.Commands.IntegrationEventHandlers
             if (location != null)
             {
                 location.AddPackage(notification.PackageId, notification.Height, notification.Weight, notification.Width, notification.Progress,
-                    notification.OrderId);
+                    notification.OrderId, notification.Length);
                 await _repository.Update(location);
             }
            

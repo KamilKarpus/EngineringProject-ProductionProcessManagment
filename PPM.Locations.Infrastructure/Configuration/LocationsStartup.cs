@@ -1,7 +1,9 @@
 ﻿using Autofac;
+using Autofac.Core;
 using PPM.Locations.Infrastructure.Configuration.DataAcesss;
 using PPM.Locations.Infrastructure.Configuration.Domain;
 using PPM.Locations.Infrastructure.Configuration.EventBus;
+using PPM.Locations.Infrastructure.Configuration.InternalClient;
 using PPM.Locations.Infrastructure.Configuration.Mediation;
 using PPM.Locations.Infrastructure.Configuration.Processing;
 
@@ -17,9 +19,11 @@ namespace PPM.Locations.Infrastructure.Configuration
             containerBuilder.RegisterModule(new ProcessingModule());
             containerBuilder.RegisterModule(new EventBusModule());
             containerBuilder.RegisterModule(new DomainModule());
+            containerBuilder.RegisterModule(new InternalClientModule());
             var container = containerBuilder.Build();
             LocationCompositionRoot.SetContainer(container);
             EventBusStartup.Initialize();
+            InternalClientStartup.Initialize();
         }
     }
 }

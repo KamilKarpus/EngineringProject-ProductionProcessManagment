@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿   using MediatR;
 using PPM.Locations.Application.Configuration.Commands;
 using PPM.Locations.Domain;
 using PPM.Locations.Domain.Repositories;

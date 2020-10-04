@@ -4,7 +4,6 @@ using PPM.Locations.Domain.DomainEvents;
 using PPM.Locations.Domain.Rules;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace PPM.Locations.Domain
@@ -19,10 +18,12 @@ namespace PPM.Locations.Domain
         public string Description { get; private set; }
         public Meters Height { get; private set; }
         public Meters Width { get; private set; }
+        public Meters Length { get; private set; }
         public string ShortName { get; private set; }
         public IReadOnlyCollection<Package> Packages => _packages.ToList();
         public Location(Guid id, string name, int typeId, string description, decimal width, decimal height,
-            LocationAttributes attributes, string shortName, HashSet<Package> packages, IUniqueShortName uniqueShortName, IUniqueName uniqueName)
+            LocationAttributes attributes, string shortName, HashSet<Package> packages, IUniqueShortName uniqueShortName,
+            IUniqueName uniqueName, decimal length)
         {
             CheckRule(new LocationUniqueNameRule(uniqueName, name));
             CheckRule(new LocationUniqueShortNameRule(uniqueShortName, shortName));
@@ -32,6 +33,7 @@ namespace PPM.Locations.Domain
             Description = description;
             Height = Meters.FromDecimal(height);
             Width = Meters.FromDecimal(width);
+            Length = Meters.FromDecimal(length);
             Attributes = attributes;
             ShortName = shortName;
             _packages = packages;
@@ -43,6 +45,7 @@ namespace PPM.Locations.Domain
                 SupportQR = Attributes.IsHandleQrCode,
                 Width = Width.Value,
                 Height = Height.Value,
+                Length = Length.Value,
                 ShortName = ShortName,
                 LocationType = Type.Id,
                 Description = Description
@@ -51,7 +54,7 @@ namespace PPM.Locations.Domain
 
         }
         public Location(Guid id, string name, int typeId, string description, decimal width, decimal height,
-            LocationAttributes attributes, string shortName, HashSet<Package> packages)
+            LocationAttributes attributes, string shortName, HashSet<Package> packages, decimal length)
         {
             Id = id;
             Name = name;
@@ -62,29 +65,32 @@ namespace PPM.Locations.Domain
             Attributes = attributes;
             ShortName = shortName;
             _packages = packages;
+            Length = Meters.FromDecimal(length);
         }
         public static Location Create(Guid id, string name, int typeId, string description, decimal width, decimal height,
-            bool handleQr, string shortName, IUniqueShortName uniqueShortName, IUniqueName uniqueName)
+            bool handleQr, string shortName, IUniqueShortName uniqueShortName, 
+            IUniqueName uniqueName, decimal length)
         {
             var attributes = new LocationAttributes(handleQr);
-            return new Location(id, name, typeId, description, width, height, attributes, shortName, new HashSet<Package>(), uniqueShortName, uniqueName);
+            return new Location(id, name, typeId, description, width, height, attributes, shortName, new HashSet<Package>(), uniqueShortName, uniqueName, length);
         }
 
         public void AddPackage(Guid id, decimal weight, decimal height, decimal width,
-            int progress, Guid orderId)
+            int progress, Guid orderId, decimal length)
         {
-            var package = new Package(id,  weight, height, width, progress, orderId);
+            var package = new Package(id,  weight, height, width, progress, orderId, length);
             _packages.Add(package);
 
             var @event = new PackageAddedDominEvent()
             {
-                PackagedId = id,
+                PackageId = id,
                 Weight = weight,
                 Height = height,
                 Width = width,
                 Progress = progress,
                 OrderId = orderId,
-                LocationId = Id
+                LocationId = Id,
+                Length = length
             };
             AddDomainEvent(@event);
         }

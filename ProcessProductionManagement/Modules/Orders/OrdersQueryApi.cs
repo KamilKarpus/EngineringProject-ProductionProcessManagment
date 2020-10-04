@@ -6,6 +6,7 @@ using PPM.Infrastructure.Paggination;
 using PPM.Orders.Application.Configuration;
 using PPM.Orders.Application.Queries;
 using PPM.Orders.Application.Queries.GetOrderInfo;
+using PPM.Orders.Application.Queries.GetPackageInfo;
 using PPM.Orders.Application.ReadModels;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
@@ -46,6 +47,19 @@ namespace PPM.Api.Modules.Orders
             var result = await _module.ExecuteQuery(new GetOrderInfoQuery()
             {
                 OrderId = id
+            });
+            return Ok(result);
+        }
+
+        [HttpGet("{orderId}/package/{packageId}")]
+        [SwaggerOperation(Summary = "Get package info")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetPackageAsync(Guid orderId, Guid packageId)
+        {
+            var result = await _module.ExecuteQuery(new GetPackageInfoQuery() 
+            {
+                PackageId = packageId,
+                OrderId = orderId
             });
             return Ok(result);
         }

@@ -42,7 +42,7 @@ namespace PPM.Orders.Application.Commands.DomainEvents
                 order.StatusId = @event.StatusId;
                 order.StatusName = @event.StatusName;
                 order.AddPackage(@event.PackageId, @event.Weight, @event.Height, @event.Width,
-                    @event.Number, @event.Progress, @event.FlowId, @event.FlowName);
+                    @event.Number, @event.Progress,@event.Length, @event.FlowId, @event.FlowName);
                 await _repository.Update(p => p.Id == @event.OrderId, order);
             }
         }

@@ -1,4 +1,5 @@
 ﻿using PPM.Application.Events;
+using PPM.Locations.Domain;
 using PPM.Locations.Domain.Repositories;
 using PPM.Locations.Domain.Transfer.Events;
 using System.Linq;
@@ -22,7 +23,8 @@ namespace PPM.Locations.Application.Commands.Transfer.DomainEvents
             var packageToMove = locationFrom.Packages.FirstOrDefault(p => p.Id == @event.PackageId);
             locationFrom.DeletePackage(@event.PackageId);
             locationTo.AddPackage(packageToMove.Id, packageToMove.Weight.Value,
-                packageToMove.Height.Value, packageToMove.Width.Value, packageToMove.Progress.Value, packageToMove.OrderId);
+                packageToMove.Height.Value, packageToMove.Width.Value, packageToMove.Progress.Value, packageToMove.OrderId,
+                packageToMove.Length);
 
             await _locationsRepository.Update(locationFrom);
             await _locationsRepository.Update(locationTo);

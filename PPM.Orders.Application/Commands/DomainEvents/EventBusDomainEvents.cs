@@ -18,6 +18,7 @@ namespace PPM.Orders.Application.Commands.DomainEvents
             _eventBus.Publish(new PackageCreatedIntergrationEvent(
                 @event.OrderId, @event.PackageId, @event.Weight, @event.Height,
                 @event.Width, @event.Number, @event.Progress, @event.FlowId,
+                @event.Length,
                 @event.Id, @event.OccurredOn));
             return Task.CompletedTask;
         }

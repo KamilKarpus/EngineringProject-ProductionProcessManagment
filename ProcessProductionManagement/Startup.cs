@@ -37,6 +37,7 @@ using PPM.Infrastructure.DataAccess;
 using PPM.Infrastructure.DataAccess.Repositories;
 using IdentityServer4.Models;
 using PPM.Infrastructure.GrantStore;
+using PPM.Api.Modules.Administration;
 
 namespace ProcessProductionManagement
 {
@@ -66,7 +67,8 @@ namespace ProcessProductionManagement
             services.AddHttpContextAccessor();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IExecutionContextAccessor, ExecutionContextAccessor>();
-            services.AddScoped<IHubClient, PrintingHubClient>();
+            services.AddScoped<IPrintingHubClient, PrintingHubClient>();
+            services.AddScoped<IAdministrationHubClient, AdministrationHubClient>();
 
             services.AddSingleton<IExceptionHandler, ExceptionHandler>();
             services.AddScoped<IAuthorizationHandler, HasPermissionAuthorizationHandler>();
@@ -169,9 +171,12 @@ namespace ProcessProductionManagement
 
             var container = builder.Build();
 
-            var hubClient = container.Resolve<IHubClient>();
+            var printingHubClient = container.Resolve<IPrintingHubClient>();
+            var administrationHubClient = container.Resolve<IAdministrationHubClient>();
 
-            AdministrationStartup.Intialize(databaseSettings.ConnectionString, databaseSettings.DbNameAdministration);
+            AdministrationStartup.Intialize(databaseSettings.ConnectionString, 
+                databaseSettings.DbNameAdministration,
+                administrationHubClient);
             LocationsStartup.Intialize(databaseSettings.ConnectionString, databaseSettings.DbNameLocations);
             UserAccessStartup.Intialize(databaseSettings.ConnectionString, databaseSettings.DbNameUsers);
             OrdersStartup.Intialize(databaseSettings.ConnectionString, databaseSettings.DbNameOrders);
@@ -179,7 +184,7 @@ namespace ProcessProductionManagement
                 databaseSettings.DbNamePrinting,
                 Configuration["BlobStorage:ConnectionString"],
                 Configuration["BlobStorage:QrCodeContainer"],
-                hubClient);
+                printingHubClient);
             return new AutofacServiceProvider(container);
         }
    
@@ -212,6 +217,7 @@ namespace ProcessProductionManagement
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<PrintingHub>("/printinghub");
+                endpoints.MapHub<AdministrationHub>("/adminhub");
             });
         }
     }

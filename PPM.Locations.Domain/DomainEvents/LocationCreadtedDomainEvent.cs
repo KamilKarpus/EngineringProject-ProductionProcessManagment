@@ -13,6 +13,7 @@ namespace PPM.Locations.Domain.DomainEvents
         public string ShortName { get; internal set; }
         public int LocationType { get; internal set; }
         public string Description { get; internal set; }
+        public decimal Length { get; internal set; }
 
         public LocationCreatedDomainEvent() : base()
         {

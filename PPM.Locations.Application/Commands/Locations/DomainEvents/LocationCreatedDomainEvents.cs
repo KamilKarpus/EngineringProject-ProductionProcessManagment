@@ -21,7 +21,9 @@ namespace PPM.Locations.Application.Commands.Locations.DomainEvents
                 await _repository.Add(new LocationShortInfo()
                 {
                     Id = @event.LocationId,
-                    Name = @event.Name
+                    Name = @event.Name,
+                    ShortName = @event.ShortName,
+                    LocationType = @event.LocationType
                 });
             }
         }

@@ -1,4 +1,5 @@
 ﻿using PPM.Domain;
+using PPM.Domain.ValueObject;
 using System;
 
 namespace PPM.Orders.Domain.DomainEvents
@@ -16,5 +17,6 @@ namespace PPM.Orders.Domain.DomainEvents
         public int Progress { get; set; }
         public int StatusId { get; set; }
         public string StatusName { get; set; }
+        public decimal Length { get; internal set; }
     }
 }

@@ -22,6 +22,7 @@ namespace PPM.Orders.Application.ReadModels
          decimal width, 
          int number,
          int progress,
+         decimal length,
          Guid flowId, string flowName)
         {
             Packages.Add(new PackageReadModel()
@@ -33,7 +34,8 @@ namespace PPM.Orders.Application.ReadModels
                 PackageId = packageId,
                 Weight = weight,
                 FlowId = flowId,
-                FlowName = flowName
+                FlowName = flowName,
+                Length = length
             });
         }
     }

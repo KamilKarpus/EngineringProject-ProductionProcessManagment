@@ -13,6 +13,9 @@ namespace PPM.Orders.Infrastructure.Configuration.InternalModule
 
             builder.RegisterType<PrintingService>()
                 .AsImplementedInterfaces();
+
+            builder.RegisterType<LocationsService>()
+                .AsImplementedInterfaces();
         }
     }
 }

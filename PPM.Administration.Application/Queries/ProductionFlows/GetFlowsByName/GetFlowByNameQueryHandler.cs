@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using MongoDB.Driver.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using PPM.Administration.Domain.Flows;
 
 namespace PPM.Administration.Application.Queries.ProductionFlows.GetFlowsByName
 {
@@ -18,7 +19,7 @@ namespace PPM.Administration.Application.Queries.ProductionFlows.GetFlowsByName
         }
         public async Task<List<ProductionFlowShortInfo>> Handle(GetFlowByNameQuery request, CancellationToken cancellationToken)
         {
-            var result = await _repository.Collection.AsQueryable().Where(p => p.Name.Contains(request.FlowName))
+            var result = await _repository.Collection.AsQueryable().Where(p => p.Name.Contains(request.FlowName) && p.Status == Status.ReadyToUse.Id)
                                 .ToListAsync();
             return result;
         }

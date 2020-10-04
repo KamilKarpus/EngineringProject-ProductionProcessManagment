@@ -64,14 +64,14 @@ namespace PPM.Orders.Domain
             AddDomainEvent(@event);
         }
 
-        public void AddPackage(Guid id, Kilograms weight, Meters height, Meters width, ProductionFlow flow)
+        public void AddPackage(Guid id, Kilograms weight, Meters height, Meters length, Meters width, ProductionFlow flow)
         {
             var number = PackageNumber.First;
             if (_packages.Any())
             {
                 number = _packages.Max(p => p.Number).Next();
             }
-            _packages.Add(new Package(id, weight, height, width, number, Percentage.Zero, flow));
+            _packages.Add(new Package(id, weight, height, width, number, Percentage.Zero, flow, length));
 
             var @event = new PackageAddedDomainEvent()
             {
@@ -85,7 +85,8 @@ namespace PPM.Orders.Domain
                 StatusId = Status.Id,
                 StatusName = Status.Name,
                 FlowId = flow.Id,
-                FlowName = flow.Name
+                FlowName = flow.Name,
+                Length = length.Value
             };
             AddDomainEvent(@event);
         }

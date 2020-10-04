@@ -51,6 +51,10 @@ namespace PPM.Locations.Infrastructure.Configuration.DataAcesss
             .As<IMongoRepository<TransferReadModel>>()
             .WithParameter("collectionName", "ppm_locations_transferReadModel");
 
+            builder.RegisterType<MongoRepository<PackageInfoReadModel>>()
+                .As<IMongoRepository<PackageInfoReadModel>>()
+                .WithParameter("collectionName", "ppm_locations_packageInfo");
+
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .Where(type => type.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces()

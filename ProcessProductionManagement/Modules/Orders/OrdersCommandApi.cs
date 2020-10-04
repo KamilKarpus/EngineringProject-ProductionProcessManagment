@@ -53,7 +53,8 @@ namespace PPM.Api.Modules.Orders
                 FlowId = package.FlowId,
                 Height = package.Height,
                 Weight = package.Weight,
-                Width = package.Width
+                Width = package.Width,
+                Length = package.Length
             });
             return Created($"api/orders/{orderId}/package", new { id = id });
         }

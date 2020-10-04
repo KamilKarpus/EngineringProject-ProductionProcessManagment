@@ -16,7 +16,7 @@ namespace PPM.Locations.Application.Commands.Locations.DomainEvents
         public Task Handle(PackageAddedDominEvent @event)
         {
             _eventsBus.Publish(new PackageLocationChangeIntegrationEvent(@event.Id, @event.OccurredOn,
-                @event.PackagedId, @event.OrderId, @event.LocationId));
+                @event.PackageId, @event.OrderId, @event.LocationId));
             return Task.CompletedTask;
         }
     }

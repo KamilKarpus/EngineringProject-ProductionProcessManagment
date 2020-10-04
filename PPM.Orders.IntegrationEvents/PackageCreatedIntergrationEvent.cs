@@ -13,10 +13,12 @@ namespace PPM.Orders.IntegrationEvents
         public int Number { get; private set; }
         public int Progress { get; private set; }
         public Guid FlowId { get;private set; }
+        public decimal Length { get; private set; }
 
         public PackageCreatedIntergrationEvent(Guid orderId, Guid packageId, 
             decimal weight, decimal height, decimal width, int number, int progress, 
-            Guid flowId, Guid id, DateTime occuredOn) : base(id,occuredOn)
+            Guid flowId, decimal length,
+            Guid id, DateTime occuredOn) : base(id,occuredOn)
         {
             OrderId = orderId;
             PackageId = packageId;
@@ -26,6 +28,7 @@ namespace PPM.Orders.IntegrationEvents
             Number = number;
             Progress = progress;
             FlowId = flowId;
+            Length = length;
         }
     }
 }

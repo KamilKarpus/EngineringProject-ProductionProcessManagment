@@ -37,7 +37,8 @@ namespace PPM.Api.Locations
                 Height = location.Height,
                 Name = location.Name,
                 Type = location.Type,
-                Width = location.Width
+                Width = location.Width,
+                Length = location.Length
             });
             return Created("api/locations/", new { id = locationId });
         }

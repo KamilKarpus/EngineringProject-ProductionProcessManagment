@@ -13,6 +13,7 @@ namespace PPM.Locations.Infrastructure.Documents.Locations
         public decimal Height { get; set; }
         public decimal Width { get; set; }
         public string ShortName { get; set; }
+        public decimal Length { get; set; }
         public List<PackageDocument> Packages { get; set; }
     }
 }

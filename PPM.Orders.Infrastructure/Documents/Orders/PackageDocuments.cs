@@ -10,6 +10,7 @@ namespace PPM.Orders.Infrastructure.Documents.Orders
         public decimal Width { get; set; }
         public int Number { get; set; }
         public int Progress { get;set; }
+        public decimal Length { get; set; }
         public Guid FlowId { get; set; }
         public string FlowName { get; set; }
     }

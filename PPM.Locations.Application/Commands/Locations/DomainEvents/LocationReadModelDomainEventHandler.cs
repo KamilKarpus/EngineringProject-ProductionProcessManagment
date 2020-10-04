@@ -29,7 +29,8 @@ namespace PPM.Locations.Application.Commands.Locations.DomainEvents
                     ShortName = @event.ShortName,
                     Width = @event.Width,
                     SupportQR = @event.SupportQR,
-                    Description = @event.Description
+                    Description = @event.Description,
+                    Length = @event.Length
                 });
             }
         }
@@ -52,11 +53,12 @@ namespace PPM.Locations.Application.Commands.Locations.DomainEvents
             {
                 result.Packages.Add(new PackageReadModel()
                 {
-                    Id = @event.PackagedId,
+                    Id = @event.PackageId,
                     Height = @event.Height,
                     Progress = @event.Progress,
                     Weight = @event.Weight,
-                    Width = @event.Width
+                    Width = @event.Width,
+                    Length = @event.Length
                 });
                 await _repository.Update(p => p.Id == @event.LocationId, result);
             }

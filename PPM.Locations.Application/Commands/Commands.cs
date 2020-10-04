@@ -17,6 +17,7 @@ namespace PPM.Locations.Application.Commands
                 public decimal Height { get; set; }
                 public decimal Width { get; set; }
                 public string ShortName { get; set; }
+                public decimal Length { get; set; }
             }
             public class CreateTransfer
             {

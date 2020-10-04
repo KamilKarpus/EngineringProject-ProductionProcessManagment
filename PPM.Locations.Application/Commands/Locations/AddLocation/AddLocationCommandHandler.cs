@@ -22,7 +22,7 @@ namespace PPM.Locations.Application.Commands.AddLocation
         public async Task<Unit> Handle(AddLocationCommand request, CancellationToken cancellationToken)
         {
             var location = Location.Create(request.Id, request.Name, request.Type, request.Description, request.Width, request.Height,
-                request.HandleQR, request.ShortName, _uniqueShortName, _uniqueName);
+                request.HandleQR, request.ShortName, _uniqueShortName, _uniqueName, request.Length);
             await _repository.AddAsync(location);
             return Unit.Value;
         }
