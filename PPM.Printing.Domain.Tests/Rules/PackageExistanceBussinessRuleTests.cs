@@ -16,7 +16,7 @@ namespace PPM.Printing.Domain.Tests.Rules
         [Fact]
         public void Rule_Should_Be_Broken()
         {
-            _existance.Setup(p => p.WasPrintingRequested(It.IsAny<Guid>())).Returns(false);
+            _existance.Setup(p => p.WasPrintingRequested(It.IsAny<Guid>())).Returns(true);
             var rule = new PrintingRequestExistanceRule(_existance.Object, Guid.NewGuid());
             Assert.True(rule.IsBroken());
         }
@@ -24,7 +24,7 @@ namespace PPM.Printing.Domain.Tests.Rules
         [Fact]
         public void Rule_Should_Be_Not_Broken()
         {
-            _existance.Setup(p => p.WasPrintingRequested(It.IsAny<Guid>())).Returns(true);
+            _existance.Setup(p => p.WasPrintingRequested(It.IsAny<Guid>())).Returns(false);
             var rule = new PrintingRequestExistanceRule(_existance.Object, Guid.NewGuid());
             Assert.False(rule.IsBroken());
         }
