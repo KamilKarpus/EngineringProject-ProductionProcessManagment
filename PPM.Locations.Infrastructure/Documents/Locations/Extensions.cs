@@ -16,7 +16,8 @@ namespace PPM.Locations.Infrastructure.Documents.Locations
                 Width = package.Width.Value,
                 Progress = package.Progress.Value,
                 OrderId = package.OrderId,
-                Length = package.Length
+                Length = package.Length,
+                FlowId = package.FlowId
             };
         }
         
@@ -51,7 +52,7 @@ namespace PPM.Locations.Infrastructure.Documents.Locations
         }  
         public static Package AsEntity(this PackageDocument package)
         {
-            return new Package(package.Id, package.Weight, package.Height, package.Width, package.Progress, package.OrderId, package.Length);
+            return new Package(package.Id, package.Weight, package.Height, package.Width, package.Progress, package.OrderId, package.Length, package.FlowId);
         }
 
         public static Location AsEntity(this LocationDocument location)

@@ -24,7 +24,7 @@ namespace PPM.Locations.Application.Commands.Transfer.DomainEvents
             locationFrom.DeletePackage(@event.PackageId);
             locationTo.AddPackage(packageToMove.Id, packageToMove.Weight.Value,
                 packageToMove.Height.Value, packageToMove.Width.Value, packageToMove.Progress.Value, packageToMove.OrderId,
-                packageToMove.Length);
+                packageToMove.Length, packageToMove.FlowId);
 
             await _locationsRepository.Update(locationFrom);
             await _locationsRepository.Update(locationTo);

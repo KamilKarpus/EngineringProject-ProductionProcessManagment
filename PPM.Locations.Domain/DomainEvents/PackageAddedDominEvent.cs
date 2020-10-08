@@ -13,5 +13,6 @@ namespace PPM.Locations.Domain.DomainEvents
         public Guid OrderId { get; internal set; }
         public Guid LocationId { get; internal set; }
         public decimal Length { get; set; }
+        public Guid FlowId { get; internal set; }
     }
 }

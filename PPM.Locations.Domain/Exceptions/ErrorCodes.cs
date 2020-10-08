@@ -11,5 +11,7 @@ namespace PPM.Locations.Domain.Exceptions
         PackageCannotBeMoved = 2003,
         TransferNotFound = 2004,
         LocationNotFound = 2005,
+        PackageNotFound = 2006,
+        FlowNotFound = 2007
     }
 }

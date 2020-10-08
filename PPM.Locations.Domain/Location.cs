@@ -76,9 +76,9 @@ namespace PPM.Locations.Domain
         }
 
         public void AddPackage(Guid id, decimal weight, decimal height, decimal width,
-            int progress, Guid orderId, decimal length)
+            int progress, Guid orderId, decimal length, Guid flowId)
         {
-            var package = new Package(id,  weight, height, width, progress, orderId, length);
+            var package = new Package(id,  weight, height, width, progress, orderId, length, flowId);
             _packages.Add(package);
 
             var @event = new PackageAddedDominEvent()
@@ -90,7 +90,8 @@ namespace PPM.Locations.Domain
                 Progress = progress,
                 OrderId = orderId,
                 LocationId = Id,
-                Length = length
+                Length = length,
+                FlowId = flowId
             };
             AddDomainEvent(@event);
         }

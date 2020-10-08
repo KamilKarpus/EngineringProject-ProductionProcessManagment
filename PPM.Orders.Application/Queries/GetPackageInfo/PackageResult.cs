@@ -10,6 +10,7 @@ namespace PPM.Orders.Application.Queries.GetPackageInfo
         public decimal Weight { get; set; }
         public decimal Height { get; set; }
         public decimal Width { get; set; }
+        public decimal Length { get; set; }
         public int Number { get; set; }
         public int Progress { get; set; }
         public Guid OrderId { get; set; }

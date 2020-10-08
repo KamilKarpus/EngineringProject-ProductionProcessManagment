@@ -40,6 +40,7 @@ namespace PPM.Orders.Application.Queries.GetPackageInfo
                 Progress = package.Progress,
                 Weight = package.Weight,
                 Width = package.Width,
+                Length = package.Length,
                 LocatioName = packageLocationInfo.LocationName,
                 LocationId = packageLocationInfo.LocationId
             };

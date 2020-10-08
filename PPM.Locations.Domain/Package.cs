@@ -13,8 +13,9 @@ namespace PPM.Locations.Domain
         public Percentage Progress { get; private set; }
         public Guid OrderId { get; private set; }
         public decimal Length { get; private set; }
+        public Guid FlowId { get; private set; }
         public Package(Guid id, decimal weight, decimal height, decimal width,
-            int progress, Guid orderId, decimal length)
+            int progress, Guid orderId, decimal length, Guid flowId)
         {
             Id = id;
             Weight = Kilograms.FromDecimal(weight);
@@ -23,6 +24,7 @@ namespace PPM.Locations.Domain
             Progress = Percentage.Of(progress);
             OrderId = orderId;
             Length = length;
+            FlowId = flowId;
         }
     }
 }

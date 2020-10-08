@@ -41,7 +41,8 @@ namespace PPM.Locations.Application.Commands.Transfer.DomainEvents
                 {
                     Id = @event.PackageId,
                     LocationId = location.Id,
-                    LocationName = location.Name
+                    LocationName = location.Name,
+                    FlowId = @event.FlowId
                 });
             }
         }
