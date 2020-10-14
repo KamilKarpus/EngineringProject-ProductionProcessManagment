@@ -27,7 +27,7 @@ namespace PPM.Locations.Infrastructure.Repositories
 
         public async Task<PackageProgress> GetByPackageId(Guid packageId)
         {
-            return (await _repository.Find(p => p.PackageId == packageId)).AsEntity();
+            return (await _repository.Find(p => p.PackageId == packageId))?.AsEntity();
         }
 
         public async Task Update(PackageProgress packageProgress)

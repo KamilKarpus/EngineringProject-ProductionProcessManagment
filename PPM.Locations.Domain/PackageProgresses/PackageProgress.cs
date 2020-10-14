@@ -35,7 +35,7 @@ namespace PPM.Locations.Domain
 
         public void Progress(Guid nextLocation, ProductionFlow flow)
         {
-            var step = flow.GetStepByNumber(CurrentStepNumber);
+            var step = flow.GetStepByNumber(CurrentStepNumber + 1);
             if (step.LocationId == nextLocation)
             {
                 IsValid = true;
