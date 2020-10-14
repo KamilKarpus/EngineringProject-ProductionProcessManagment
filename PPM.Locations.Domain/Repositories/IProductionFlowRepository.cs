@@ -8,6 +8,6 @@ namespace PPM.Locations.Domain.Repositories
     {
         Task Add(ProductionFlow flow);
         Task<ProductionFlow> GetById(Guid id);
-        Task Upadte(ProductionFlow flow);
+        Task Update(ProductionFlow flow);
     }
 }

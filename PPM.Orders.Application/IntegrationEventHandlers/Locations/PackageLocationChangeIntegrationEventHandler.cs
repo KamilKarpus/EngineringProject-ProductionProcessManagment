@@ -19,7 +19,7 @@ namespace PPM.Orders.Application.IntegrationEventHandlers.Locations
         }
         public async Task Handle(PackageLocationChangeIntegrationEvent notification, CancellationToken cancellationToken)
         {
-            var order = await _orderRepository.GetbyId(notification.Id);
+            var order = await _orderRepository.GetbyId(notification.OrderId);
             if (order != null)
             {
                 order.MovePackage(notification.LocationId, notification.PackagedId, _getFlowProgress);

@@ -68,7 +68,7 @@ namespace PPM.Locations.Domain
             Length = Meters.FromDecimal(length);
         }
         public static Location Create(Guid id, string name, int typeId, string description, decimal width, decimal height,
-            bool handleQr, string shortName, IUniqueShortName uniqueShortName, 
+            bool handleQr, string shortName, IUniqueShortName uniqueShortName,
             IUniqueName uniqueName, decimal length)
         {
             var attributes = new LocationAttributes(handleQr);
@@ -78,7 +78,7 @@ namespace PPM.Locations.Domain
         public void AddPackage(Guid id, decimal weight, decimal height, decimal width,
             int progress, Guid orderId, decimal length, Guid flowId)
         {
-            var package = new Package(id,  weight, height, width, progress, orderId, length, flowId);
+            var package = new Package(id, weight, height, width, progress, orderId, length, flowId);
             _packages.Add(package);
 
             var @event = new PackageAddedDominEvent()
@@ -106,6 +106,21 @@ namespace PPM.Locations.Domain
                 PackageId = package.Id,
                 LocationId = Id
             };
+            AddDomainEvent(@event);
+        }
+
+        public void PackageProgress(Guid packageId, int progress)
+        {
+            var package = _packages.FirstOrDefault(p => p.Id == packageId);
+            package.ChangeProgress(progress);
+
+            var @event = new LocationPackageProgressedDomainEvent()
+            {
+                OrderId = package.OrderId,
+                PackageId = package.Id,
+                Progress = package.Progress.Value
+            };
+
             AddDomainEvent(@event);
         }
     }

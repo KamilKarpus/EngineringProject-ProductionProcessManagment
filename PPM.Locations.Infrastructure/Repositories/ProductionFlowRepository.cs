@@ -26,7 +26,7 @@ namespace PPM.Locations.Infrastructure.Repositories
             return result?.AsEntity();
         }
 
-        public async Task Upadte(ProductionFlow flow)
+        public async Task Update(ProductionFlow flow)
         {
             await _repository.Update(p => p.Id == flow.Id, flow?.ToDocument());
         }

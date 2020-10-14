@@ -26,5 +26,10 @@ namespace PPM.Locations.Domain
             Length = length;
             FlowId = flowId;
         }
+
+        public void ChangeProgress(int progress)
+        {
+            Progress = Percentage.Of(progress);
+        }
     }
 }

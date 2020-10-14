@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace PPM.Locations.Application.Commands.Locations.DomainEvents
 {
-    public class LocationEventBusHandler : IDomainEventHandler<PackageAddedDominEvent>
+    public class LocationEventBusHandler : IDomainEventHandler<PackageAddedDominEvent>,
+        IDomainEventHandler<LocationPackageProgressedDomainEvent>
     {
         private readonly IEventsBus _eventsBus;
         public LocationEventBusHandler(IEventsBus bus)
@@ -17,6 +18,13 @@ namespace PPM.Locations.Application.Commands.Locations.DomainEvents
         {
             _eventsBus.Publish(new PackageLocationChangeIntegrationEvent(@event.Id, @event.OccurredOn,
                 @event.PackageId, @event.OrderId, @event.LocationId));
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(LocationPackageProgressedDomainEvent @event)
+        {
+            _eventsBus.Publish(new PackageProgressIntegrationEvent(@event.Id, @event.OccurredOn,
+                @event.OrderId, @event.PackageId, @event.Progress));
             return Task.CompletedTask;
         }
     }

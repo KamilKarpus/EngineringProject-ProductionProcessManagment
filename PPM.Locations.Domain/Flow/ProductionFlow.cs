@@ -26,5 +26,9 @@ namespace PPM.Locations.Domain.Flow
             return Steps.FirstOrDefault(p => p.Number == 1).LocationId;
         }
 
+        public Step GetStepByNumber(int number)
+        {
+            return Steps.FirstOrDefault(p => p.Number == number);
+        }
     }
 }

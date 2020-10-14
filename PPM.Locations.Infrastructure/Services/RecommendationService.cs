@@ -5,17 +5,16 @@ using PPM.Locations.Application.Services;
 using PPM.Locations.Domain.Exceptions;
 using PPM.Locations.Domain.Repositories;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PPM.Locations.Infrastructure.Services
 {
     public class RecommendationService : IRecommendationService
     {
-        private readonly IMongoRepository<PackageInfoReadModel> _packageRepository;
+        private readonly IPackageProgressRepository _packageRepository;
         private readonly IMongoRepository<LocationReadModel> _locationRepository;
         private readonly IProductionFlowRepository _repository;
-        public RecommendationService(IMongoRepository<PackageInfoReadModel> packageRepository,
+        public RecommendationService(IPackageProgressRepository packageRepository,
             IMongoRepository<LocationReadModel> locationRepository, IProductionFlowRepository
             repository)
         {
@@ -25,23 +24,21 @@ namespace PPM.Locations.Infrastructure.Services
         }
         public async Task<LocationShortInfo> GetRecommendation(Guid packageId)
         {
-            var package = await _packageRepository.Find(p => p.Id == packageId);
+            var package = await _packageRepository.GetByPackageId(packageId);
             if(package is null)
             {
                 throw new LocationException("Package not found", ErrorCodes.PackageNotFound);
             }
             var flow = await _repository.GetById(package.FlowId);
-            if(flow is null)
+            if (flow is null)
             {
                 throw new LocationException("Flow not found", ErrorCodes.FlowNotFound);
             }
+            var recomendation = package.GetRecommendedLocation(flow);
 
-            var step = flow.Steps.FirstOrDefault(p => p.LocationId == package.LocationId);
-
-            var nextStep = flow.Steps.FirstOrDefault(p => p.Number == step.Number + 1);
-            if (nextStep != null)
+            if (recomendation.HasRecommendation)
             {
-                var location = await _locationRepository.Find(p => p.Id == nextStep.LocationId);
+                var location = await _locationRepository.Find(p => p.Id == recomendation.LocationId);
                 if (location is null)
                 {
                     throw new LocationException("Location not found", ErrorCodes.LocationNotFound);

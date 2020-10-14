@@ -5,6 +5,7 @@ using PPM.Locations.Application.Queries;
 using PPM.Locations.Application.ReadModels;
 using PPM.Locations.Infrastructure.Documents.Flow;
 using PPM.Locations.Infrastructure.Documents.Locations;
+using PPM.Locations.Infrastructure.Documents.Progress;
 using PPM.Locations.Infrastructure.Documents.Transfer;
 
 namespace PPM.Locations.Infrastructure.Configuration.DataAcesss
@@ -54,6 +55,10 @@ namespace PPM.Locations.Infrastructure.Configuration.DataAcesss
             builder.RegisterType<MongoRepository<PackageInfoReadModel>>()
                 .As<IMongoRepository<PackageInfoReadModel>>()
                 .WithParameter("collectionName", "ppm_locations_packageInfo");
+
+            builder.RegisterType<MongoRepository<PackageProgressDocument>>()
+                .As<IMongoRepository<PackageProgressDocument>>()
+                .WithParameter("collectionName", "ppm_locations_packageProgress");
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .Where(type => type.Name.EndsWith("Repository"))
