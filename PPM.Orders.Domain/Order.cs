@@ -90,11 +90,10 @@ namespace PPM.Orders.Domain
             };
             AddDomainEvent(@event);
         }
-        public void MovePackage(Guid locationId, Guid packageId, IGetFlowProgress getFlowProgress)
+        public void ProgressPackage(Guid packageId, Percentage progress)
         {
             CheckRule(new PackageExistanceRule(_packages, packageId));
             var package = _packages.FirstOrDefault(p => p.Id == packageId);
-            var progress = getFlowProgress.GetProgress(locationId, package.Flow.Id);
             package.ChangeProgress(progress);
 
             var @event = new MovePackageDomainEvent()
