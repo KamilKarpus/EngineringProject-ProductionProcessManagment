@@ -30,7 +30,7 @@ namespace PPM.Locations.Domain
 
         public static PackageProgress Create(Guid pacakgeId, Guid locationId, Guid flowId)
         {
-            return new PackageProgress(Guid.NewGuid(), pacakgeId, locationId, flowId, 1, true, Percentage.Zero);
+            return new PackageProgress(Guid.NewGuid(), pacakgeId, locationId, flowId, 0, true, Percentage.Zero);
         }
 
         public void Progress(Guid nextLocation, ProductionFlow flow)
