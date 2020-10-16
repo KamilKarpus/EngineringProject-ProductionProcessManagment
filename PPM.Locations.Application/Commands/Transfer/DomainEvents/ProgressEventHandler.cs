@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 
 namespace PPM.Locations.Application.Commands.Transfer.DomainEvents
 {
-    public class ProgressEventHandler : IDomainEventHandler<TransferFinishedDomainEvent>
-    , IDomainEventHandler<PackageAddedDominEvent>, IDomainEventHandler<PackageProgressedDomainEvent>
+    public class ProgressEventHandler : IDomainEventHandler<PackageAddedDominEvent>, IDomainEventHandler<PackageProgressedDomainEvent>
     {
         private IPackageProgressRepository _repository;
-        private IProductionFlowRepository _flowRepository;
         private ILocationsRepository _locationsRepository;
         public ProgressEventHandler(IPackageProgressRepository repository,
             IProductionFlowRepository flowRepository, ILocationsRepository locationsRepository)
@@ -20,19 +18,6 @@ namespace PPM.Locations.Application.Commands.Transfer.DomainEvents
             _repository = repository;
             _flowRepository = flowRepository;
             _locationsRepository = locationsRepository;
-        }
-
-        public async Task Handle(TransferFinishedDomainEvent @event)
-        {
-            var progress = await _repository.GetByPackageId(@event.PackageId);
-            if(progress != null)
-            {
-                var flow = await _flowRepository.GetById(progress.FlowId);
-
-                progress.Progress(@event.ToLocationId, flow);
-
-                await _repository.Update(progress);
-            }
         }
 
         public async Task Handle(PackageAddedDominEvent @event)

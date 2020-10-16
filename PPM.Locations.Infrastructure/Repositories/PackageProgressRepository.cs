@@ -22,7 +22,7 @@ namespace PPM.Locations.Infrastructure.Repositories
         public async Task Add(PackageProgress packageProgress)
         {
             await _repository.Add(packageProgress.ToDocument());
-            await _dispatcher.DispatchAsync(packageProgress?.DomainEvents?.ToArray());
+            await _dispatcher.DispatchAsync(packageProgress.DomainEvents?.ToArray());
         }
 
         public async Task<PackageProgress> GetByPackageId(Guid packageId)
@@ -33,7 +33,7 @@ namespace PPM.Locations.Infrastructure.Repositories
         public async Task Update(PackageProgress packageProgress)
         {
             await _repository.Update(p=>p.Id == packageProgress.Id, packageProgress.ToDocument());
-            await _dispatcher.DispatchAsync(packageProgress?.DomainEvents?.ToArray());
+            await _dispatcher.DispatchAsync(packageProgress.DomainEvents?.ToArray());
         }
     }
 }
