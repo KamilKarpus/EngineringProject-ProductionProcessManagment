@@ -3,6 +3,7 @@ using PPM.Domain.ValueObject;
 using PPM.Infrastructure.Eventbus;
 using PPM.Orders.Domain.Repositories;
 using PPM.Orders.IntegrationEvents;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PPM.Orders.Application.IntegrationEventHandlers.Orders
@@ -14,12 +15,13 @@ namespace PPM.Orders.Application.IntegrationEventHandlers.Orders
         {
             _repository = repository;
         }
-        public async Task Handle(PackageProgressIntegrationEvent @event)
+
+        public async Task Handle(PackageProgressIntegrationEvent notification, CancellationToken cancellationToken)
         {
-            var order = await _repository.GetbyId(@event.OrderId);
-            if(order != null)
+            var order = await _repository.GetbyId(notification.OrderId);
+            if (order != null)
             {
-                order.ProgressPackage(@event.PackageId, Percentage.Of(@event.Progress));
+                order.ProgressPackage(notification.PackageId, Percentage.Of(notification.Progress));
                 await _repository.Update(order);
             }
         }
