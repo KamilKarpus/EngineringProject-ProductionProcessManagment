@@ -13,10 +13,9 @@ namespace PPM.Locations.Application.Commands.Transfer.DomainEvents
         private IPackageProgressRepository _repository;
         private ILocationsRepository _locationsRepository;
         public ProgressEventHandler(IPackageProgressRepository repository,
-            IProductionFlowRepository flowRepository, ILocationsRepository locationsRepository)
+          ILocationsRepository locationsRepository)
         {
             _repository = repository;
-            _flowRepository = flowRepository;
             _locationsRepository = locationsRepository;
         }
 
