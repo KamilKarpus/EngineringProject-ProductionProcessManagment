@@ -1,4 +1,5 @@
-﻿using PPM.Domain.ValueObject;
+﻿using MediatR;
+using PPM.Domain.ValueObject;
 using PPM.Infrastructure.Eventbus;
 using PPM.Orders.Domain.Repositories;
 using PPM.Orders.IntegrationEvents;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PPM.Orders.Application.IntegrationEventHandlers.Orders
 {
-    public class PackageProgressedIntegrationEventHandler : IIntegrationEventHandler<PackageProgressIntegrationEvent>
+    public class PackageProgressedIntegrationEventHandler : INotificationHandler<PackageProgressIntegrationEvent>
     {
         private readonly IOrderRepository _repository;
         public PackageProgressedIntegrationEventHandler(IOrderRepository repository)
