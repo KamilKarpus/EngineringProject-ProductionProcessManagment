@@ -14,7 +14,7 @@ namespace PPM.Printing.Infrastructure.Configuration
 {
     public static class PrintingStartup
     {
-        public static void Intialize(string connectionString, string dbName,
+        public static void Initialize(string connectionString, string dbName,
             string connectionStringBlob, string blobContainerName, IHubClient client)
         {
             var containerBuilder = new ContainerBuilder();

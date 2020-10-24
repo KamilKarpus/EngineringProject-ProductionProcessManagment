@@ -8,7 +8,7 @@ namespace PPM.UserAccess.Infrastructure.Configuration
 {
     public static class UserAccessStartup
     {
-        public static void Intialize(string connectionString, string dbName)
+        public static void Initialize(string connectionString, string dbName)
         {
             var containerBuilder = new ContainerBuilder();
             containerBuilder.RegisterModule(new DataAccessModule(connectionString, dbName));

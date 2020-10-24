@@ -28,5 +28,15 @@ namespace PPM.Api.Configuration.SignalR
         {
             await _context.Clients.All.SendAsync("flow", data);
         }
+
+        public Task Notify<T>(string resource, string groupName, T data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task NotifyResource<T>(string resource, T data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

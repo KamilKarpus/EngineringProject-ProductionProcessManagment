@@ -1,4 +1,5 @@
-﻿using PPM.Application.Events;
+﻿using PPM.Application;
+using PPM.Application.Events;
 using PPM.Infrastructure.DataAccess.Repositories;
 using PPM.Orders.Application.ReadModels;
 using PPM.Orders.Domain.DomainEvents;
@@ -12,9 +13,12 @@ namespace PPM.Orders.Application.Commands.DomainEvents
         IDomainEventHandler<MovePackageDomainEvent>
     {
         private readonly IMongoRepository<OrderReadModel> _repository;
-        public OrderReadModelEventsHandler(IMongoRepository<OrderReadModel>  repository)
+        private readonly IHubClient _hubClient;
+        public OrderReadModelEventsHandler(IMongoRepository<OrderReadModel>  repository,
+            IHubClient hubClient)
         {
             _repository = repository;
+            _hubClient = hubClient;
         }
         public async Task Handle(OrderCreatedDomainEvent @event)
         {
@@ -55,6 +59,12 @@ namespace PPM.Orders.Application.Commands.DomainEvents
                 order.OrderNumber = @event.OrderNumber;
                 order.OrderYear = @event.OrderYear;
                 await _repository.Update(p => p.Id == @event.OrderId, order);
+                await _hubClient.Notify<NumberAssignedDTO>("orderNumbers", new NumberAssignedDTO()
+                {
+                    OrderId = order.Id,
+                    Number = order.OrderNumber,
+                    Year = order.OrderYear
+                });
             }
         }
 
@@ -66,6 +76,11 @@ namespace PPM.Orders.Application.Commands.DomainEvents
                 var package = order.Packages.FirstOrDefault(p => p.PackageId == @event.PackageId);
                 package.Progress = @event.Progress;
                 await _repository.Update(p => p.Id == @event.OrderId,order);
+                await _hubClient.Notify<PackageProgresseDTO>(order.Id.ToString(), new PackageProgresseDTO() 
+                {
+                    PackageId = package.PackageId, 
+                    Progress = package.Progress
+                });
             }
         }
     }

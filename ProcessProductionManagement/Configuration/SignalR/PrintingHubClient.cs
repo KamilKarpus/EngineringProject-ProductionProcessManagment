@@ -30,5 +30,15 @@ namespace PPM.Api.Configuration.SignalR
         {
             await _printingContext.Clients.All.SendAsync("printingStatus", data);
         }
+
+        public Task Notify<T>(string resource, string groupName, T data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task NotifyResource<T>(string resource, T data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

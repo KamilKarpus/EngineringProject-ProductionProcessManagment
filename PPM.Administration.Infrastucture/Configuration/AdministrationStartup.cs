@@ -12,7 +12,7 @@ namespace PPM.Administration.Infrastucture.Configuration
 {
     public static class AdministrationStartup
     {
-        public static void Intialize(string connectionString, string dbName, 
+        public static void Initialize(string connectionString, string dbName, 
             IHubClient client)
         {
             var containerBuilder = new ContainerBuilder();
