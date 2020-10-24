@@ -38,6 +38,7 @@ using PPM.Infrastructure.DataAccess.Repositories;
 using IdentityServer4.Models;
 using PPM.Infrastructure.GrantStore;
 using PPM.Api.Modules.Administration;
+using PPM.Api.Modules.Orders;
 
 namespace ProcessProductionManagement
 {
@@ -69,6 +70,7 @@ namespace ProcessProductionManagement
             services.AddSingleton<IExecutionContextAccessor, ExecutionContextAccessor>();
             services.AddScoped<IPrintingHubClient, PrintingHubClient>();
             services.AddScoped<IAdministrationHubClient, AdministrationHubClient>();
+            services.AddScoped<IOrdersHubClient, OrderHubClient>();
 
             services.AddSingleton<IExceptionHandler, ExceptionHandler>();
             services.AddScoped<IAuthorizationHandler, HasPermissionAuthorizationHandler>();
@@ -173,14 +175,15 @@ namespace ProcessProductionManagement
 
             var printingHubClient = container.Resolve<IPrintingHubClient>();
             var administrationHubClient = container.Resolve<IAdministrationHubClient>();
+            var ordersHubClient = container.Resolve<IOrdersHubClient>();
 
-            AdministrationStartup.Intialize(databaseSettings.ConnectionString, 
+            AdministrationStartup.Initialize(databaseSettings.ConnectionString, 
                 databaseSettings.DbNameAdministration,
                 administrationHubClient);
-            LocationsStartup.Intialize(databaseSettings.ConnectionString, databaseSettings.DbNameLocations);
-            UserAccessStartup.Intialize(databaseSettings.ConnectionString, databaseSettings.DbNameUsers);
-            OrdersStartup.Intialize(databaseSettings.ConnectionString, databaseSettings.DbNameOrders);
-            PrintingStartup.Intialize(databaseSettings.ConnectionString,
+            LocationsStartup.Initialize(databaseSettings.ConnectionString, databaseSettings.DbNameLocations);
+            UserAccessStartup.Initialize(databaseSettings.ConnectionString, databaseSettings.DbNameUsers);
+            OrdersStartup.Initialize(databaseSettings.ConnectionString, databaseSettings.DbNameOrders, ordersHubClient);
+            PrintingStartup.Initialize(databaseSettings.ConnectionString,
                 databaseSettings.DbNamePrinting,
                 Configuration["BlobStorage:ConnectionString"],
                 Configuration["BlobStorage:QrCodeContainer"],
@@ -218,6 +221,7 @@ namespace ProcessProductionManagement
                 endpoints.MapControllers();
                 endpoints.MapHub<PrintingHub>("/printinghub");
                 endpoints.MapHub<AdministrationHub>("/adminhub");
+                endpoints.MapHub<OrdersHub>("/ordershub");
             });
         }
     }
