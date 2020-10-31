@@ -5,6 +5,7 @@ using PPM.Api.Configuration.Authorization;
 using PPM.Infrastructure.Paggination;
 using PPM.Locations.Application;
 using PPM.Locations.Application.Queries;
+using PPM.Locations.Application.Queries.GetLocationsAll;
 using PPM.Locations.Application.Queries.LocationInfo;
 using PPM.Locations.Application.Queries.Locations;
 using PPM.Locations.Application.Queries.LocationsByName;
@@ -62,6 +63,17 @@ namespace PPM.Api.Modules.Locations
             {
                 LocationId = locationId
             });
+            return Ok(result);
+        }
+
+        [HttpGet("all")]
+        [HasPermission(LocationPermissions.CanEditLocation)]
+        [SwaggerOperation(Summary = "Get list of locations short info")]
+        [ProducesResponseType(typeof(List<LocationShortInfo>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetLocationShortInfoAll ()
+        {
+            var result = await _module.ExecuteQuery(new GetAllLocationsQuery());
             return Ok(result);
         }
     }
